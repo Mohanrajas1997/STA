@@ -1,0 +1,1 @@
+alter table sta_trn_tupload add meeting_date date default null after upload_status

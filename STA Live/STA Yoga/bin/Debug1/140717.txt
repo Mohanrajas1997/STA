@@ -1,0 +1,174 @@
+14-07-2017
+----------
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Dividend','1','Payment To Be Generated');
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Dividend','2','Payment Generated');
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Dividend','4','Payment Regenerated');
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Dividend','8','Paid');
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Dividend','16','Bounce');
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Dividend','32','Late Return');
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Payment','2','Payment Generated');
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Payment','8','Paid');
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Payment','16','Bounce');
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Payment','32','Late Return');
+
+15-07-2017
+----------
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Dividend','64','Ecs Validation Required');
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Dividend','128','Ecs Valid');
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Dividend','256','Ecs Invalid');
+
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Ecs Validation','64','Ecs Validation Required');
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Ecs Validation','128','Ecs Valid');
+insert into sta_mst_tstatus (status_type,status_value,status_desc) values ('Ecs Validation','256','Ecs Invalid');
+
+17-07-2017
+----------
+
+CREATE TABLE  `sta_mst_tcurrency` (
+  `currency_gid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `currency_code` varchar(8) DEFAULT NULL,
+  `currency_name` varchar(64) DEFAULT NULL,
+  `currency_change_flag` char(1) NOT NULL DEFAULT 'N',
+  `currency_value` double(9,2) NOT NULL DEFAULT '0.00',
+  `insert_date` datetime DEFAULT NULL,
+  `insert_by` varchar(16) DEFAULT NULL,
+  `update_date` datetime DEFAULT NULL,
+  `update_by` varchar(16) DEFAULT NULL,
+  `delete_flag` char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`currency_gid`) ,
+  KEY `idx_currency_code` (`currency_code`)
+) ;
+
+insert into sta_mst_tcurrency (currency_code,currency_name,currency_change_flag,currency_value) values ('INR','India Rupee','N',1);
+insert into sta_mst_tcurrency (currency_code,currency_name,currency_change_flag,currency_value) values ('USD','US Dollar','Y',64.56);
+
+CREATE TABLE  `sta_mst_tfolioclienttype` (
+  `folioclienttype_gid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `folioclient_type` char(1) NOT NULL,
+  `folioclient_desc` varchar(16) DEFAULT NULL,
+  `delete_flag` char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`folioclienttype_gid`),
+  KEY `idx_folioclient_type` (`folioclient_type`)
+) ;
+
+insert into sta_mst_tfolioclienttype (folioclient_type,folioclient_desc) values ('P','Physical');
+insert into sta_mst_tfolioclienttype (folioclient_type,folioclient_desc) values ('N','NSDL');
+insert into sta_mst_tfolioclienttype (folioclient_type,folioclient_desc) values ('C','CDSL');
+
+CREATE TABLE  `sta_mst_tinterim` (
+  `interim_gid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `interim_code` varchar(8) DEFAULT NULL,
+  `interim_name` varchar(64) DEFAULT NULL,
+  `delete_flag` char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`interim_gid`),
+  KEY `idx_interim_code` (`interim_code`)
+);
+
+insert into sta_mst_tinterim (interim_code,interim_name) values ('I','First');
+insert into sta_mst_tinterim (interim_code,interim_name) values ('II','Second');
+insert into sta_mst_tinterim (interim_code,interim_name) values ('III','Third');
+insert into sta_mst_tinterim (interim_code,interim_name) values ('F','Final');
+
+CREATE TABLE  `sta_mst_tpaymode` (
+  `paymode_gid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `paymode_code` char(1) NOT NULL,
+  `paymode_desc` varchar(16) NOT NULL,
+  `delete_flag` char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`paymode_gid`),
+  KEY `idx_paymode_code` (`paymode_code`)
+) ;
+
+insert into sta_mst_tpaymode (paymode_code,paymode_desc) values ('W','Warrant');
+insert into sta_mst_tpaymode (paymode_code,paymode_desc) values ('D','Demand Draft');
+insert into sta_mst_tpaymode (paymode_code,paymode_desc) values ('E','Ecs');
+
+CREATE TABLE  `sta_trn_tdividend` (
+  `dividend_gid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `comp_gid` int(10) unsigned NOT NULL DEFAULT '0',
+  `finyear_gid` int(10) unsigned NOT NULL DEFAULT '0',
+  `interim_code` varchar(8) DEFAULT NULL,
+  `folioclient_id` varchar(32) DEFAULT NULL,
+  `folioclient_id_type` char(1) DEFAULT NULL,
+  `holder1_name` varchar(128) DEFAULT NULL,
+  `share_count` int(11) NOT NULL DEFAULT '0',
+  `divdend_per_share` double(9,2) NOT NULL DEFAULT '0.00',
+  `currency_code` varchar(8) DEFAULT NULL,
+  `currency_value` double(7,2) NOT NULL DEFAULT '1.00',
+  `currency_amount` double(15,2) NOT NULL DEFAULT '0.00',
+  `dividend_amount` double(15,2) NOT NULL DEFAULT '0.00',
+  `dividend_status` smallint(6) NOT NULL DEFAULT '0',
+  `curr_dividend_status` smallint(6) NOT NULL DEFAULT '0',
+  `payment_mode` char(1) DEFAULT NULL,
+  `payment_status` smallint(6) NOT NULL DEFAULT '0',
+  `bene_name` varchar(128) DEFAULT NULL,
+  `bank_name` varchar(128) DEFAULT NULL,
+  `bank_branch` varchar(128) DEFAULT NULL,
+  `bank_acc_no` varchar(32) DEFAULT NULL,
+  `bank_acc_type` char(1) DEFAULT NULL,
+  `bank_micr_code` varchar(16) DEFAULT NULL,
+  `bank_ifsc_code` varchar(32) DEFAULT NULL,
+  `holder1_addr1` varchar(128) DEFAULT NULL,
+  `holder1_addr2` varchar(128) DEFAULT NULL,
+  `holder1_addr3` varchar(128) DEFAULT NULL,
+  `holder1_city` varchar(64) DEFAULT NULL,
+  `holder1_state` varchar(64) DEFAULT NULL,
+  `holder1_country` varchar(64) DEFAULT NULL,
+  `holder1_pincode` varchar(16) DEFAULT NULL,
+  `insert_date` datetime DEFAULT NULL,
+  `insert_by` varchar(16) DEFAULT NULL,
+  `update_date` datetime DEFAULT NULL,
+  `update_by` varchar(16) DEFAULT NULL,
+  `delete_flag` char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`dividend_gid`),
+  KEY `idx_comp_gid` (`comp_gid`),
+  KEY `idx_finyear_gid` (`comp_gid`,`finyear_gid`),
+  KEY `idx_interim_code` (`comp_gid`,`finyear_gid`,`interim_code`),
+  KEY `idx_folioclient_id` (`comp_gid`,`folioclient_id`)
+);
+
+20-07-2017
+----------
+CREATE TABLE  `sta_trn_tannualrpt` (
+  `annualrpt_gid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `file_gid` int(11) unsigned DEFAULT '0',
+  `comp_gid` int(10) unsigned DEFAULT '0',
+  `finyear_gid` int(11) NOT NULL DEFAULT '0',
+  `annaulrpt_slip_no` int(10) unsigned NOT NULL,
+  `annualrpt_folio_no` varchar(32) NOT NULL,
+  `holder1_name` varchar(128) NOT NULL,
+  `holder2_name` varchar(128) NOT NULL,
+  `holder3_name` varchar(128) NOT NULL,
+  `addr1` varchar(128) NOT NULL,
+  `addr2` varchar(128) NOT NULL,
+  `addr3` varchar(128) NOT NULL,
+  `addr4` varchar(128) NOT NULL,
+  `city` varchar(64) NOT NULL,
+  `state` varchar(64) NOT NULL,
+  `country` varchar(64) NOT NULL,
+  `pincode` varchar(16) NOT NULL,
+  `email_id1` varchar(128) NOT NULL,
+  `email_id2` varchar(128) NOT NULL,
+  `share_count` int(10) unsigned NOT NULL,
+  `dispatch_mode` varchar(128) NOT NULL,
+  `member_proxy` varchar(64) NOT NULL,
+  `proxy1_name` varchar(128) DEFAULT NULL,
+  `proxy2_name` varchar(128) DEFAULT NULL,
+  `proxy3_name` varchar(128) DEFAULT NULL,
+  `token_no` varchar(64) NOT NULL,
+  `return_tag` char(1) NOT NULL,
+  `return_reason` varchar(128) NOT NULL,
+  `date_of_agm` date DEFAULT NULL,
+  `attend_flag` char(1) DEFAULT 'N',
+  `attend_date` date DEFAULT NULL,
+  `attend_member_mode` varchar(16) DEFAULT NULL,
+  `attend_member_name` varchar(128) DEFAULT NULL,
+  `attend_entry_date` datetime DEFAULT NULL,
+  `attend_entry_by` varchar(16) DEFAULT NULL,
+  `attend_revoke_date` datetime DEFAULT NULL,
+  `attend_revoke_by` varchar(16) DEFAULT NULL,
+  `delete_flag` char(1) DEFAULT 'N',
+  PRIMARY KEY (`annualrpt_gid`) USING BTREE,
+  KEY `idx_file_gid` (`file_gid`),
+  KEY `idx_comp_gid` (`comp_gid`),
+  KEY `idx_finyear_gid` (`finyear_gid`)
+) ;

@@ -1,0 +1,244 @@
+pan no
+signature
+demat days
+
+fn_sta_chk_panno - new
+fn_sta_chk_foliopanno - new
+
+pr_sta_set_folioregister - update
+pr_sta_set_folioentrypan - update
+pr_sta_trn_tinward - update
+pr_sta_upd_foliopan - new
+pr_sta_set_certentrytransfer - update
+pr_sta_set_certentrydemat - update
+pr_sta_upd_inwardrcvddate - new
+pr_sta_get_certdematentry - update
+
+alter table sta_trn_tfolio add update_date datetime default null after insert_by;
+alter table sta_trn_tfolio add update_by varchar(16) default null after update_date;
+
+16-04-2017
+-----------
+alter table sta_trn_tfolio add bank_micr_code varchar(16) default null after bank_branch_addr;
+alter table sta_trn_tfolioentry add bank_micr_code varchar(16) default null after bank_addr;
+alter table sta_trn_tfolioentryold add bank_micr_code varchar(16) default null after bank_addr;
+
+alter table sta_trn_tfolio modify column category_gid int not null default 0;
+alter table sta_trn_tfolioentry modify column category_gid int not null default 0;
+alter table sta_trn_tfolioentryold modify column category_gid int not null default 0;
+
+pr_sta_set_folioentrybank - update
+pr_sta_get_folioentrybank - update
+pr_sta_set_foliobank - update
+pr_sta_set_folioregister - update
+
+06-06-2017
+----------
+pr_sta_upd_folioaddrfile - new
+pr_sta_upd_certstatus - new
+
+08-06-2017
+-----------
+pr_sta_ins_file - update
+pr_sta_ins_benpost - new
+sta_trn_tbenpost - new table
+
+CREATE TABLE  `sta_trn_tbenpost` (
+  `benpost_gid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `file_gid` int(10) unsigned DEFAULT NULL,
+  `comp_gid` int(10) unsigned DEFAULT NULL,
+  `folio_gid` int(10) unsigned DEFAULT NULL,
+  `depository_code` char(1) DEFAULT NULL,
+  `isin_id` varchar(32) DEFAULT NULL,
+  `client_id` varchar(32) DEFAULT NULL,
+  `dp_id` varchar(32) DEFAULT NULL,
+  `sebi_reg_no` varchar(32) DEFAULT NULL,
+  `benpost_date` date DEFAULT NULL,
+  `share_count` int(11) NOT NULL DEFAULT '0',
+  `holder1_name` varchar(128) DEFAULT NULL,
+  `holder1_fh_name` varchar(128) NOT NULL,
+  `holder2_name` varchar(128) DEFAULT NULL,
+  `holder2_fh_name` varchar(128) NOT NULL,
+  `holder3_name` varchar(128) DEFAULT NULL,
+  `holder3_fh_name` varchar(128) NOT NULL,
+  `holder1_addr1` varchar(128) DEFAULT NULL,
+  `holder1_addr2` varchar(128) DEFAULT NULL,
+  `holder1_addr3` varchar(128) DEFAULT NULL,
+  `holder1_city` varchar(128) DEFAULT NULL,
+  `holder1_state` varchar(128) DEFAULT NULL,
+  `holder1_country` varchar(128) DEFAULT NULL,
+  `holder1_pin` varchar(16) DEFAULT NULL,
+  `holder1_pan` varchar(16) DEFAULT NULL,
+  `holder2_pan` varchar(16) DEFAULT NULL,
+  `holder3_pan` varchar(16) DEFAULT NULL,
+  `holder1_contact_no` varchar(128) DEFAULT NULL,
+  `holder1_fax_no` varchar(128) DEFAULT NULL,
+  `holder1_email_id` varchar(128) DEFAULT NULL,
+  `holder2_email_id` varchar(128) DEFAULT NULL,
+  `holder3_email_id` varchar(128) DEFAULT NULL,
+  `holder1_per_addr1` varchar(128) DEFAULT NULL,
+  `holder1_per_addr2` varchar(128) DEFAULT NULL,
+  `holder1_per_addr3` varchar(128) DEFAULT NULL,
+  `holder1_per_city` varchar(128) DEFAULT NULL,
+  `holder1_per_state` varchar(128) DEFAULT NULL,
+  `holder1_per_country` varchar(128) DEFAULT NULL,
+  `holder1_per_pin` varchar(16) DEFAULT NULL,
+  `nominee_name` varchar(128) DEFAULT NULL,
+  `nominee_part1` varchar(128) DEFAULT NULL,
+  `nominee_part2` varchar(128) DEFAULT NULL,
+  `nominee_part3` varchar(128) DEFAULT NULL,
+  `nominee_part4` varchar(128) DEFAULT NULL,
+  `nominee_part5` varchar(128) DEFAULT NULL,
+  `bank_name` varchar(128) DEFAULT NULL,
+  `bank_addr1` varchar(128) DEFAULT NULL,
+  `bank_addr2` varchar(128) DEFAULT NULL,
+  `bank_addr3` varchar(128) DEFAULT NULL,
+  `bank_city` varchar(128) DEFAULT NULL,
+  `bank_state` varchar(128) DEFAULT NULL,
+  `bank_country` varchar(128) DEFAULT NULL,
+  `bank_pin` varchar(16) DEFAULT NULL,
+  `bank_acc_no` varchar(32) DEFAULT NULL,
+  `bank_acc_type` varchar(32) DEFAULT NULL,
+  `bank_micr_code` varchar(16) DEFAULT NULL,
+  `bank_ifsc_code` varchar(32) DEFAULT NULL,
+  `rbi_ref_no` varchar(32) DEFAULT NULL,
+  `rbi_app_date` date DEFAULT NULL,
+  `bene_type` varchar(16) DEFAULT NULL,
+  `bene_subtype` varchar(16) DEFAULT NULL,
+  `bene_acccat` varchar(16) DEFAULT NULL,
+  `bene_occupation` varchar(16) DEFAULT NULL,
+  `delete_flag` char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`benpost_gid`)
+);
+
+09-06-2017
+-----------
+pr_sta_ins_history - new
+sta_trn_thistory - new table
+
+CREATE TABLE  `sta_trn_thistory` (
+  `history_gid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `file_gid` int(10) unsigned NOT NULL DEFAULT '0',
+  `comp_gid` int(10) unsigned NOT NULL DEFAULT '0',
+  `folio_gid` int(10) unsigned NOT NULL DEFAULT '0',
+  `tran_folio_gid` int(10) unsigned NOT NULL DEFAULT '0',
+  `cert_gid` int(10) unsigned NOT NULL DEFAULT '0',
+  `tran_no` varchar(32) DEFAULT NULL,
+  `tran_date` date DEFAULT NULL,
+  `tran_code` char(2) DEFAULT NULL,
+  `tran_status` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `folio_no` varchar(32) DEFAULT NULL,
+  `folio_holder` varchar(128) DEFAULT NULL,
+  `tran_folio_no` varchar(32) DEFAULT NULL,
+  `tran_folio_holder` varchar(128) DEFAULT NULL,
+  `cert_no` int(10) unsigned NOT NULL DEFAULT '0',
+  `certdist_from` int(10) unsigned NOT NULL DEFAULT '0',
+  `certdist_to` int(10) unsigned NOT NULL DEFAULT '0',
+  `cert_shares` int(10) unsigned NOT NULL DEFAULT '0',
+  `tran_cert_no` int(11) NOT NULL DEFAULT '0',
+  `tran_certdist_from` int(11) NOT NULL DEFAULT '0',
+  `tran_certdist_to` int(11) NOT NULL DEFAULT '0',
+  `tran_cert_shares` int(11) NOT NULL DEFAULT '0',
+  `tran_cert_tot_shares` int(11) NOT NULL DEFAULT '0',
+  `tot_shares` int(10) unsigned NOT NULL DEFAULT '0',
+  `client_id` varchar(32) DEFAULT NULL,
+  `client_name` varchar(128) DEFAULT NULL,
+  `dp_id` varchar(32) DEFAULT NULL,
+  `dp_name` varchar(128) DEFAULT NULL,
+  `tran_ref_no` varchar(128) DEFAULT NULL,
+  `tran_inward_no` varchar(32) DEFAULT NULL,
+  `tran_inward_date` date DEFAULT NULL,
+  `tran_outward_no` varchar(32) DEFAULT NULL,
+  `tran_outward_date` date DEFAULT NULL,
+  `tran_remark` varchar(255) DEFAULT NULL,
+  `delete_flag` char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`history_gid`),
+  KEY `idx_file_gid` (`file_gid`),
+  KEY `idx_comp_gid` (`comp_gid`),
+  KEY `idx_tran_no` (`tran_no`),
+  KEY `idx_tran_date` (`tran_date`)
+);
+
+12-06-2017
+-----------
+Added new record in sta_mst_ttrantype for "DT - Depository Transfer"
+pr_sta_set_queuemove - update
+pr_sta_set_certentrydeptransfer - new
+pr_sta_trn_tinward - update
+alter table sta_trn_tcert add cert_sub_no int not null default 1 after cert_no;
+pr_sta_set_certdepsplit - new
+pr_sta_get_certdistentry - new
+
+13-06-2017
+-----------
+alter table sta_trn_tcertdistentry add certdist_gid int not null default 0 after cert_gid;
+pr_sta_set_certentrydepsplit - new
+alter table sta_mst_ttrantype modify column trantype_desc varchar(64) default null;
+
+14-06-2017
+----------
+pr_sta_get_foliocertentrylist - update
+pr_sta_trn_tinward - update
+fn_sta_get_certdist - update
+pr_sta_get_foliocertentrylist - update
+alter table sta_trn_tinward modify column chklst_valid int not null default 0;
+alter table sta_trn_tinward modify column chklst_disc int not null default 0;
+pr_sta_upd_foliopanfile - new
+pr_sta_upd_foliocontactnofile - new
+pr_sta_upd_folioemailidfile - new
+
+16-06-2017
+----------
+alter table soft_trn_tloginattempt modify column system_ip varchar(64) default null;
+alter table soft_trn_tloginhistory modify column system_ip varchar(64) default null;
+
+pr_sta_mst_tconfig - update
+pr_sta_upd_foliofieldfile - new
+fn_sta_chk_email - new
+
+alter table sta_trn_tinward add val_date date default null after dematpend_reject_code;
+pr_sta_set_certtran - update
+pr_sta_get_certtranentry - update
+
+18-06-2017
+-----------
+alter table sta_trn_tfoliotran modify column tran_count int not null default 0;
+
+19-06-2017
+-----------
+alter table sta_trn_thistory add tran_cert_shares int not null default 0 after cert_shares;
+alter table sta_trn_thistory add tran_certdist_to int not null default 0 after cert_shares;
+alter table sta_trn_thistory add tran_certdist_from int not null default 0 after cert_shares;
+alter table sta_trn_thistory add tran_cert_no int not null default 0 after cert_shares;
+alter table sta_trn_thistory add tran_cert_tot_shares int not null default 0 after tran_cert_shares;
+
+alter table sta_trn_tdematpend add joint1_name varchar(128) default null after cust_name;
+alter table sta_trn_tdematpend add joint2_name varchar(128) default null after joint1_name;
+
+pr_sta_ins_history - update
+pr_sta_get_certdematentry - update
+pr_sta_ins_dematpending - update
+pr_sta_del_file - update
+pr_sta_set_certentrydeptransfer - update
+pr_sta_set_certentrytransfer - update
+pr_sta_set_queuemove - update
+pr_sta_set_certdistdepsplit - new
+pr_sta_set_certdistentrydepsplit - new
+
+22-06-2017
+-----------
+pr_sta_trn_tinward - update
+pr_sta_set_queuemove - update
+pr_sta_set_certdepconsolidation - new
+
+23-06-2017
+----------
+insert into sta_mst_tfile (file_type,file_desc,excel_flag) values (20,'Folio Customer Father/Husband Updation','Y');
+
+27-06-2017
+-----------
+pr_sta_get_benpostcomparison - new
+
+28-06-2017
+----------
+fn_sta_get_folioshares - new
