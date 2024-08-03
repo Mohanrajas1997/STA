@@ -27,6 +27,7 @@ Public Class frmAddressChange
         lsSql &= " inner join sta_trn_tqueue as b on b.queue_gid = a.queue_gid and b.delete_flag = 'N' "
         lsSql &= " where a.inward_gid = " & mnInwardId & " "
         lsSql &= " and a.delete_flag = 'N' "
+		
 
         lsCurrQueue = gfExecuteScalar(lsSql, gOdbcConn)
 
