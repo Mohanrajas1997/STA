@@ -22,12 +22,14 @@ Public Class clsImport
         Dim lnDistFrom As Long
         Dim lnDistTo As Long
         Dim lsMsg As String
+        Dim lsMsg1 As String
 
         Dim lsFileName As String = ""
         Dim lnFileId As Long
         Dim lsTxt As String
 
         Dim lnResult As Long
+        Dim lnResult1 As Long
         Dim lobjFileReturn As New clsFileReturn
 
         lsFldName(1) = "SNO"
@@ -148,7 +150,32 @@ Public Class clsImport
 
                     i += 1
                 End While
+
+                'Sharecapital validation added by Mohan start 09-09-2024
+                Using cmd As New MySqlCommand("pr_sta_undo_certdist", gOdbcConn)
+                    cmd.CommandType = CommandType.StoredProcedure
+                    cmd.Parameters.AddWithValue("?in_file_gid", lnFileId)
+                    cmd.Parameters.AddWithValue("?in_comp_code", lsCompCode)
+
+                    'output Para
+                    cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                    cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                    cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                    cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+
+                    cmd.CommandTimeout = 0
+
+                    cmd.ExecuteNonQuery()
+
+                    lnResult1 = Val(cmd.Parameters("?out_result").Value.ToString())
+                    lsMsg1 = cmd.Parameters("?out_msg").Value.ToString()
+
+                End Using
+                'Sharecapital validation added by Mohan end 09-09-2024
+
             End With
+
+
 
             Call FileClose(1)
             frmMain.lblStatus.Text = ""
@@ -157,6 +184,14 @@ Public Class clsImport
             Call gpUpdateFileRemark(lnFileId, lsTxt)
 
             If ShowFlag Then MsgBox(lsTxt, MsgBoxStyle.Information, gsProjectName)
+
+            'added by Mohan start 09-09-2024
+            If lnResult1 = 2 Then
+                lsTxt = lsTxt
+            Else
+                lsTxt = lsMsg1
+            End If
+            'added by Mohan end 09-09-2024
 
             lobjFileReturn.Result = 1
             lobjFileReturn.Msg = lsTxt
@@ -6043,7 +6078,7 @@ Public Class clsImport
                         End Using
                         lsbool_flag = False
                     End If
-                    
+
 
                     Using cmd As New MySqlCommand("pr_sta_ins_benpostnew", gOdbcConn)
                         cmd.CommandType = CommandType.StoredProcedure
@@ -6538,7 +6573,7 @@ Public Class clsImport
                         lsbool_flag = False
                     End If
 
-                    
+
 
 
                     Using cmd As New MySqlCommand("pr_sta_ins_benpostnew", gOdbcConn)
