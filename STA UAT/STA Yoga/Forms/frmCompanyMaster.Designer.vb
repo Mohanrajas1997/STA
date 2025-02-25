@@ -23,6 +23,10 @@ Partial Class frmCompanyMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.pnlMain = New System.Windows.Forms.Panel()
+        Me.pnlElectronics = New System.Windows.Forms.Panel()
+        Me.rb_electronics_no = New System.Windows.Forms.RadioButton()
+        Me.rb_electronics_yes = New System.Windows.Forms.RadioButton()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.txtPanNo = New System.Windows.Forms.TextBox()
         Me.lblPanNo = New System.Windows.Forms.Label()
         Me.txtCinNo = New System.Windows.Forms.TextBox()
@@ -102,6 +106,7 @@ Partial Class frmCompanyMaster
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.btnSave = New System.Windows.Forms.Button()
         Me.pnlMain.SuspendLayout()
+        Me.pnlElectronics.SuspendLayout()
         Me.pnlPrefixsno.SuspendLayout()
         Me.pnlPrefix.SuspendLayout()
         Me.pnlComp.SuspendLayout()
@@ -113,6 +118,8 @@ Partial Class frmCompanyMaster
         'pnlMain
         '
         Me.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlMain.Controls.Add(Me.pnlElectronics)
+        Me.pnlMain.Controls.Add(Me.Label1)
         Me.pnlMain.Controls.Add(Me.txtPanNo)
         Me.pnlMain.Controls.Add(Me.lblPanNo)
         Me.pnlMain.Controls.Add(Me.txtCinNo)
@@ -179,6 +186,48 @@ Partial Class frmCompanyMaster
         Me.pnlMain.Name = "pnlMain"
         Me.pnlMain.Size = New System.Drawing.Size(535, 490)
         Me.pnlMain.TabIndex = 1
+        '
+        'pnlElectronics
+        '
+        Me.pnlElectronics.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlElectronics.Controls.Add(Me.rb_electronics_no)
+        Me.pnlElectronics.Controls.Add(Me.rb_electronics_yes)
+        Me.pnlElectronics.Location = New System.Drawing.Point(398, 397)
+        Me.pnlElectronics.Name = "pnlElectronics"
+        Me.pnlElectronics.Size = New System.Drawing.Size(122, 23)
+        Me.pnlElectronics.TabIndex = 155
+        '
+        'rb_electronics_no
+        '
+        Me.rb_electronics_no.AutoSize = True
+        Me.rb_electronics_no.Checked = True
+        Me.rb_electronics_no.Location = New System.Drawing.Point(78, 1)
+        Me.rb_electronics_no.Name = "rb_electronics_no"
+        Me.rb_electronics_no.Size = New System.Drawing.Size(39, 17)
+        Me.rb_electronics_no.TabIndex = 120
+        Me.rb_electronics_no.TabStop = True
+        Me.rb_electronics_no.Text = "No"
+        Me.rb_electronics_no.UseVisualStyleBackColor = True
+        '
+        'rb_electronics_yes
+        '
+        Me.rb_electronics_yes.AutoSize = True
+        Me.rb_electronics_yes.Location = New System.Drawing.Point(3, 1)
+        Me.rb_electronics_yes.Name = "rb_electronics_yes"
+        Me.rb_electronics_yes.Size = New System.Drawing.Size(45, 17)
+        Me.rb_electronics_yes.TabIndex = 119
+        Me.rb_electronics_yes.Text = "Yes"
+        Me.rb_electronics_yes.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        Me.Label1.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.Label1.Location = New System.Drawing.Point(287, 398)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(98, 15)
+        Me.Label1.TabIndex = 154
+        Me.Label1.Text = "Electronic RTA"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtPanNo
         '
@@ -294,7 +343,7 @@ Partial Class frmCompanyMaster
         Me.txtAddress3.MaxLength = 256
         Me.txtAddress3.Multiline = True
         Me.txtAddress3.Name = "txtAddress3"
-        Me.txtAddress3.Size = New System.Drawing.Size(385, 21)
+        Me.txtAddress3.Size = New System.Drawing.Size(124, 21)
         Me.txtAddress3.TabIndex = 141
         '
         'lblAddress3
@@ -949,6 +998,8 @@ Partial Class frmCompanyMaster
         Me.Text = "Company Master"
         Me.pnlMain.ResumeLayout(False)
         Me.pnlMain.PerformLayout()
+        Me.pnlElectronics.ResumeLayout(False)
+        Me.pnlElectronics.PerformLayout()
         Me.pnlPrefixsno.ResumeLayout(False)
         Me.pnlPrefixsno.PerformLayout()
         Me.pnlPrefix.ResumeLayout(False)
@@ -1041,4 +1092,8 @@ Partial Class frmCompanyMaster
     Friend WithEvents lblPanNo As System.Windows.Forms.Label
     Friend WithEvents txtCinNo As System.Windows.Forms.TextBox
     Friend WithEvents lblcin_no As System.Windows.Forms.Label
+    Friend WithEvents pnlElectronics As Panel
+    Friend WithEvents rb_electronics_no As RadioButton
+    Friend WithEvents rb_electronics_yes As RadioButton
+    Friend WithEvents Label1 As Label
 End Class

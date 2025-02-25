@@ -1,5 +1,7 @@
 ﻿Imports MySql.Data.MySqlClient
 Imports System.IO
+Imports Microsoft.Office.Interop
+
 Public Class frmEvotingCdsl
     Dim fsFilePath As String = ""
     Private Sub frmQueue_Load(sender As Object, e As EventArgs) Handles MyBase.Load

@@ -337,7 +337,7 @@ Public Class frmMain
         frm.Show()
     End Sub
 
-    Private Sub mnuSearchEngine_Click(sender As Object, e As EventArgs) Handles mnuSearchEngine.Click
+    Private Sub mnuSearchEngine_Click(sender As Object, e As EventArgs)
         Dim frm As New frmSearchEngine
         frm.MdiParent = Me
         frm.Show()
@@ -900,7 +900,7 @@ Public Class frmMain
     End Sub
 
     Private Sub CompanyMasterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CompanyMasterToolStripMenuItem.Click
-        Dim Objfrm As New frmCompanyMaster()
+        Dim Objfrm As New frmCompanyMasterNew()
         Objfrm.ShowDialog()
     End Sub
 
@@ -956,6 +956,24 @@ Public Class frmMain
 
     Private Sub DebarrtPanFolioReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DebarrtPanFolioReportToolStripMenuItem.Click
         Dim frm As New frmFolioDebarrtPanReport
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
+
+    Private Sub CompanyMasterReport_Click(sender As Object, e As EventArgs) Handles CompanyMasterReport.Click
+        Dim frm As New frmCompMasterReport
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
+
+    Private Sub mnuInwardDashboardReport_Click(sender As Object, e As EventArgs) Handles mnuInwardDashboardReport.Click
+        Dim frm As New frmInwardDashboardReport
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
+
+    Private Sub DayToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DayToolStripMenuItem.Click
+        Dim frm As New frmDaywisebenpostreport
         frm.MdiParent = Me
         frm.Show()
     End Sub

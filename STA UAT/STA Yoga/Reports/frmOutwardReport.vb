@@ -51,7 +51,7 @@
         Dim lsCond As String = ""
 
         If cboCompany.Text <> "" And cboCompany.SelectedIndex <> -1 Then
-            lsCond &= " and a.comp_gid = " & Val(cboCompany.SelectedValue.ToString) & " "
+            lsCond &= " and b.comp_gid = " & Val(cboCompany.SelectedValue.ToString) & " "
         End If
 
         If dtpFrom.Checked = True Then lsCond &= " and a.outward_date >= '" & Format(dtpFrom.Value, "yyyy-MM-dd") & "' "

@@ -821,12 +821,14 @@ Public Class clsUpload
             lsSql &= " e.dp_id,"
             lsSql &= " e.client_id,"
             lsSql &= " e.lockin_flag,"
-            lsSql &= " ifnull(date_format(e.lockin_releasedate,'%Y%m%d'),0) as lockin_releasedate,"
+            lsSql &= " e.lockin_reason_code,"
+            lsSql &= " ifnull(date_format(ifnull(e.lockin_releasedate,0),'%Y%m%d'),0) as lockin_releasedate,"
             lsSql &= " concat(e.dp_id,e.client_id) as boid,"
             lsSql &= " concat(lpad(e.dist_from,16,0),'00') as dist_from,"
             lsSql &= " concat(lpad(e.dist_to,16,0),'00') as dist_to,"
             lsSql &= " concat(lpad(cast(e.share_count as signed),12,0),'.000') as current_qty,"
-            lsSql &= " concat(lpad(cast(e.stamp_duty as signed),12,0),'.000') as stamp_duty"
+            'lsSql &= " concat(lpad(cast(e.stamp_duty as signed),12,0),'.000') as stamp_duty"
+            lsSql &= " lpad(e.stamp_duty,16,0) as stamp_duty"
             lsSql &= " from sta_trn_tinward as a "
             lsSql &= " inner join sta_mst_tcompany as d on a.comp_gid = d.comp_gid and a.delete_flag = 'N' "
             lsSql &= " inner join sta_trn_tcaentry as e on a.inward_gid = e.inward_gid and e.delete_flag = 'N' "
@@ -846,10 +848,10 @@ Public Class clsUpload
                 lsTxt &= AlignTxt("000000000000.000", 16, 1)
                 lsTxt &= AlignTxt("000000000000.000", 16, 1)
                 lsTxt &= AlignTxt(Format(lnRecCount, "0000000000"), 10, 1) ' Total number of detail records
-                If ds.Tables("header").Rows(0).Item("share_count").ToString() = "Y" Then
-                    lsTxt &= AlignTxt(Format(lnRecCount, "0000000001"), 10, 1) ' 
-                Else
+                If ds.Tables("header").Rows(0).Item("comp_listed").ToString() = "Y" Then
                     lsTxt &= AlignTxt(Format(lnRecCount, "0000000000"), 10, 1) ' 
+                Else
+                    lsTxt &= AlignTxt(Format(0, "0000000000"), 10, 1) ' 
                 End If
                 Call Print(1, lsTxt)
 
@@ -859,21 +861,30 @@ Public Class clsUpload
 
                     lsTxt = vbNewLine
                     lsTxt &= AlignTxt("02", 2, 1)
-                    lsTxt &= AlignTxt(Format(lnLineNo, "0000000"), 7, 1)
+                    'lsTxt &= AlignTxt(Format(lnLineNo, "0000000"), 7, 1)
                     lsTxt &= ds.Tables("detail").Rows(j).Item("boid").ToString()
                     lsTxt &= ds.Tables("header").Rows(0).Item("rta_internal_refno").ToString()
                     lsTxt &= ds.Tables("header").Rows(0).Item("isin_id").ToString()
                     lsTxt &= AlignTxt("000000000000.000", 16, 1)
                     lsTxt &= AlignTxt("000000000000.000", 16, 1)
                     lsTxt &= AlignTxt("000000000000.000", 16, 1)
-                    lsTxt &= AlignTxt("", 50, 1)
-                    'lsTxt &= AlignTxt("00000000", 8, 1)
-                    If ds.Tables("detail").Rows(j).Item("lockin_releasedate").ToString = "0" Then
-                        lsTxt &= AlignTxt("", 8, 1)
+                    If ds.Tables("detail").Rows(j).Item("lockin_reason_code").ToString = "" Then
+                        lsTxt &= AlignTxt("00", 2, 1)
                     Else
-                        AlignTxt(ds.Tables("detail").Rows(j).Item("lockin_releasedate").ToString, 8, 1)
+                        lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("lockin_reason_code").ToString, 2, 1)
                     End If
+
+                    If ds.Tables("detail").Rows(j).Item("lockin_releasedate").ToString = "0" Then
+                        lsTxt &= AlignTxt("", 50, 1)
+                        lsTxt &= AlignTxt("00000000", 8, 1)
+                    Else
+                        lsTxt &= AlignTxt("", 50, 1)
+                        AlignTxt(ds.Tables("detail").Rows(j).Item("lockin_releasedate").ToString, 8, 1)
+
+                    End If
+
                     lsTxt &= AlignTxt("D", 1, 1)
+                    lsTxt &= ds.Tables("header").Rows(0).Item("isin_id").ToString()
                     lsTxt &= ds.Tables("detail").Rows(j).Item("current_qty").ToString()
                     lsTxt &= AlignTxt("000000000000.000", 16, 1)
                     lsTxt &= AlignTxt("000000000000.000", 16, 1)
@@ -975,8 +986,10 @@ Public Class clsUpload
             lsSql &= " lpad(a.dist_from,18,0) as dist_from,"
             lsSql &= " lpad(a.dist_to,18,0) as dist_to,"
             lsSql &= " a.stamp_duty_flag,"
-            lsSql &= " concat(lpad(a.total_issue_amt,16,0),'00') as total_issue_amt,"
-            lsSql &= " concat(lpad(a.total_paidup_amt,16,0),'00') as total_paidup_amt,"
+            lsSql &= " LPAD(REPLACE(a.total_issue_amt, '.', ''), 18, '0') as total_issue_amt,"
+            lsSql &= " LPAD(REPLACE(a.total_paidup_amt, '.', ''), 18, '0') as total_paidup_amt,"
+            'lsSql &= " concat(lpad(FLOOR(a.total_issue_amt),16,0),'00') as total_issue_amt,"
+            'lsSql &= " concat(lpad(FLOOR(a.total_paidup_amt),16,0),'00') as total_paidup_amt,"
             lsSql &= " concat(lpad(a.share_count,15,0),'000') as share_count,"
             lsSql &= " lpad(a.share_count,18,0) as share_count1"
             lsSql &= " from sta_trn_tinward as a "
@@ -1000,10 +1013,17 @@ Public Class clsUpload
             lsSql &= " concat(lpad(e.dist_to,16,0),'00') as dist_to,"
             lsSql &= " concat(lpad(cast(e.share_count as signed),15,0),'000') as allotment_qty,"
             'lsSql &= " concat(lpad(cast(e.share_price as signed),12,0),'000000') as issue_price,"
-            lsSql &= " concat(lpad((e.share_count * cast(e.share_price as signed)),12,0),'000000') as issue_price,"
-            lsSql &= " concat(lpad((e.share_count * cast(e.share_price as signed)),16,0),'00') as issued_amt,"
-            lsSql &= " concat(lpad((e.share_count * cast(e.share_price as signed)),12,0),'000000') as paidup_price,"
-            lsSql &= " concat(lpad((e.share_count * cast(e.share_price as signed)),16,0),'00') as paidup_amt"
+
+            lsSql &= " concat(lpad(replace((e.share_count * e.share_price),'.',''),14,0),'000000') as issue_price,"
+            lsSql &= " concat(lpad(replace((e.share_count * e.share_price),'.',''),18,0),'00') as issued_amt,"
+            lsSql &= " concat(lpad(replace((e.share_count * e.share_price),'.',''),14,0),'000000') as paidup_price,"
+            lsSql &= " lpad(replace((e.share_count * e.share_price),'.',''),18,0) as paidup_amt"
+
+            'lsSql &= " concat(lpad((e.share_count * cast(e.share_price as signed)),12,0),'000000') as issue_price,"
+            'lsSql &= " concat(lpad((e.share_count * cast(e.share_price as signed)),16,0),'00') as issued_amt,"
+            'lsSql &= " concat(lpad((e.share_count * cast(e.share_price as signed)),12,0),'000000') as paidup_price,"
+            'lsSql &= " concat(lpad((e.share_count * cast(e.share_price as signed)),16,0),'00') as paidup_amt"
+
             'lsSql &= " concat(lpad(cast(e.purchase_cost as signed),12,0),'000000') as paidup_price,"
             'lsSql &= " concat(lpad((e.share_count * cast(e.purchase_cost as signed)),16,0),'00') as paidup_amt"
             lsSql &= " from sta_trn_tinward as a "

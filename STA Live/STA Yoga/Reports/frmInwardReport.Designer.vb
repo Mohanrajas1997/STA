@@ -130,14 +130,14 @@ Partial Class frmInwardReport
         '
         Me.txtToFolioNo.Location = New System.Drawing.Point(708, 66)
         Me.txtToFolioNo.Name = "txtToFolioNo"
-        Me.txtToFolioNo.Size = New System.Drawing.Size(105, 21)
+        Me.txtToFolioNo.Size = New System.Drawing.Size(105, 27)
         Me.txtToFolioNo.TabIndex = 8
         '
         'txtToHolderName
         '
         Me.txtToHolderName.Location = New System.Drawing.Point(514, 66)
         Me.txtToHolderName.Name = "txtToHolderName"
-        Me.txtToHolderName.Size = New System.Drawing.Size(105, 21)
+        Me.txtToHolderName.Size = New System.Drawing.Size(105, 27)
         Me.txtToHolderName.TabIndex = 7
         '
         'Label15
@@ -154,7 +154,7 @@ Partial Class frmInwardReport
         Me.cboReportType.FormattingEnabled = True
         Me.cboReportType.Location = New System.Drawing.Point(97, 120)
         Me.cboReportType.Name = "cboReportType"
-        Me.cboReportType.Size = New System.Drawing.Size(298, 21)
+        Me.cboReportType.Size = New System.Drawing.Size(298, 29)
         Me.cboReportType.TabIndex = 13
         '
         'Label13
@@ -180,7 +180,7 @@ Partial Class frmInwardReport
         '
         Me.txtHolderName.Location = New System.Drawing.Point(514, 39)
         Me.txtHolderName.Name = "txtHolderName"
-        Me.txtHolderName.Size = New System.Drawing.Size(299, 21)
+        Me.txtHolderName.Size = New System.Drawing.Size(299, 27)
         Me.txtHolderName.TabIndex = 5
         '
         'Label12
@@ -205,7 +205,7 @@ Partial Class frmInwardReport
         '
         Me.txtFolioNo.Location = New System.Drawing.Point(708, 12)
         Me.txtFolioNo.Name = "txtFolioNo"
-        Me.txtFolioNo.Size = New System.Drawing.Size(105, 21)
+        Me.txtFolioNo.Size = New System.Drawing.Size(105, 27)
         Me.txtFolioNo.TabIndex = 3
         '
         'cboValid
@@ -213,7 +213,7 @@ Partial Class frmInwardReport
         Me.cboValid.FormattingEnabled = True
         Me.cboValid.Location = New System.Drawing.Point(514, 93)
         Me.cboValid.Name = "cboValid"
-        Me.cboValid.Size = New System.Drawing.Size(105, 21)
+        Me.cboValid.Size = New System.Drawing.Size(105, 29)
         Me.cboValid.TabIndex = 11
         '
         'Label9
@@ -231,7 +231,7 @@ Partial Class frmInwardReport
         Me.cboCompleted.FormattingEnabled = True
         Me.cboCompleted.Location = New System.Drawing.Point(290, 93)
         Me.cboCompleted.Name = "cboCompleted"
-        Me.cboCompleted.Size = New System.Drawing.Size(105, 21)
+        Me.cboCompleted.Size = New System.Drawing.Size(105, 29)
         Me.cboCompleted.TabIndex = 10
         '
         'Label7
@@ -249,7 +249,7 @@ Partial Class frmInwardReport
         Me.cboUpdated.FormattingEnabled = True
         Me.cboUpdated.Location = New System.Drawing.Point(97, 93)
         Me.cboUpdated.Name = "cboUpdated"
-        Me.cboUpdated.Size = New System.Drawing.Size(105, 21)
+        Me.cboUpdated.Size = New System.Drawing.Size(105, 29)
         Me.cboUpdated.TabIndex = 9
         '
         'Label8
@@ -267,7 +267,7 @@ Partial Class frmInwardReport
         Me.cboQueue.FormattingEnabled = True
         Me.cboQueue.Location = New System.Drawing.Point(708, 93)
         Me.cboQueue.Name = "cboQueue"
-        Me.cboQueue.Size = New System.Drawing.Size(105, 21)
+        Me.cboQueue.Size = New System.Drawing.Size(105, 29)
         Me.cboQueue.TabIndex = 12
         '
         'Label6
@@ -285,7 +285,7 @@ Partial Class frmInwardReport
         Me.cboStatus.FormattingEnabled = True
         Me.cboStatus.Location = New System.Drawing.Point(514, 120)
         Me.cboStatus.Name = "cboStatus"
-        Me.cboStatus.Size = New System.Drawing.Size(299, 21)
+        Me.cboStatus.Size = New System.Drawing.Size(299, 29)
         Me.cboStatus.TabIndex = 14
         '
         'Label5
@@ -303,7 +303,7 @@ Partial Class frmInwardReport
         Me.cboCompany.FormattingEnabled = True
         Me.cboCompany.Location = New System.Drawing.Point(97, 39)
         Me.cboCompany.Name = "cboCompany"
-        Me.cboCompany.Size = New System.Drawing.Size(298, 21)
+        Me.cboCompany.Size = New System.Drawing.Size(298, 29)
         Me.cboCompany.TabIndex = 4
         '
         'Label3
@@ -321,7 +321,7 @@ Partial Class frmInwardReport
         Me.cboDocType.FormattingEnabled = True
         Me.cboDocType.Location = New System.Drawing.Point(97, 66)
         Me.cboDocType.Name = "cboDocType"
-        Me.cboDocType.Size = New System.Drawing.Size(298, 21)
+        Me.cboDocType.Size = New System.Drawing.Size(298, 29)
         Me.cboDocType.TabIndex = 6
         '
         'Label4
@@ -341,7 +341,7 @@ Partial Class frmInwardReport
         Me.dtpTo.Location = New System.Drawing.Point(290, 12)
         Me.dtpTo.Name = "dtpTo"
         Me.dtpTo.ShowCheckBox = True
-        Me.dtpTo.Size = New System.Drawing.Size(105, 21)
+        Me.dtpTo.Size = New System.Drawing.Size(105, 27)
         Me.dtpTo.TabIndex = 1
         Me.dtpTo.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
@@ -361,7 +361,7 @@ Partial Class frmInwardReport
         Me.dtpFrom.Location = New System.Drawing.Point(97, 12)
         Me.dtpFrom.Name = "dtpFrom"
         Me.dtpFrom.ShowCheckBox = True
-        Me.dtpFrom.Size = New System.Drawing.Size(105, 21)
+        Me.dtpFrom.Size = New System.Drawing.Size(105, 27)
         Me.dtpFrom.TabIndex = 0
         Me.dtpFrom.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
@@ -396,7 +396,7 @@ Partial Class frmInwardReport
         '
         Me.txtInwardNo.Location = New System.Drawing.Point(514, 12)
         Me.txtInwardNo.Name = "txtInwardNo"
-        Me.txtInwardNo.Size = New System.Drawing.Size(105, 21)
+        Me.txtInwardNo.Size = New System.Drawing.Size(105, 27)
         Me.txtInwardNo.TabIndex = 2
         '
         'Label1
@@ -426,7 +426,7 @@ Partial Class frmInwardReport
         Me.txtTotRec.MaxLength = 100
         Me.txtTotRec.Name = "txtTotRec"
         Me.txtTotRec.ReadOnly = True
-        Me.txtTotRec.Size = New System.Drawing.Size(433, 14)
+        Me.txtTotRec.Size = New System.Drawing.Size(433, 20)
         Me.txtTotRec.TabIndex = 0
         Me.txtTotRec.TabStop = False
         Me.txtTotRec.Text = "Total Records : "
@@ -441,7 +441,7 @@ Partial Class frmInwardReport
         '
         'frmInwardReport
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(11.0!, 21.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(980, 387)
         Me.Controls.Add(Me.pnlExport)

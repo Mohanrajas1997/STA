@@ -141,7 +141,7 @@ Public Class frmInwardEntry
 
         dtpRcvdDate.Value = Now
 
-        Call ClearControl()
+        'Call ClearControl()
 
         If mnInwardId > 0 Then
             Call ListAll(mnInwardId)
@@ -167,6 +167,10 @@ Public Class frmInwardEntry
         Dim lsShareHolderPanNo As String = ""
         Dim lsShareHolderContactNo As String
         Dim lsShareHolderEmailId As String
+        Dim lsInwardShareCount As Long
+        Dim lsMarketPrice As Decimal
+        Dim lsMarketValue As Decimal
+        Dim lsThreshold As String
         Dim lsRemark As String
         Dim lsAction As String
 
@@ -203,7 +207,7 @@ Public Class frmInwardEntry
 
             ldRcvdDate = dtpRcvdDate.Value
 
-            If cboDocType.Text = "OT-Others" Or cboDocType.Text = "TM-Transmission" Then
+            If cboDocType.Text = "OT-Others" Or cboDocType.Text = "TM-Transmission" Or cboDocType.Text = "AM-CA Allotment" Then
                 If cboDocSubType.Text = "" Then
                     MessageBox.Show("Document SubType cannot be blank !", gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Error)
                     cboDocSubType.Focus()
@@ -236,6 +240,10 @@ Public Class frmInwardEntry
             lsShareHolderPanNo = QuoteFilter(txtPanNo.Text)
             lsShareHolderContactNo = QuoteFilter(txtContactNo.Text)
             lsShareHolderEmailId = QuoteFilter(txtMailId.Text)
+            lsInwardShareCount = Val(txtInwardShareCount.Text)
+            lsMarketPrice = Val(txtMarketPrice.Text)
+            lsMarketValue = Val(txtMarketValue.Text)
+            lsThreshold = QuoteFilter(cboThreshold.Text)
             lsRemark = QuoteFilter(txtRemark.Text)
 
             lnInwardId = Val(txtId.Text)
@@ -295,6 +303,10 @@ Public Class frmInwardEntry
                 cmd.Parameters.AddWithValue("?in_shareholder_pan_no", lsShareHolderPanNo)
                 cmd.Parameters.AddWithValue("?in_shareholder_contact_no", lsShareHolderContactNo)
                 cmd.Parameters.AddWithValue("?in_shareholder_email_id", lsShareHolderEmailId)
+                cmd.Parameters.AddWithValue("?in_inward_share_count", lsInwardShareCount)
+                cmd.Parameters.AddWithValue("?in_market_price", lsMarketPrice)
+                cmd.Parameters.AddWithValue("?in_market_value", lsMarketValue)
+                cmd.Parameters.AddWithValue("?in_threshold_level", lsThreshold)
                 cmd.Parameters.AddWithValue("?in_share_count", 0)
                 cmd.Parameters.AddWithValue("?in_inward_remark", lsRemark)
                 cmd.Parameters.AddWithValue("?in_action", lsAction)
@@ -323,7 +335,7 @@ Public Class frmInwardEntry
                     If lnInwardId = 0 Then
                         MessageBox.Show("Inward No :" & lnInwardNo & ", New Inward No : " & lnCompInwardNo, gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         mnInwardId = lnInwardNo
-                        If cboDocType.Text = "OT-Others" Or cboDocType.Text = "TM-Transmission" Then
+                        If cboDocType.Text = "OT-Others" Or cboDocType.Text = "TM-Transmission" Or cboDocType.Text = "AM-CA Allotment" Then
                             lnkAddAttachment.Enabled = True
                         Else
                             lnkAddAttachment.Enabled = False
@@ -376,6 +388,7 @@ Public Class frmInwardEntry
         mnInwardId = 0
         cboDocSubType.Enabled = False
         lnkAddAttachment.Enabled = False
+        txtMarketPrice.Text = "1"
     End Sub
 
     Private Sub txtFolioNo_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtFolioNo.Validating
@@ -406,6 +419,7 @@ Public Class frmInwardEntry
             If dt.Rows.Count > 0 Then
                 txtShareHolderName.Text = dt.Rows(0).Item("holder1_name").ToString
                 txtPanNo.Text = dt.Rows(0).Item("holder1_pan_no").ToString
+                txtInwardShareCount.Text = dt.Rows(0).Item("folio_shares").ToString
             End If
         End If
     End Sub
@@ -432,12 +446,15 @@ Public Class frmInwardEntry
                 txtFolioNo.Text = .Rows(0).Item("folio_no").ToString
                 txtShareHolderName.Text = .Rows(0).Item("holder1_name").ToString
                 txtPanNo.Text = .Rows(0).Item("holder1_pan_no").ToString
+                txtInwardShareCount.Text = .Rows(0).Item("folio_shares").ToString
             End If
         End With
 
         da.Dispose()
         dt.Dispose()
         cmd.Dispose()
+        Call Marketvaluecalc()
+
     End Sub
 
     Private Sub btnSearchFolio_Click(sender As Object, e As EventArgs) Handles btnSearchFolio.Click
@@ -463,7 +480,7 @@ Public Class frmInwardEntry
     Private Sub cboDocType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboDocType.SelectedIndexChanged
         Dim lsSql As String
 
-        If cboDocType.Text = "OT-Others" Or cboDocType.Text = "TM-Transmission" Then
+        If cboDocType.Text = "OT-Others" Or cboDocType.Text = "TM-Transmission" Or cboDocType.Text = "AM-CA Allotment" Then
             cboDocSubType.Enabled = True
 
             ' doc sub type
@@ -477,6 +494,7 @@ Public Class frmInwardEntry
             cboDocSubType.Focus()
         Else
             cboDocSubType.Text = ""
+            cboDocSubType.SelectedIndex = -1
             cboDocSubType.Enabled = False
         End If
 
@@ -494,5 +512,29 @@ Public Class frmInwardEntry
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         Me.Close()
+    End Sub
+
+    Private Sub txtMarketPrice_TextChanged(sender As Object, e As EventArgs) Handles txtMarketPrice.TextChanged
+        Call Marketvaluecalc()
+    End Sub
+
+    Private Sub Marketvaluecalc()
+        Dim lsShareCount As Long
+        Dim lsMarketprice As Decimal
+        Dim lsMarketValue As Decimal
+        Dim lsThreshold As Long
+
+        lsShareCount = Val(txtInwardShareCount.Text)
+        lsMarketprice = Val(txtMarketPrice.Text)
+        lsMarketValue = Convert.ToDecimal(lsShareCount * lsMarketprice)
+
+        txtMarketValue.Text = lsMarketValue
+        'Get Thresold value from config table
+        lsThreshold = gnInwardThresholdValue
+        If lsMarketValue > lsThreshold Then
+            cboThreshold.Text = "High"
+        Else
+            cboThreshold.Text = "Low"
+        End If
     End Sub
 End Class

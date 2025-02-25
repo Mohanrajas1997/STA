@@ -1955,5 +1955,8 @@ Public Class frmGenerateCoveringLetter2
         ' Add any initialization after the InitializeComponent() call.
     End Sub
 
+    Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
+        Call frmCtrClear(Me)
+    End Sub
 End Class
 

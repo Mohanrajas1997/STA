@@ -1,4 +1,6 @@
 ﻿Imports System.IO
+Imports Microsoft.Office.Interop
+
 Public Class frmECSBounceFileImport
     Private Sub frmECSBounceFileImport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Call SetInitializeDefaultData()

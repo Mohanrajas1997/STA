@@ -49,6 +49,12 @@ Public Class frmUpload
                 lsCond &= " and (a.queue_to = '" & msGroupCode & "' "
                 lsCond &= " or (a.queue_to = 'D' and b.inward_all_status & " & gnInwardInex & " > 0)) "
                 lsCond &= " and f.depository_code = 'N' "
+            Case gnAllotmentNSDL
+                lsCond = " and a.queue_to = '" & msGroupCode & "' "
+                lsCond &= " and g.folio_no = '00999999' "
+            Case gnAllotmentCDSL
+                lsCond = " and a.queue_to = '" & msGroupCode & "' "
+                lsCond &= " and g.folio_no = '00888888' "
         End Select
 
         lsSql = ""
@@ -68,6 +74,7 @@ Public Class frmUpload
         lsSql &= " inner join sta_mst_tgroup as d on d.group_code = a.queue_from and c.delete_flag = 'N' "
         lsSql &= " inner join sta_mst_tcompany as e on e.comp_gid = b.comp_gid and e.delete_flag = 'N' "
         lsSql &= " left join sta_trn_tdematpend as f on b.dematpend_gid = f.dematpend_gid and f.delete_flag = 'N' "
+        lsSql &= " left join sta_trn_tfolio as g on b.folio_gid = g.folio_gid and g.delete_flag = 'N' "
         lsSql &= " where b.comp_gid = " & mnCompId & " "
         lsSql &= lsCond
         lsSql &= " and a.action_status = 0 "
@@ -201,6 +208,10 @@ Public Class frmUpload
                             Call lobjUpload.CDSLUploadold(lnUploadId)
                         Case gnUploadNSDLUpload
                             Call lobjUpload.NSDLUpload(lnUploadId)
+                        Case gnAllotmentCDSL
+                            Call lobjUpload.CDSLAllotment(lnUploadId)
+                        Case gnAllotmentNSDL
+                            Call lobjUpload.NSDLAllotment(lnUploadId)
                     End Select
 
                     Me.Close()

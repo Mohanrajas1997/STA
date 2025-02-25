@@ -42,8 +42,8 @@ Public Class frmUpload
                 lsCond &= " and b.chklst_disc > 0 "
             Case gnUploadCDSLUpload
                 lsCond &= " and c.demat_flag = 'Y' and (a.queue_to = '" & msGroupCode & "' "
-                'lsCond &= " or (a.queue_to = 'D' and b.inward_all_status & " & gnInwardInex & " > 0)) "
-                lsCond &= " )and f.depository_code = 'C' "
+                lsCond &= " or (a.queue_to = 'D' and b.inward_all_status & " & gnInwardInex & " > 0)) "
+                lsCond &= " and f.depository_code = 'C' "
             Case gnUploadNSDLUpload
                 lsCond &= " and c.demat_flag = 'Y' "
                 lsCond &= " and (a.queue_to = '" & msGroupCode & "' "
