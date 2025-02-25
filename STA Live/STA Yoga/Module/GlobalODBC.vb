@@ -35,8 +35,11 @@ Module GlobalODBC
     Public gsReportPath As String = "c:\execute\"
     Public gsAttachmentPath As String = "c:\temp\sta_attachment"
     Public gsSignaturePath As String = "c:\temp\sta_signature"
+    Public gsCompAttachmentPath As String = "c:\temp\sta_comp_attachment"
     Public gsUploadPath As String = "c:\execute\upload"
     Public gnDematProcessDays As Integer = 15
+    Public gnInwardThresholdValue As Integer = 200000
+
 
     Public gnEntityId As Long = 1
     Public gnSearchId As Long
@@ -126,6 +129,8 @@ Module GlobalODBC
     Public gnUploadObjxRegister As Integer = 4
     Public gnUploadNSDLUpload As Integer = 8
     Public gnUploadCDSLUpload As Integer = 16
+    Public gnAllotmentNSDL As Integer = 32
+    Public gnAllotmentCDSL As Integer = 64
 
     Public gsQry As String = ""
 
@@ -324,6 +329,10 @@ Module GlobalODBC
                             gsSoftVersion = lsTxt
                         Case "DEMAT PROCESS DAYS"
                             gnDematProcessDays = Val(lsTxt)
+                        Case "COMPANY ATTACHMENT PATH"
+                            gsCompAttachmentPath = lsTxt
+                        Case "INWARD THRESHOLD VALUE"
+                            gnInwardThresholdValue = Val(lsTxt)
                     End Select
                 End If
             Next n

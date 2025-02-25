@@ -1,4 +1,5 @@
-﻿Imports MySql.Data.MySqlClient
+﻿Imports System.IO
+Imports MySql.Data.MySqlClient
 
 Public Class frmCertificateDemat
 #Region "Local Variables"
@@ -114,6 +115,16 @@ Public Class frmCertificateDemat
         dt = New DataTable
         da = New MySqlDataAdapter(cmd)
         da.Fill(dt)
+
+        'Signature show in picbox implemented by mohan on 18-09-2024 start
+        Dim Folio_Id As Long
+        Dim Signature_Id As Long
+
+        Folio_Id = Val(gfExecuteScalar("select folio_gid from sta_trn_tinward where inward_gid = " & mnInwardId & " and delete_flag = 'N'", gOdbcConn))
+        Signature_Id = Val(gfExecuteScalar("select signature_gid from sta_trn_tfolio where folio_gid = " & Folio_Id & " and delete_flag = 'N'", gOdbcConn))
+
+        Call ShowSignatureImg(Signature_Id)
+        'Signature show in picbox implemented by mohan on 18-09-2024 end
 
         With dt
             If .Rows.Count > 0 Then
@@ -407,7 +418,7 @@ Public Class frmCertificateDemat
             Next i
         End With
 
-        
+
 
         If MessageBox.Show("Are you sure to confirm action ?", gsProjectName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
             lnResult = DateDiff(DateInterval.Day, CDate(msDocRcvdDate), Now())
@@ -418,7 +429,7 @@ Public Class frmCertificateDemat
                 Exit Sub
             End If
 
-           
+
 
             If msGroupCode = "M" Then
                 Call UpdateInformation(gnQueueSuccess)
@@ -900,4 +911,58 @@ Public Class frmCertificateDemat
     Private Sub ChkNameChng_CheckedChanged(sender As Object, e As EventArgs) Handles ChkNameChng.CheckedChanged
 
     End Sub
+
+    'Signature show in picbox implemented by mohan on 18-09-2024 start
+    Public Sub ShowSignatureImg(SignatureId As Long)
+        Dim lsFileName As String
+        Dim lsSrcFile As String
+        Dim lsDestFile As String
+        lblnosignature.Visible = False
+        lblnosignature.Text = ""
+        Try
+            If SignatureId > 0 Then
+                lsFileName = gfExecuteScalar("select file_name from sta_trn_tsignature where signature_gid = " & SignatureId & " and delete_flag = 'N'", gOdbcConn)
+
+                If lsFileName <> "" Then
+                    lsSrcFile = gsSignaturePath & "\" & SignatureId.ToString & ".sig"
+                    lsDestFile = gsReportPath & "\" & lsFileName
+
+                    ' Copy the file to the destination path
+                    File.Copy(lsSrcFile, lsDestFile, True)
+
+                    ' Load the image into a memory stream to avoid file lock
+                    Using fs As New FileStream(lsDestFile, FileMode.Open, FileAccess.Read)
+                        Dim imageBytes(fs.Length - 1) As Byte
+                        fs.Read(imageBytes, 0, fs.Length)
+
+                        Using ms As New MemoryStream(imageBytes)
+                            Picbox_sign.Image = Image.FromStream(ms)
+                            Picbox_sign.SizeMode = PictureBoxSizeMode.StretchImage ' Optional: set how the image is displayed
+                        End Using
+                    End Using
+
+                    ' Optionally delete the file if no longer needed
+                    If File.Exists(lsDestFile) Then
+                        File.Delete(lsDestFile)
+                    End If
+
+                End If
+            Else
+                lblnosignature.Text = "Signature not attached!"
+                lblnosignature.Visible = True
+            End If
+
+        Catch ex As Exception
+            'MessageBox.Show(ex.Message, gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If ex.Message = "Parameter is not valid." Then
+                lblnosignature.Text = lsFileName + " is not a Image File Format "
+            Else
+                lblnosignature.Text = ex.Message
+            End If
+            lblnosignature.Visible = True
+        End Try
+    End Sub
+
+    'Signature show in picbox implemented by mohan on 18-09-2024 end
+
 End Class

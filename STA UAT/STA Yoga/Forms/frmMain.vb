@@ -900,7 +900,7 @@ Public Class frmMain
     End Sub
 
     Private Sub CompanyMasterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CompanyMasterToolStripMenuItem.Click
-        Dim Objfrm As New frmCompanyMaster()
+        Dim Objfrm As New frmCompanyMasterNew()
         Objfrm.ShowDialog()
     End Sub
 
@@ -954,14 +954,25 @@ Public Class frmMain
         frm.Show()
     End Sub
 
-    Private Sub DebarrtPanBenpostReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DebarrtPanBenpostReportToolStripMenuItem.Click
-        Dim frm As New frmBenpostDebarrtPanReport
+    Private Sub CompanyMasterReport_Click(sender As Object, e As EventArgs) Handles CompanyMasterReport.Click
+        Dim frm As New frmCompMasterReport
         frm.MdiParent = Me
         frm.Show()
     End Sub
 
-    Private Sub CAUploadToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CAUploadToolStripMenuItem.Click
-        Dim frm As New frmCAAllotmentUpload
+    Private Sub CityToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CityToolStripMenuItem.Click
+        Dim objFrm As New frmCityMaster
+        objFrm.ShowDialog()
+    End Sub
+
+    Private Sub mnuInwardDashboardReport_Click(sender As Object, e As EventArgs) Handles mnuInwardDashboardReport.Click
+        Dim frm As New frmInwardDashboardReport
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
+
+    Private Sub DayWiseBenpostReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DayWiseBenpostReportToolStripMenuItem.Click
+        Dim frm As New frmDaywisebenpostreport
         frm.MdiParent = Me
         frm.Show()
     End Sub

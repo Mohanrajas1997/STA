@@ -75,8 +75,8 @@
         lsArrCode(2) &= " and b.chklst_disc > 0 "
 
         lsArrCode(3) = " and c.demat_flag = 'Y' and (a.queue_to = '" & msGroupCode & "' "
-        'lsArrCode(3) &= " or (a.queue_to = 'D' and b.inward_all_status & " & gnInwardInex & " > 0)) "
-        lsArrCode(3) &= " )and f.depository_code = 'C' "
+        lsArrCode(3) &= " or (a.queue_to = 'D' and b.inward_all_status & " & gnInwardInex & " > 0)) "
+        lsArrCode(3) &= " and f.depository_code = 'C' "
 
         lsArrCode(4) = " and c.demat_flag = 'Y' "
         lsArrCode(4) &= " and (a.queue_to = '" & msGroupCode & "' "

@@ -3,6 +3,7 @@ Imports System.Data.OleDb
 Imports System.IO
 Imports System.Text
 Imports System
+Imports Microsoft.Office.Interop
 
 Module objExcel
     Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Integer, _

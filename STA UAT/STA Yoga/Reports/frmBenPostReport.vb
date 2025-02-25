@@ -205,16 +205,16 @@ Public Class frmBenpostReport
         Me.pnlMain.Controls.Add(Me.Label7)
         Me.pnlMain.Controls.Add(Me.Label1)
         Me.pnlMain.Controls.Add(Me.Label12)
-        Me.pnlMain.Location = New System.Drawing.Point(6, 7)
+        Me.pnlMain.Location = New System.Drawing.Point(9, 10)
         Me.pnlMain.Name = "pnlMain"
-        Me.pnlMain.Size = New System.Drawing.Size(768, 211)
+        Me.pnlMain.Size = New System.Drawing.Size(1152, 301)
         Me.pnlMain.TabIndex = 0
         '
         'lblbenfolio
         '
-        Me.lblbenfolio.Location = New System.Drawing.Point(215, 179)
+        Me.lblbenfolio.Location = New System.Drawing.Point(322, 256)
         Me.lblbenfolio.Name = "lblbenfolio"
-        Me.lblbenfolio.Size = New System.Drawing.Size(69, 13)
+        Me.lblbenfolio.Size = New System.Drawing.Size(104, 18)
         Me.lblbenfolio.TabIndex = 169
         Me.lblbenfolio.Text = "With Foilo"
         Me.lblbenfolio.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -222,246 +222,246 @@ Public Class frmBenpostReport
         'ckbBenFolio
         '
         Me.ckbBenFolio.AutoSize = True
-        Me.ckbBenFolio.Location = New System.Drawing.Point(290, 179)
+        Me.ckbBenFolio.Location = New System.Drawing.Point(435, 256)
         Me.ckbBenFolio.Name = "ckbBenFolio"
-        Me.ckbBenFolio.Size = New System.Drawing.Size(15, 14)
+        Me.ckbBenFolio.Size = New System.Drawing.Size(22, 21)
         Me.ckbBenFolio.TabIndex = 168
         Me.ckbBenFolio.UseVisualStyleBackColor = True
         '
         'cboCond
         '
         Me.cboCond.FormattingEnabled = True
-        Me.cboCond.ItemHeight = 13
-        Me.cboCond.Location = New System.Drawing.Point(290, 93)
+        Me.cboCond.ItemHeight = 21
+        Me.cboCond.Location = New System.Drawing.Point(435, 133)
         Me.cboCond.Name = "cboCond"
-        Me.cboCond.Size = New System.Drawing.Size(42, 21)
+        Me.cboCond.Size = New System.Drawing.Size(63, 29)
         Me.cboCond.TabIndex = 11
         '
         'txtIfscCode
         '
-        Me.txtIfscCode.Location = New System.Drawing.Point(290, 147)
+        Me.txtIfscCode.Location = New System.Drawing.Point(435, 210)
         Me.txtIfscCode.MaxLength = 0
         Me.txtIfscCode.Name = "txtIfscCode"
-        Me.txtIfscCode.Size = New System.Drawing.Size(105, 21)
+        Me.txtIfscCode.Size = New System.Drawing.Size(157, 27)
         Me.txtIfscCode.TabIndex = 19
         '
         'txtMicrCode
         '
-        Me.txtMicrCode.Location = New System.Drawing.Point(97, 147)
+        Me.txtMicrCode.Location = New System.Drawing.Point(146, 210)
         Me.txtMicrCode.MaxLength = 0
         Me.txtMicrCode.Name = "txtMicrCode"
-        Me.txtMicrCode.Size = New System.Drawing.Size(105, 21)
+        Me.txtMicrCode.Size = New System.Drawing.Size(157, 27)
         Me.txtMicrCode.TabIndex = 18
         '
         'Label24
         '
-        Me.Label24.Location = New System.Drawing.Point(9, 149)
+        Me.Label24.Location = New System.Drawing.Point(14, 213)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(81, 13)
+        Me.Label24.Size = New System.Drawing.Size(121, 18)
         Me.Label24.TabIndex = 166
         Me.Label24.Text = "Micr Code"
         Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label25
         '
-        Me.Label25.Location = New System.Drawing.Point(204, 149)
+        Me.Label25.Location = New System.Drawing.Point(306, 213)
         Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(80, 13)
+        Me.Label25.Size = New System.Drawing.Size(120, 18)
         Me.Label25.TabIndex = 167
         Me.Label25.Text = "Ifsc Code"
         Me.Label25.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtBankName
         '
-        Me.txtBankName.Location = New System.Drawing.Point(290, 120)
+        Me.txtBankName.Location = New System.Drawing.Point(435, 171)
         Me.txtBankName.MaxLength = 0
         Me.txtBankName.Name = "txtBankName"
-        Me.txtBankName.Size = New System.Drawing.Size(105, 21)
+        Me.txtBankName.Size = New System.Drawing.Size(157, 27)
         Me.txtBankName.TabIndex = 15
         '
         'txtRbiRefNo
         '
-        Me.txtRbiRefNo.Location = New System.Drawing.Point(97, 120)
+        Me.txtRbiRefNo.Location = New System.Drawing.Point(146, 171)
         Me.txtRbiRefNo.MaxLength = 0
         Me.txtRbiRefNo.Name = "txtRbiRefNo"
-        Me.txtRbiRefNo.Size = New System.Drawing.Size(105, 21)
+        Me.txtRbiRefNo.Size = New System.Drawing.Size(157, 27)
         Me.txtRbiRefNo.TabIndex = 14
         '
         'Label22
         '
-        Me.Label22.Location = New System.Drawing.Point(9, 122)
+        Me.Label22.Location = New System.Drawing.Point(14, 174)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(81, 13)
+        Me.Label22.Size = New System.Drawing.Size(121, 19)
         Me.Label22.TabIndex = 162
         Me.Label22.Text = "RBI Ref No"
         Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label23
         '
-        Me.Label23.Location = New System.Drawing.Point(204, 122)
+        Me.Label23.Location = New System.Drawing.Point(306, 174)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(80, 13)
+        Me.Label23.Size = New System.Drawing.Size(120, 19)
         Me.Label23.TabIndex = 163
         Me.Label23.Text = "Bank Name"
         Me.Label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtPan3
         '
-        Me.txtPan3.Location = New System.Drawing.Point(648, 147)
+        Me.txtPan3.Location = New System.Drawing.Point(972, 210)
         Me.txtPan3.MaxLength = 0
         Me.txtPan3.Name = "txtPan3"
-        Me.txtPan3.Size = New System.Drawing.Size(105, 21)
+        Me.txtPan3.Size = New System.Drawing.Size(158, 27)
         Me.txtPan3.TabIndex = 21
         '
         'txtHolder3
         '
-        Me.txtHolder3.Location = New System.Drawing.Point(470, 147)
+        Me.txtHolder3.Location = New System.Drawing.Point(705, 210)
         Me.txtHolder3.MaxLength = 0
         Me.txtHolder3.Name = "txtHolder3"
-        Me.txtHolder3.Size = New System.Drawing.Size(105, 21)
+        Me.txtHolder3.Size = New System.Drawing.Size(157, 27)
         Me.txtHolder3.TabIndex = 20
         '
         'Label19
         '
-        Me.Label19.Location = New System.Drawing.Point(382, 149)
+        Me.Label19.Location = New System.Drawing.Point(573, 213)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(81, 13)
+        Me.Label19.Size = New System.Drawing.Size(121, 18)
         Me.Label19.TabIndex = 158
         Me.Label19.Text = "Holder3"
         Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label20
         '
-        Me.Label20.Location = New System.Drawing.Point(569, 149)
+        Me.Label20.Location = New System.Drawing.Point(854, 213)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(73, 13)
+        Me.Label20.Size = New System.Drawing.Size(109, 18)
         Me.Label20.TabIndex = 159
         Me.Label20.Text = "PAN3"
         Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtPan2
         '
-        Me.txtPan2.Location = New System.Drawing.Point(648, 120)
+        Me.txtPan2.Location = New System.Drawing.Point(972, 171)
         Me.txtPan2.MaxLength = 0
         Me.txtPan2.Name = "txtPan2"
-        Me.txtPan2.Size = New System.Drawing.Size(105, 21)
+        Me.txtPan2.Size = New System.Drawing.Size(158, 27)
         Me.txtPan2.TabIndex = 17
         '
         'txtHolder2
         '
-        Me.txtHolder2.Location = New System.Drawing.Point(470, 120)
+        Me.txtHolder2.Location = New System.Drawing.Point(705, 171)
         Me.txtHolder2.MaxLength = 0
         Me.txtHolder2.Name = "txtHolder2"
-        Me.txtHolder2.Size = New System.Drawing.Size(105, 21)
+        Me.txtHolder2.Size = New System.Drawing.Size(157, 27)
         Me.txtHolder2.TabIndex = 16
         '
         'Label17
         '
-        Me.Label17.Location = New System.Drawing.Point(382, 122)
+        Me.Label17.Location = New System.Drawing.Point(573, 174)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(81, 13)
+        Me.Label17.Size = New System.Drawing.Size(121, 19)
         Me.Label17.TabIndex = 154
         Me.Label17.Text = "Holder2"
         Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label18
         '
-        Me.Label18.Location = New System.Drawing.Point(569, 122)
+        Me.Label18.Location = New System.Drawing.Point(854, 174)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(73, 13)
+        Me.Label18.Size = New System.Drawing.Size(109, 19)
         Me.Label18.TabIndex = 155
         Me.Label18.Text = "PAN2"
         Me.Label18.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtShareCount
         '
-        Me.txtShareCount.Location = New System.Drawing.Point(332, 93)
+        Me.txtShareCount.Location = New System.Drawing.Point(498, 133)
         Me.txtShareCount.MaxLength = 0
         Me.txtShareCount.Name = "txtShareCount"
-        Me.txtShareCount.Size = New System.Drawing.Size(63, 21)
+        Me.txtShareCount.Size = New System.Drawing.Size(94, 27)
         Me.txtShareCount.TabIndex = 11
         '
         'txtSebiRegNo
         '
-        Me.txtSebiRegNo.Location = New System.Drawing.Point(97, 93)
+        Me.txtSebiRegNo.Location = New System.Drawing.Point(146, 133)
         Me.txtSebiRegNo.MaxLength = 0
         Me.txtSebiRegNo.Name = "txtSebiRegNo"
-        Me.txtSebiRegNo.Size = New System.Drawing.Size(105, 21)
+        Me.txtSebiRegNo.Size = New System.Drawing.Size(157, 27)
         Me.txtSebiRegNo.TabIndex = 10
         '
         'Label13
         '
-        Me.Label13.Location = New System.Drawing.Point(9, 95)
+        Me.Label13.Location = New System.Drawing.Point(14, 136)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(81, 13)
+        Me.Label13.Size = New System.Drawing.Size(121, 18)
         Me.Label13.TabIndex = 146
         Me.Label13.Text = "Sebi Reg No"
         Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label14
         '
-        Me.Label14.Location = New System.Drawing.Point(204, 95)
+        Me.Label14.Location = New System.Drawing.Point(306, 136)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(80, 13)
+        Me.Label14.Size = New System.Drawing.Size(120, 18)
         Me.Label14.TabIndex = 148
         Me.Label14.Text = "Share Count"
         Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtClientId
         '
-        Me.txtClientId.Location = New System.Drawing.Point(290, 66)
+        Me.txtClientId.Location = New System.Drawing.Point(435, 94)
         Me.txtClientId.MaxLength = 0
         Me.txtClientId.Name = "txtClientId"
-        Me.txtClientId.Size = New System.Drawing.Size(105, 21)
+        Me.txtClientId.Size = New System.Drawing.Size(157, 27)
         Me.txtClientId.TabIndex = 7
         '
         'txtDpId
         '
-        Me.txtDpId.Location = New System.Drawing.Point(97, 66)
+        Me.txtDpId.Location = New System.Drawing.Point(146, 94)
         Me.txtDpId.MaxLength = 0
         Me.txtDpId.Name = "txtDpId"
-        Me.txtDpId.Size = New System.Drawing.Size(105, 21)
+        Me.txtDpId.Size = New System.Drawing.Size(157, 27)
         Me.txtDpId.TabIndex = 6
         '
         'Label8
         '
-        Me.Label8.Location = New System.Drawing.Point(9, 68)
+        Me.Label8.Location = New System.Drawing.Point(14, 97)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(81, 13)
+        Me.Label8.Size = New System.Drawing.Size(121, 19)
         Me.Label8.TabIndex = 142
         Me.Label8.Text = "DP Id"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label9
         '
-        Me.Label9.Location = New System.Drawing.Point(211, 68)
+        Me.Label9.Location = New System.Drawing.Point(316, 97)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(73, 13)
+        Me.Label9.Size = New System.Drawing.Size(110, 19)
         Me.Label9.TabIndex = 144
         Me.Label9.Text = "Client Id"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtPan1
         '
-        Me.txtPan1.Location = New System.Drawing.Point(648, 93)
+        Me.txtPan1.Location = New System.Drawing.Point(972, 133)
         Me.txtPan1.MaxLength = 0
         Me.txtPan1.Name = "txtPan1"
-        Me.txtPan1.Size = New System.Drawing.Size(105, 21)
+        Me.txtPan1.Size = New System.Drawing.Size(158, 27)
         Me.txtPan1.TabIndex = 13
         '
         'txtHolder1
         '
-        Me.txtHolder1.Location = New System.Drawing.Point(470, 93)
+        Me.txtHolder1.Location = New System.Drawing.Point(705, 133)
         Me.txtHolder1.MaxLength = 0
         Me.txtHolder1.Name = "txtHolder1"
-        Me.txtHolder1.Size = New System.Drawing.Size(105, 21)
+        Me.txtHolder1.Size = New System.Drawing.Size(157, 27)
         Me.txtHolder1.TabIndex = 12
         '
         'Label6
         '
-        Me.Label6.Location = New System.Drawing.Point(382, 95)
+        Me.Label6.Location = New System.Drawing.Point(573, 136)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(81, 13)
+        Me.Label6.Size = New System.Drawing.Size(121, 18)
         Me.Label6.TabIndex = 138
         Me.Label6.Text = "Holder1"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -470,18 +470,18 @@ Public Class frmBenpostReport
         '
         Me.dtpBenpostTo.CustomFormat = "dd-MM-yyyy"
         Me.dtpBenpostTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpBenpostTo.Location = New System.Drawing.Point(290, 39)
+        Me.dtpBenpostTo.Location = New System.Drawing.Point(435, 56)
         Me.dtpBenpostTo.Name = "dtpBenpostTo"
         Me.dtpBenpostTo.ShowCheckBox = True
-        Me.dtpBenpostTo.Size = New System.Drawing.Size(105, 21)
+        Me.dtpBenpostTo.Size = New System.Drawing.Size(157, 27)
         Me.dtpBenpostTo.TabIndex = 4
         Me.dtpBenpostTo.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
         'Label3
         '
-        Me.Label3.Location = New System.Drawing.Point(235, 41)
+        Me.Label3.Location = New System.Drawing.Point(352, 59)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(49, 17)
+        Me.Label3.Size = New System.Drawing.Size(74, 24)
         Me.Label3.TabIndex = 135
         Me.Label3.Text = "To"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -490,18 +490,18 @@ Public Class frmBenpostReport
         '
         Me.dtpBenpostFrom.CustomFormat = "dd-MM-yyyy"
         Me.dtpBenpostFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpBenpostFrom.Location = New System.Drawing.Point(97, 39)
+        Me.dtpBenpostFrom.Location = New System.Drawing.Point(146, 56)
         Me.dtpBenpostFrom.Name = "dtpBenpostFrom"
         Me.dtpBenpostFrom.ShowCheckBox = True
-        Me.dtpBenpostFrom.Size = New System.Drawing.Size(105, 21)
+        Me.dtpBenpostFrom.Size = New System.Drawing.Size(157, 27)
         Me.dtpBenpostFrom.TabIndex = 3
         Me.dtpBenpostFrom.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
         'Label4
         '
-        Me.Label4.Location = New System.Drawing.Point(-1, 41)
+        Me.Label4.Location = New System.Drawing.Point(-2, 59)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(91, 17)
+        Me.Label4.Size = New System.Drawing.Size(137, 24)
         Me.Label4.TabIndex = 136
         Me.Label4.Text = "Benpost From"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -509,60 +509,60 @@ Public Class frmBenpostReport
         'cboDepository
         '
         Me.cboDepository.FormattingEnabled = True
-        Me.cboDepository.Location = New System.Drawing.Point(470, 66)
+        Me.cboDepository.Location = New System.Drawing.Point(705, 94)
         Me.cboDepository.Name = "cboDepository"
-        Me.cboDepository.Size = New System.Drawing.Size(105, 21)
+        Me.cboDepository.Size = New System.Drawing.Size(157, 29)
         Me.cboDepository.TabIndex = 8
         '
         'cboFileName
         '
         Me.cboFileName.FormattingEnabled = True
-        Me.cboFileName.Location = New System.Drawing.Point(470, 12)
+        Me.cboFileName.Location = New System.Drawing.Point(705, 17)
         Me.cboFileName.Name = "cboFileName"
-        Me.cboFileName.Size = New System.Drawing.Size(283, 21)
+        Me.cboFileName.Size = New System.Drawing.Size(425, 29)
         Me.cboFileName.TabIndex = 2
         '
         'txtIsinId
         '
-        Me.txtIsinId.Location = New System.Drawing.Point(648, 66)
+        Me.txtIsinId.Location = New System.Drawing.Point(972, 94)
         Me.txtIsinId.MaxLength = 0
         Me.txtIsinId.Name = "txtIsinId"
-        Me.txtIsinId.Size = New System.Drawing.Size(105, 21)
+        Me.txtIsinId.Size = New System.Drawing.Size(158, 27)
         Me.txtIsinId.TabIndex = 9
         '
         'Label21
         '
-        Me.Label21.Location = New System.Drawing.Point(385, 68)
+        Me.Label21.Location = New System.Drawing.Point(578, 97)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(78, 13)
+        Me.Label21.Size = New System.Drawing.Size(116, 19)
         Me.Label21.TabIndex = 129
         Me.Label21.Text = "Depository"
         Me.Label21.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtBenpostId
         '
-        Me.txtBenpostId.Location = New System.Drawing.Point(97, 174)
+        Me.txtBenpostId.Location = New System.Drawing.Point(146, 249)
         Me.txtBenpostId.MaxLength = 0
         Me.txtBenpostId.Name = "txtBenpostId"
-        Me.txtBenpostId.Size = New System.Drawing.Size(105, 21)
+        Me.txtBenpostId.Size = New System.Drawing.Size(157, 27)
         Me.txtBenpostId.TabIndex = 22
         '
         'dtpTo
         '
         Me.dtpTo.CustomFormat = "dd-MM-yyyy"
         Me.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpTo.Location = New System.Drawing.Point(290, 12)
+        Me.dtpTo.Location = New System.Drawing.Point(435, 17)
         Me.dtpTo.Name = "dtpTo"
         Me.dtpTo.ShowCheckBox = True
-        Me.dtpTo.Size = New System.Drawing.Size(105, 21)
+        Me.dtpTo.Size = New System.Drawing.Size(157, 27)
         Me.dtpTo.TabIndex = 1
         Me.dtpTo.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
         'Label11
         '
-        Me.Label11.Location = New System.Drawing.Point(235, 14)
+        Me.Label11.Location = New System.Drawing.Point(352, 20)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(49, 17)
+        Me.Label11.Size = New System.Drawing.Size(74, 24)
         Me.Label11.TabIndex = 115
         Me.Label11.Text = "To"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -571,18 +571,18 @@ Public Class frmBenpostReport
         '
         Me.dtpFrom.CustomFormat = "dd-MM-yyyy"
         Me.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpFrom.Location = New System.Drawing.Point(97, 12)
+        Me.dtpFrom.Location = New System.Drawing.Point(146, 17)
         Me.dtpFrom.Name = "dtpFrom"
         Me.dtpFrom.ShowCheckBox = True
-        Me.dtpFrom.Size = New System.Drawing.Size(105, 21)
+        Me.dtpFrom.Size = New System.Drawing.Size(157, 27)
         Me.dtpFrom.TabIndex = 0
         Me.dtpFrom.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
         'Label10
         '
-        Me.Label10.Location = New System.Drawing.Point(6, 14)
+        Me.Label10.Location = New System.Drawing.Point(9, 20)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(84, 17)
+        Me.Label10.Size = New System.Drawing.Size(126, 24)
         Me.Label10.TabIndex = 115
         Me.Label10.Text = "Import From"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -590,60 +590,60 @@ Public Class frmBenpostReport
         'cboCompany
         '
         Me.cboCompany.FormattingEnabled = True
-        Me.cboCompany.Location = New System.Drawing.Point(470, 39)
+        Me.cboCompany.Location = New System.Drawing.Point(705, 56)
         Me.cboCompany.Name = "cboCompany"
-        Me.cboCompany.Size = New System.Drawing.Size(283, 21)
+        Me.cboCompany.Size = New System.Drawing.Size(425, 29)
         Me.cboCompany.TabIndex = 5
         '
         'Label5
         '
         Me.Label5.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label5.Location = New System.Drawing.Point(385, 42)
+        Me.Label5.Location = New System.Drawing.Point(578, 60)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(79, 13)
+        Me.Label5.Size = New System.Drawing.Size(118, 19)
         Me.Label5.TabIndex = 113
         Me.Label5.Text = "Company"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'btnClose
         '
-        Me.btnClose.Location = New System.Drawing.Point(681, 174)
+        Me.btnClose.Location = New System.Drawing.Point(1022, 249)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(72, 24)
+        Me.btnClose.Size = New System.Drawing.Size(108, 34)
         Me.btnClose.TabIndex = 25
         Me.btnClose.Text = "&Close"
         '
         'btnClear
         '
-        Me.btnClear.Location = New System.Drawing.Point(603, 174)
+        Me.btnClear.Location = New System.Drawing.Point(904, 249)
         Me.btnClear.Name = "btnClear"
-        Me.btnClear.Size = New System.Drawing.Size(72, 24)
+        Me.btnClear.Size = New System.Drawing.Size(108, 34)
         Me.btnClear.TabIndex = 24
         Me.btnClear.Text = "C&lear"
         '
         'btnRefresh
         '
-        Me.btnRefresh.Location = New System.Drawing.Point(525, 174)
+        Me.btnRefresh.Location = New System.Drawing.Point(788, 249)
         Me.btnRefresh.Name = "btnRefresh"
-        Me.btnRefresh.Size = New System.Drawing.Size(72, 24)
+        Me.btnRefresh.Size = New System.Drawing.Size(108, 34)
         Me.btnRefresh.TabIndex = 23
         Me.btnRefresh.Text = "&Refresh"
         '
         'Label2
         '
         Me.Label2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label2.Location = New System.Drawing.Point(566, 68)
+        Me.Label2.Location = New System.Drawing.Point(849, 97)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(76, 13)
+        Me.Label2.Size = New System.Drawing.Size(114, 19)
         Me.Label2.TabIndex = 113
         Me.Label2.Text = "Isin Id"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label7
         '
-        Me.Label7.Location = New System.Drawing.Point(569, 95)
+        Me.Label7.Location = New System.Drawing.Point(854, 136)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(73, 13)
+        Me.Label7.Size = New System.Drawing.Size(109, 18)
         Me.Label7.TabIndex = 140
         Me.Label7.Text = "PAN1"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -651,18 +651,18 @@ Public Class frmBenpostReport
         'Label1
         '
         Me.Label1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label1.Location = New System.Drawing.Point(385, 14)
+        Me.Label1.Location = New System.Drawing.Point(578, 20)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(79, 13)
+        Me.Label1.Size = New System.Drawing.Size(118, 19)
         Me.Label1.TabIndex = 131
         Me.Label1.Text = "File Name"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'Label12
         '
-        Me.Label12.Location = New System.Drawing.Point(-1, 176)
+        Me.Label12.Location = New System.Drawing.Point(-2, 251)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(91, 17)
+        Me.Label12.Size = New System.Drawing.Size(137, 25)
         Me.Label12.TabIndex = 117
         Me.Label12.Text = "Benpost Id"
         Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -671,9 +671,9 @@ Public Class frmBenpostReport
         '
         Me.pnlExport.Controls.Add(Me.txtRecCount)
         Me.pnlExport.Controls.Add(Me.btnExport)
-        Me.pnlExport.Location = New System.Drawing.Point(12, 457)
+        Me.pnlExport.Location = New System.Drawing.Point(18, 653)
         Me.pnlExport.Name = "pnlExport"
-        Me.pnlExport.Size = New System.Drawing.Size(634, 33)
+        Me.pnlExport.Size = New System.Drawing.Size(951, 47)
         Me.pnlExport.TabIndex = 2
         '
         'txtRecCount
@@ -681,20 +681,20 @@ Public Class frmBenpostReport
         Me.txtRecCount.BackColor = System.Drawing.SystemColors.Control
         Me.txtRecCount.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtRecCount.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.txtRecCount.Location = New System.Drawing.Point(6, 8)
+        Me.txtRecCount.Location = New System.Drawing.Point(9, 11)
         Me.txtRecCount.MaxLength = 100
         Me.txtRecCount.Name = "txtRecCount"
         Me.txtRecCount.ReadOnly = True
-        Me.txtRecCount.Size = New System.Drawing.Size(433, 14)
+        Me.txtRecCount.Size = New System.Drawing.Size(649, 20)
         Me.txtRecCount.TabIndex = 0
         Me.txtRecCount.TabStop = False
         Me.txtRecCount.Text = "Record Count : "
         '
         'btnExport
         '
-        Me.btnExport.Location = New System.Drawing.Point(558, 5)
+        Me.btnExport.Location = New System.Drawing.Point(837, 7)
         Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(72, 24)
+        Me.btnExport.Size = New System.Drawing.Size(108, 34)
         Me.btnExport.TabIndex = 1
         Me.btnExport.Text = "&Export"
         '
@@ -703,15 +703,15 @@ Public Class frmBenpostReport
         Me.dgvReport.AllowUserToAddRows = False
         Me.dgvReport.AllowUserToDeleteRows = False
         Me.dgvReport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvReport.Location = New System.Drawing.Point(6, 224)
+        Me.dgvReport.Location = New System.Drawing.Point(9, 320)
         Me.dgvReport.Name = "dgvReport"
         Me.dgvReport.ReadOnly = True
-        Me.dgvReport.Size = New System.Drawing.Size(768, 227)
+        Me.dgvReport.Size = New System.Drawing.Size(1152, 324)
         Me.dgvReport.TabIndex = 1
         '
         'frmBenpostReport
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 14)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(9, 20)
         Me.ClientSize = New System.Drawing.Size(787, 502)
         Me.Controls.Add(Me.dgvReport)
         Me.Controls.Add(Me.pnlExport)

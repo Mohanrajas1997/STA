@@ -75,6 +75,8 @@ Partial Class frmCertificateDemat
         Me.btnReject = New System.Windows.Forms.Button()
         Me.btnView = New System.Windows.Forms.Button()
         Me.btnClose = New System.Windows.Forms.Button()
+        Me.Picbox_sign = New System.Windows.Forms.PictureBox()
+        Me.lblnosignature = New System.Windows.Forms.Label()
         CType(Me.dgvChklst, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpHeader.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -83,6 +85,7 @@ Partial Class frmCertificateDemat
         Me.TabPage2.SuspendLayout()
         CType(Me.dgvNameChange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvCert, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Picbox_sign, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblDocStatus
@@ -111,7 +114,7 @@ Partial Class frmCertificateDemat
         Me.txtRemark.MaxLength = 255
         Me.txtRemark.Multiline = True
         Me.txtRemark.Name = "txtRemark"
-        Me.txtRemark.Size = New System.Drawing.Size(427, 108)
+        Me.txtRemark.Size = New System.Drawing.Size(427, 58)
         Me.txtRemark.TabIndex = 2
         '
         'Label23
@@ -664,6 +667,24 @@ Partial Class frmCertificateDemat
         Me.btnClose.Text = "Close"
         Me.btnClose.UseVisualStyleBackColor = True
         '
+        'Picbox_sign
+        '
+        Me.Picbox_sign.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Picbox_sign.Location = New System.Drawing.Point(624, 393)
+        Me.Picbox_sign.Name = "Picbox_sign"
+        Me.Picbox_sign.Size = New System.Drawing.Size(427, 58)
+        Me.Picbox_sign.TabIndex = 14
+        Me.Picbox_sign.TabStop = False
+        '
+        'lblnosignature
+        '
+        Me.lblnosignature.ForeColor = System.Drawing.Color.Red
+        Me.lblnosignature.Location = New System.Drawing.Point(645, 414)
+        Me.lblnosignature.Name = "lblnosignature"
+        Me.lblnosignature.Size = New System.Drawing.Size(388, 13)
+        Me.lblnosignature.TabIndex = 77
+        Me.lblnosignature.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
         'frmCertificateDemat
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
@@ -680,6 +701,8 @@ Partial Class frmCertificateDemat
         Me.Controls.Add(Me.btnSubmit)
         Me.Controls.Add(Me.dgvChklst)
         Me.Controls.Add(Me.grpHeader)
+        Me.Controls.Add(Me.lblnosignature)
+        Me.Controls.Add(Me.Picbox_sign)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -695,6 +718,7 @@ Partial Class frmCertificateDemat
         Me.TabPage2.ResumeLayout(False)
         CType(Me.dgvNameChange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dgvCert, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Picbox_sign, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -752,4 +776,6 @@ Partial Class frmCertificateDemat
     Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
     Friend WithEvents dgvNameChange As System.Windows.Forms.DataGridView
     Friend WithEvents ChkNameChng As System.Windows.Forms.CheckBox
+    Friend WithEvents Picbox_sign As PictureBox
+    Friend WithEvents lblnosignature As Label
 End Class

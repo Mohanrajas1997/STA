@@ -46,9 +46,9 @@
         Dim lsUploadType As String
         Dim lnUploadType As Integer
 
-        Dim lnArrUploadType(5) As Integer
-        Dim lsArrUploadType(5) As String
-        Dim lsArrCode(5) As String
+        Dim lnArrUploadType(7) As Integer
+        Dim lsArrUploadType(7) As String
+        Dim lsArrCode(7) As String
         Dim lnStart As Integer
         Dim lnEnd As Integer
 
@@ -57,12 +57,16 @@
         lnArrUploadType(2) = gnUploadObjxRegister
         lnArrUploadType(3) = gnUploadCDSLUpload
         lnArrUploadType(4) = gnUploadNSDLUpload
+        lnArrUploadType(5) = gnAllotmentNSDL
+        lnArrUploadType(6) = gnAllotmentCDSL
 
         lsArrUploadType(0) = "Transfer Register"
         lsArrUploadType(1) = "Certificate Register"
         lsArrUploadType(2) = "Objection Register"
         lsArrUploadType(3) = "CDSL Upload"
         lsArrUploadType(4) = "NSDL Upload"
+        lsArrUploadType(5) = "Allotment NSDL"
+        lsArrUploadType(6) = "Allotment CDSL"
 
         lsArrCode(0) = " and c.transfer_flag = 'Y' and a.queue_to = '" & msGroupCode & "' "
         lsArrCode(1) = " and c.cert_flag = 'Y' and a.queue_to = '" & msGroupCode & "' "
@@ -78,6 +82,12 @@
         lsArrCode(4) &= " and (a.queue_to = '" & msGroupCode & "' "
         lsArrCode(4) &= " or (a.queue_to = 'D' and b.inward_all_status & " & gnInwardInex & " > 0)) "
         lsArrCode(4) &= " and f.depository_code = 'N' "
+
+        lsArrCode(5) = " and a.queue_to = '" & msGroupCode & "' "
+        lsArrCode(5) &= " and g.folio_no = '00999999' "
+
+        lsArrCode(6) = " and a.queue_to = '" & msGroupCode & "' "
+        lsArrCode(6) &= " and g.folio_no = '00888888' "
 
         If cboCompany.Text <> "" And cboCompany.SelectedIndex <> -1 Then
             lsCond &= " and b.comp_gid = " & Val(cboCompany.SelectedValue.ToString) & " "
@@ -106,9 +116,15 @@
             Case gnUploadNSDLUpload
                 lnStart = 4
                 lnEnd = 4
+            Case gnAllotmentNSDL
+                lnStart = 5
+                lnEnd = 5
+            Case gnAllotmentCDSL
+                lnStart = 6
+                lnEnd = 6
             Case Else
                 lnStart = 0
-                lnEnd = 4
+                lnEnd = 6
         End Select
 
         'Select Case lnUploadType
@@ -148,6 +164,7 @@
             lsSql &= " inner join sta_mst_tgroup as d on d.group_code = a.queue_from and c.delete_flag = 'N' "
             lsSql &= " inner join sta_mst_tcompany as e on e.comp_gid = b.comp_gid and e.delete_flag = 'N' "
             lsSql &= " left join sta_trn_tdematpend as f on b.dematpend_gid = f.dematpend_gid and f.delete_flag = 'N' "
+            lsSql &= " left join sta_trn_tfolio as g on b.folio_gid = g.folio_gid and g.delete_flag = 'N' "
             lsSql &= " where true "
             lsSql &= lsArrCode(i)
             lsSql &= " and a.action_status = 0 "

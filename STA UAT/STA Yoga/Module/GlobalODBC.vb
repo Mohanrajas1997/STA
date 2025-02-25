@@ -35,8 +35,10 @@ Module GlobalODBC
     Public gsReportPath As String = "c:\execute\"
     Public gsAttachmentPath As String = "c:\temp\sta_attachment"
     Public gsSignaturePath As String = "c:\temp\sta_signature"
+    Public gsCompAttachmentPath As String = "c:\temp\sta_comp_attachment"
     Public gsUploadPath As String = "c:\execute\upload"
     Public gnDematProcessDays As Integer = 15
+    Public gnInwardThresholdValue As Integer = 200000
 
     Public gnEntityId As Long = 1
     Public gnSearchId As Long
@@ -207,6 +209,7 @@ Module GlobalODBC
 
                 'ServerDetails = "Driver={Mysql odbc 3.51 Driver};Server=" & DbIP & ";DataBase=" & Db & ";uid=" & DbUId & ";pwd=" & DbPwd & ";port=" & DbPort
                 'ServerDetails = "Server=" & DbIP & ";DataBase=" & Db & ";uid=" & DbUId & ";pwd=" & DbPwd & ";port=" & DbPort
+                'ServerDetails = "Server=" & "146.56.55.230" & ";DataBase=" & "sta_live" & ";uid=" & "production" & ";pwd=" & "Flexi@123" & ";port=" & "3306 ;pooling=false;default command timeout = 0;"
                 ServerDetails = "Server=" & "146.56.55.230" & ";DataBase=" & "sta" & ";uid=" & "root" & ";pwd=" & "Flexi@123" & ";port=" & "3306 ;pooling=false;default command timeout = 0;"
 
                 Call ConOpenOdbc(ServerDetails)
@@ -225,6 +228,7 @@ Module GlobalODBC
             'ServerDetails = "Server=192.168.0.9;DataBase=sta_240817;uid=root;pwd=gnsa;port=4007"
             'ServerDetails = "Server=192.168.0.182;DataBase=sta;uid=production;pwd=gnsalive;port=3306"
             'ServerDetails = "Server=169.38.77.180;DataBase=sta;uid=root;pwd=Flexi@123;port=3306"
+            'ServerDetails = "Server=146.56.55.230;DataBase=sta;uid=root;pwd=Flexi@123;port=3306"
             ServerDetails = "Server=146.56.55.230;DataBase=sta;uid=root;pwd=Flexi@123;port=3306"
 
             Call ConOpenOdbc(ServerDetails)
@@ -328,6 +332,10 @@ Module GlobalODBC
                             gsSoftVersion = lsTxt
                         Case "DEMAT PROCESS DAYS"
                             gnDematProcessDays = Val(lsTxt)
+                        Case "COMPANY ATTACHMENT PATH"
+                            gsCompAttachmentPath = lsTxt
+                        Case "INWARD THRESHOLD VALUE"
+                            gnInwardThresholdValue = Val(lsTxt)
                     End Select
                 End If
             Next n

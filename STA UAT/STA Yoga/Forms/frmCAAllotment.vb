@@ -2,7 +2,8 @@
 Imports System.IO
 Imports System.Runtime.InteropServices
 Imports Microsoft.Office.Interop.Word
-Imports Excel
+'Imports Excel
+Imports Microsoft.Office.Interop
 
 Public Class frmCAAllotment
 #Region "Local Variables"
@@ -80,12 +81,13 @@ Public Class frmCAAllotment
         Dim dt As System.Data.DataTable
         Dim dt1 As System.Data.DataTable
         Dim lobjChkBoxColumn As DataGridViewCheckBoxColumn
-        Dim removeButtonColumn As DataGridViewButtonColumn
+        'Dim removeButtonColumn As DataGridViewButtonColumn
         Dim i As Integer
         Dim n As Integer
 
         Dim lnChkLstValid As Integer
         Dim lnChkLstDisc As Integer
+
 
         cmd = New MySqlCommand("pr_sta_get_caallotmententry", gOdbcConn)
         cmd.CommandType = CommandType.StoredProcedure
@@ -144,6 +146,14 @@ Public Class frmCAAllotment
 
             Else
                 Call frmCtrClear(Me)
+            End If
+
+            If txtFolioNo.Text = "00999999" Then
+                cboCAtype.Enabled = True
+                cboAllotmentdesc.Enabled = True
+            Else
+                cboCAtype.Enabled = False
+                cboAllotmentdesc.Enabled = False
             End If
         End With
 
@@ -388,8 +398,8 @@ Public Class frmCAAllotment
         Dim lsShares As String = ""
         Dim lsDistfrom As Long = 0
         Dim lsDistto As Long = 0
-        Dim lsIssuedAmt As Long = 0
-        Dim lsPaidupAmt As Long = 0
+        Dim lsIssuedAmt As Decimal = 0
+        Dim lsPaidupAmt As Decimal = 0
         Dim lsRemark As String = ""
 
         Dim lnChklstValid As Long = 0
@@ -460,13 +470,18 @@ Public Class frmCAAllotment
             For Each row As DataGridViewRow In dgvRecord2.Rows
                 If Not row.IsNewRow Then
                     Dim lsLockinFlag As String = "N"
-                    Dim lsreleaseDate As Date
+                    Dim lsreleaseDate As String = ""
 
                     If row.Cells("lock_in_flag").Value.ToString() = "Y" Then
                         lsLockinFlag = "Y"
                     End If
 
-                    lsreleaseDate = row.Cells("lock_in_realease_date").Value.ToString()
+                    If row.Cells("lock_in_realease_date").Value.ToString() <> "" Then
+                        lsreleaseDate = row.Cells("lock_in_realease_date").Value.ToString()
+                    End If
+
+
+                    'lsreleaseDate = row.Cells("lock_in_realease_date").Value.ToString()
 
                     Using cmd As New MySqlCommand("pr_sta_ins_caentry", gOdbcConn)
                         cmd.CommandType = CommandType.StoredProcedure
@@ -478,12 +493,15 @@ Public Class frmCAAllotment
                         cmd.Parameters.AddWithValue("?in_dist_from", Convert.ToInt32(row.Cells("dist_from").Value))
                         cmd.Parameters.AddWithValue("?in_dist_to", Convert.ToInt32(row.Cells("dist_to").Value))
                         cmd.Parameters.AddWithValue("?in_share_count", Convert.ToInt32(row.Cells("share_count").Value))
-                        cmd.Parameters.AddWithValue("?in_face_value", Convert.ToInt32(row.Cells("face_value").Value))
-                        cmd.Parameters.AddWithValue("?in_offerprice_premium", Convert.ToInt32(row.Cells("offerprice_premium").Value))
+                        'cmd.Parameters.AddWithValue("?in_face_value", Convert.ToInt32(row.Cells("face_value").Value))
+                        'cmd.Parameters.AddWithValue("?in_offerprice_premium", Convert.ToInt32(row.Cells("offerprice_premium").Value))
+                        'Changes done on 16-12-2024 Integer to Decimal
+                        cmd.Parameters.AddWithValue("?in_face_value", row.Cells("face_value").Value)
+                        cmd.Parameters.AddWithValue("?in_offerprice_premium", row.Cells("offerprice_premium").Value)
                         cmd.Parameters.AddWithValue("?in_lockin_flag", lsLockinFlag)
                         cmd.Parameters.AddWithValue("?in_lockin_reason_code", row.Cells("lock_in_reason_code").Value.ToString())
                         If String.IsNullOrEmpty(lsreleaseDate) Then
-                            cmd.Parameters.AddWithValue("?in_lockin_releasedate", "0000-00-00")
+                            cmd.Parameters.AddWithValue("?in_lockin_releasedate", DBNull.Value)
                         Else
                             cmd.Parameters.AddWithValue("?in_lockin_releasedate", Format(CDate(row.Cells("lock_in_realease_date").Value.ToString()), "yyyy-MM-dd"))
                         End If
@@ -637,8 +655,8 @@ Public Class frmCAAllotment
 
     Private Sub LoadDataToGrid(filePath As String)
         Dim excelApp As Excel.Application = Nothing
-        Dim excelWorkbook As Workbook = Nothing
-        Dim excelWorksheet As Worksheet = Nothing
+        Dim excelWorkbook As Excel.Workbook = Nothing
+        Dim excelWorksheet As Excel.Worksheet = Nothing
         Dim excelRange As Excel.Range = Nothing
         Dim lssumofShares As Integer = 0
         Dim lssumofpurcaseCost As Decimal = 0
@@ -649,7 +667,7 @@ Public Class frmCAAllotment
             excelWorkbook = excelApp.Workbooks.Open(filePath)
 
             ' Assuming you want to load data from the first sheet
-            excelWorksheet = CType(excelWorkbook.Sheets(1), Worksheet)
+            excelWorksheet = CType(excelWorkbook.Sheets(1), Excel.Worksheet)
             excelRange = excelWorksheet.UsedRange
 
             ' Clear existing data in DataGridView
@@ -663,7 +681,8 @@ Public Class frmCAAllotment
                 Dim distTo As Integer = If(excelRange.Cells(rowIndex, 4).Value, String.Empty).ToString()
                 Dim shareCount As Integer = If(excelRange.Cells(rowIndex, 5).Value, String.Empty).ToString()
                 lssumofShares += shareCount
-                Dim faceValue As Integer = If(excelRange.Cells(rowIndex, 6).Value, String.Empty).ToString()
+                'Changes done on 16-12-2024 Integer to Decimal
+                Dim faceValue As Decimal = If(excelRange.Cells(rowIndex, 6).Value, String.Empty).ToString()
                 Dim offerpriPremium As String = If(excelRange.Cells(rowIndex, 7).Value, String.Empty).ToString()
                 Dim lockinFlag As String = If(excelRange.Cells(rowIndex, 8).Value, String.Empty).ToString()
                 Dim lockinReasonCode As String = If(excelRange.Cells(rowIndex, 9).Value, String.Empty).ToString()
@@ -686,11 +705,18 @@ Public Class frmCAAllotment
                 End If
                 Dim formattedDate As String = If(lockinReleaseDate.HasValue, lockinReleaseDate.Value.ToString("yyyy-MM-dd"), String.Empty)
 
-
                 Dim sharePrice As Decimal = faceValue + offerpriPremium
                 Dim purcaseCost As Decimal = shareCount * sharePrice
                 lssumofpurcaseCost += purcaseCost
-                Dim stampDuty As Decimal = purcaseCost * 0.005 / 100
+
+                Dim stampDuty As Decimal = 0
+                'NSDL Stamp duty Calc
+                If txtFolioNo.Text = "00999999" Then
+                    stampDuty = purcaseCost * 0.005 / 100
+                    'CDSL Stamp duty Calc
+                ElseIf txtFolioNo.Text = "00888888" Then
+                    stampDuty = offerpriPremium
+                End If
 
                 dgvRecord2.Rows.Add(dpId, clientId, distFrom, distTo, shareCount, faceValue,
                                  offerpriPremium, lockinFlag, lockinReasonCode, formattedDate,
@@ -759,7 +785,6 @@ Public Class frmCAAllotment
             GC.WaitForPendingFinalizers()
         End Try
     End Sub
-
 
     Private Sub CheckRowColors()
         Dim redCount As Integer = 0

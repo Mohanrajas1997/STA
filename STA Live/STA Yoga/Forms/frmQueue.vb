@@ -76,7 +76,8 @@
         lsSql &= " c.trantype_desc as 'Document',"
         lsSql &= " date_format(a.queue_date,'%d-%m-%Y') as 'Queue Date',"
         lsSql &= " d.group_name as 'Queue From',"
-        lsSql &= " a.queue_from_user as 'Last Action By',"
+        'lsSql &= " a.queue_from_user as 'Last Action By',"
+        lsSql &= " fn_sta_get_behalfof(a.queue_from_user,a.queue_date) as 'Last Action By',"
         lsSql &= " a.inward_gid,"
         lsSql &= " a.queue_gid "
         lsSql &= " from sta_trn_tqueue as a "
@@ -272,6 +273,11 @@
                                 ' Signature
                                 objFrm = New frmISR1(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
                                 objFrm.Text = "ISR1"
+                                objFrm.ShowDialog()
+                            Case "AM"
+                                ' Signature
+                                objFrm = New frmCAAllotment(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
+                                objFrm.Text = "CA Allotment"
                                 objFrm.ShowDialog()
                         End Select
                     End If

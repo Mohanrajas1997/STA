@@ -87,13 +87,13 @@ Public Class frmCompanyMaster
         Dim SearchDialog As frmSearch
 
         Try
-            SearchDialog = New frmSearch(gOdbcConn, "select comp_gid as 'Comp Id'," & _
-            "entity_gid as 'Entity Id',comp_code as 'Company Code',comp_short_code as 'Company Short Code',comp_name as 'Company Name'," & _
-            "isin_id as 'Isin Id',folio_no_format as 'Folio No Format',folio_prefix_flag as 'Folio Prefix Flag',folio_prefix_sno_flag as 'Folio Prefix Slno Flag', " & _
-            "folio_prefix as 'Folio Prefix',folio_prefix_field as 'Folio Prefix Field',folio_prefix_length as 'Folio Prefix Length',upload_sno as 'Upload Sno', " & _
-            "folio_sno as 'Folio Sno',transfer_sno as 'Transfer Sno',cert_sno as 'Certificate Sno',objx_sno as 'Objx Sno',inward_sno as 'Inward Sno',comp_listed as 'Comp Listed',active_flag as 'Active Flag',share_captial as 'Share Capital',share_type as 'Security Type',cin_no as 'Cin No',pan_no as 'Pan No',share_qty as 'Share Quantity',paid_up_value as 'Paid Up Value',address1 as Address1,address2 as Address2,address3 as Address3,city as City,state as State,country as Country, pincode as Pincode FROM sta_mst_tcompany ", _
-            "comp_gid,entity_gid,comp_code,comp_short_code,comp_name,isin_id,folio_no_format,folio_prefix_flag,folio_prefix_sno_flag,folio_prefix,folio_prefix_field,folio_prefix_length,upload_sno,folio_sno,transfer_sno,cert_sno,objx_sno,inward_sno,comp_listed,active_flag,share_captial," & _
-            "share_type,share_qty,paid_up_value,address1,address2,address3,city,state,country, pincode ", _
+            SearchDialog = New frmSearch(gOdbcConn, "select comp_gid as 'Comp Id'," &
+            "entity_gid as 'Entity Id',comp_code as 'Company Code',comp_short_code as 'Company Short Code',comp_name as 'Company Name'," &
+            "isin_id as 'Isin Id',folio_no_format as 'Folio No Format',folio_prefix_flag as 'Folio Prefix Flag',folio_prefix_sno_flag as 'Folio Prefix Slno Flag',electronics_flag as 'Electronics Flag', " &
+            "folio_prefix as 'Folio Prefix',folio_prefix_field as 'Folio Prefix Field',folio_prefix_length as 'Folio Prefix Length',upload_sno as 'Upload Sno', " &
+            "folio_sno as 'Folio Sno',transfer_sno as 'Transfer Sno',cert_sno as 'Certificate Sno',objx_sno as 'Objx Sno',inward_sno as 'Inward Sno',comp_listed as 'Comp Listed',active_flag as 'Active Flag',share_captial as 'Share Capital',share_type as 'Security Type',cin_no as 'Cin No',pan_no as 'Pan No',share_qty as 'Share Quantity',paid_up_value as 'Paid Up Value',address1 as Address1,address2 as Address2,address3 as Address3,city as City,state as State,country as Country, pincode as Pincode FROM sta_mst_tcompany ",
+            "comp_gid,entity_gid,comp_code,comp_short_code,comp_name,isin_id,folio_no_format,folio_prefix_flag,folio_prefix_sno_flag,folio_prefix,folio_prefix_field,folio_prefix_length,upload_sno,folio_sno,transfer_sno,cert_sno,objx_sno,inward_sno,comp_listed,active_flag,share_captial," &
+            "share_type,share_qty,paid_up_value,address1,address2,address3,city,state,country, pincode ",
             " 1 = 1 and delete_flag = 'N' ")
             SearchDialog.ShowDialog()
 
@@ -111,6 +111,7 @@ Public Class frmCompanyMaster
         Dim lobjDataReader As MySqlDataReader
         Dim lsFolioPrefixFlag As String
         Dim lsFolioPrefixSnoFlag As String
+        Dim lsElectronicsFlag As String
         Dim lsCompListed As String
         Dim lsActiveFlag As String
 
@@ -151,6 +152,7 @@ Public Class frmCompanyMaster
                     lsFolioPrefixSnoFlag = lobjDataReader.Item("folio_prefix_sno_flag").ToString
                     lsCompListed = lobjDataReader.Item("comp_listed").ToString
                     lsActiveFlag = lobjDataReader.Item("active_flag").ToString
+                    lsElectronicsFlag = lobjDataReader.Item("electronics_flag").ToString
 
                     If lsFolioPrefixFlag.ToString = "Y" Then
                         RbdprefixYes.Checked = True
@@ -174,6 +176,12 @@ Public Class frmCompanyMaster
                         Rbdactiveyes.Checked = True
                     ElseIf lsActiveFlag.ToString = "N" Then
                         RbdActiveNo.Checked = True
+                    End If
+
+                    If lsElectronicsFlag.ToString = "Y" Then
+                        rb_electronics_yes.Checked = True
+                    ElseIf lsElectronicsFlag.ToString = "N" Then
+                        rb_electronics_no.Checked = True
                     End If
                 End If
             End If
@@ -213,6 +221,7 @@ Public Class frmCompanyMaster
         Dim lsAddress1 As String
         Dim lsAddress2 As String
         Dim lsAddress3 As String
+        Dim lsElectronicsFlag As String
         Dim lsCity As String
         Dim lsState As String
         Dim lsCountry As String
@@ -275,6 +284,12 @@ Public Class frmCompanyMaster
                 lsActiveFlag = "N"
             End If
 
+            If rb_electronics_yes.Checked = True Then
+                lsElectronicsFlag = "Y"
+            ElseIf rb_electronics_no.Checked = True Then
+                lsElectronicsFlag = "N"
+            End If
+
             lsShareCapital = QuoteFilter(txtShareCapital.Text)
 
             If lnCompId = 0 Then
@@ -293,6 +308,7 @@ Public Class frmCompanyMaster
                 cmd.Parameters.AddWithValue("?in_isin_id", lsIsinId)
                 cmd.Parameters.AddWithValue("?in_folio_no_format", lsFolioNoFormat)
                 cmd.Parameters.AddWithValue("?in_folio_prefix_flag", lsFolioPrefixFlag)
+                cmd.Parameters.AddWithValue("?in_electronics_flag", lsElectronicsFlag)
                 cmd.Parameters.AddWithValue("?in_folio_prefix_sno_flag", lsFolioPrefixSnoFlag)
                 cmd.Parameters.AddWithValue("?in_folio_prefix", lsFolioPrefix)
                 cmd.Parameters.AddWithValue("?in_folio_prefix_field", lsFolioPrefixField)
@@ -381,6 +397,7 @@ Public Class frmCompanyMaster
         Dim lsAddress1 As String
         Dim lsAddress2 As String
         Dim lsAddress3 As String
+        Dim lsElectronicsFlag As String
         Dim lsCity As String
         Dim lsState As String
         Dim lsCountry As String
@@ -451,6 +468,12 @@ Public Class frmCompanyMaster
                         lsActiveFlag = "N"
                     End If
 
+                    If rb_electronics_yes.Checked = True Then
+                        lsElectronicsFlag = "Y"
+                    ElseIf rb_electronics_no.Checked = True Then
+                        lsElectronicsFlag = "N"
+                    End If
+
                     If lnCompId = 0 Then
                         lsAction = "INSERT"
                     Else
@@ -467,6 +490,7 @@ Public Class frmCompanyMaster
                         cmd.Parameters.AddWithValue("?in_isin_id", lsIsinId)
                         cmd.Parameters.AddWithValue("?in_folio_no_format", lsFolioNoFormat)
                         cmd.Parameters.AddWithValue("?in_folio_prefix_flag", lsFolioPrefixFlag)
+                        cmd.Parameters.AddWithValue("?in_electronics_flag", lsElectronicsFlag)
                         cmd.Parameters.AddWithValue("?in_folio_prefix_sno_flag", lsFolioPrefixSnoFlag)
                         cmd.Parameters.AddWithValue("?in_folio_prefix", lsFolioPrefix)
                         cmd.Parameters.AddWithValue("?in_folio_prefix_field", lsFolioPrefixField)

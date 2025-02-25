@@ -1,5 +1,6 @@
 ﻿Imports MySql.Data.MySqlClient
 Imports System.IO
+Imports Microsoft.Office.Interop
 
 Public Class frmEvotingNsdl
     Dim fsFilePath As String = ""

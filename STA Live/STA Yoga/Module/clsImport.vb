@@ -22,12 +22,14 @@ Public Class clsImport
         Dim lnDistFrom As Long
         Dim lnDistTo As Long
         Dim lsMsg As String
+        Dim lsMsg1 As String
 
         Dim lsFileName As String = ""
         Dim lnFileId As Long
         Dim lsTxt As String
 
         Dim lnResult As Long
+        Dim lnResult1 As Long
         Dim lobjFileReturn As New clsFileReturn
 
         lsFldName(1) = "SNO"
@@ -148,6 +150,28 @@ Public Class clsImport
 
                     i += 1
                 End While
+
+                'Sharecapital validation added by Mohan start 09-09-2024
+                Using cmd As New MySqlCommand("pr_sta_undo_certdist", gOdbcConn)
+                    cmd.CommandType = CommandType.StoredProcedure
+                    cmd.Parameters.AddWithValue("?in_file_gid", lnFileId)
+                    cmd.Parameters.AddWithValue("?in_comp_code", lsCompCode)
+
+                    'output Para
+                    cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                    cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                    cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                    cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+
+                    cmd.CommandTimeout = 0
+
+                    cmd.ExecuteNonQuery()
+
+                    lnResult1 = Val(cmd.Parameters("?out_result").Value.ToString())
+                    lsMsg1 = cmd.Parameters("?out_msg").Value.ToString()
+
+                End Using
+                'Sharecapital validation added by Mohan end 09-09-2024
             End With
 
             Call FileClose(1)
@@ -157,6 +181,14 @@ Public Class clsImport
             Call gpUpdateFileRemark(lnFileId, lsTxt)
 
             If ShowFlag Then MsgBox(lsTxt, MsgBoxStyle.Information, gsProjectName)
+
+            'added by Mohan start 09-09-2024
+            If lnResult1 = 2 Then
+                lsTxt = lsTxt
+            Else
+                lsTxt = lsMsg1
+            End If
+            'added by Mohan end 09-09-2024
 
             lobjFileReturn.Result = 1
             lobjFileReturn.Msg = lsTxt
@@ -5929,9 +5961,11 @@ Public Class clsImport
                     lnShareCount += Val(lsFldValues(56))
                     lnShareCount += Val(lsFldValues(57))
                     lnShareCount += Val(lsFldValues(58))
+                    lnShareCount += Val(lsFldValues(70)) 'Added by Mohan instruction given By GNSA BalaSubramanian on 04-Feb-2025 
 
                     lnLockin = Val(lsFldValues(48))
-                    lnpledge = Val(lsFldValues(49))
+                    'lnpledge = Val(lsFldValues(49)) cmd By Mohan instruction given By GNSA BalaSubramanian on 04-Feb-2025
+                    lnpledge = Val(lsFldValues(50))
 
                     lsHolder1Name = Mid(lsFldValues(8), 1, 128)
                     lsHolder1FHName = Mid(lsFldValues(9), 1, 128)
@@ -7895,7 +7929,7 @@ Public Class clsImport
                 Dim message As String
                 message = String.Empty
                 i = 0
-                j = "0"
+                J = "0"
 
                 While i <= .Rows.Count - 1
                     With .Rows(i)
@@ -8009,11 +8043,11 @@ Public Class clsImport
                     End With
 
                     i += 1
-                    j += 1
+                    J += 1
                     If lnResult = 0 Then
                         Using sw As New StreamWriter(lsTxtFile)
-                            Message += "Line: " + j + " ErrorMsg: " + lsMsg + Environment.NewLine
-                            sw.WriteLine(Message)
+                            message += "Line: " + J + " ErrorMsg: " + lsMsg + Environment.NewLine
+                            sw.WriteLine(message)
                             sw.Close()
                         End Using
                     End If
@@ -8704,6 +8738,525 @@ Public Class clsImport
             Return lobjFileReturn
         End Try
     End Function
+
+    Public Function InwardOthers(ByVal FileName As String, ByVal SheetName As String, Optional ShowFlag As Boolean = True, Optional LsvItem As ListViewItem = Nothing)
+        Dim i As Integer
+        Dim j As String
+
+        Dim lsFldName(16) As String
+        Dim lsFldFormat As String = ""
+        Dim ds As New DataSet
+        Dim c As Integer = 0
+        Dim d As Integer = 0
+
+        Dim lobjExcelDatatable As New DataTable
+
+        Dim lsSlno As String
+        Dim lsCompanyCode As String
+        Dim lsDocumentType As String
+        Dim lsDocumentSubType As String = ""
+        Dim lsReceivedDate As String
+        Dim lsReceivedMode As String = ""
+        Dim lsAwbNo As String = ""
+        Dim lsCourierGid As Integer = 0
+        Dim lsShareholderName As String
+        Dim lsPanNo As String
+        Dim lsContactNo As String
+        Dim lsMailId As String
+        Dim lsSubject As String
+        Dim lsFolioNo As String
+        Dim lsShareCount As Integer = 0
+        Dim lsAttachmentPath1 As String
+        Dim lsAttachmentPath2 As String
+        Dim lsAttachmentPath3 As String
+        Dim lsAttachmentPath4 As String
+        Dim lsAttachmentPath5 As String
+        Dim lsRemarks As String
+        Dim lsMsg As String
+        Dim lsFileName As String = ""
+        Dim lnFileId As Long
+        Dim lsTxt As String
+        Dim lnResult As Long
+        Dim lnInwardGid As Long
+        Dim lobjFileReturn As New clsFileReturn
+
+        lsFldName(1) = "SL NO"
+        lsFldName(2) = "COMPANY CODE"
+        lsFldName(3) = "DOCUMENT TYPE CODE"
+        lsFldName(4) = "RECEIVED DATE"
+        lsFldName(5) = "FOLIO NO"
+        lsFldName(6) = "SHAREHOLDER NAME"
+        lsFldName(7) = "PAN NO"
+        lsFldName(8) = "CONTACT NO"
+        lsFldName(9) = "MAIL ID"
+        lsFldName(10) = "SUBJECT"
+        lsFldName(11) = "ATTACHMENT PATH1"
+        lsFldName(12) = "ATTACHMENT PATH2"
+        lsFldName(13) = "ATTACHMENT PATH3"
+        lsFldName(14) = "ATTACHMENT PATH4"
+        lsFldName(15) = "ATTACHMENT PATH5"
+        lsFldName(16) = "REMARKS"
+
+        Try
+            Call FormatSheet(FileName, SheetName)
+            lsFileName = QuoteFilter(FileName.Substring(FileName.LastIndexOf("\") + 1))
+
+            '---------------------------------
+            lobjExcelDatatable = gpExcelDataset("select * from [" & SheetName & "$]", FileName)
+
+            For i = 1 To 5
+                lsFldFormat &= lsFldName(i) & "|"
+            Next
+
+            For i = 1 To 5
+                If lsFldName(i).Trim <> lobjExcelDatatable.Columns(i - 1).ColumnName.ToUpper.Trim Then
+                    lsMsg = "Excel Column Setting is wrong (" & i & ")" & vbCrLf & vbCrLf _
+                    & lsFldName(i).ToUpper.Trim & " : " & lobjExcelDatatable.Columns(i - 1).ColumnName.ToUpper.Trim & ":" & vbCrLf & vbCrLf _
+                    & "Correct format is " & vbCrLf & vbCrLf & lsFldFormat
+
+                    If ShowFlag Then MsgBox(lsMsg, vbOKOnly + vbExclamation, gsProjectName)
+
+                    lobjFileReturn.Result = 0
+                    lobjFileReturn.Msg = lsMsg
+
+                    Return lobjFileReturn
+                End If
+            Next
+
+            Using cmd As New MySqlCommand("pr_sta_ins_file", gOdbcConn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("?in_file_name", lsFileName)
+                cmd.Parameters("?in_file_name").Direction = ParameterDirection.Input
+                cmd.Parameters.AddWithValue("?in_sheet_name", QuoteFilter(SheetName))
+                cmd.Parameters("?in_sheet_name").Direction = ParameterDirection.Input
+                cmd.Parameters.AddWithValue("?in_file_type", gnDividendAccountMst)
+                cmd.Parameters("?in_file_type").Direction = ParameterDirection.Input
+                cmd.Parameters.AddWithValue("?in_action_by", gsLoginUserCode)
+                cmd.Parameters("?in_action_by").Direction = ParameterDirection.Input
+                'Out put Para
+                cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_file_gid", MySqlDbType.Int64)
+                cmd.Parameters("?out_file_gid").Direction = ParameterDirection.Output
+
+                cmd.CommandTimeout = 0
+
+                cmd.ExecuteNonQuery()
+
+                lnResult = Val(cmd.Parameters("?out_result").Value.ToString())
+
+                If (lnResult = 0) Then
+                    lobjFileReturn.Msg = cmd.Parameters("?out_msg").Value.ToString()
+                    If ShowFlag Then MsgBox(lobjFileReturn.Msg)
+
+                    Return lobjFileReturn
+                End If
+
+                lnFileId = Val(cmd.Parameters("?out_file_gid").Value.ToString())
+            End Using
+
+            Dim lsTxtFile As String = gsAsciiPath & "\Error.txt"
+
+            With lobjExcelDatatable
+                Dim message As String
+                message = String.Empty
+                i = 0
+                j = "0"
+                While i <= .Rows.Count - 1
+                    With .Rows(i)
+                        If LsvItem Is Nothing Then
+                            frmMain.lblStatus.Text = "Reading " & i.ToString & " line..."
+                        Else
+                            LsvItem.Text = "Reading " & i.ToString & " line..."
+                        End If
+
+                        Application.DoEvents()
+
+                        lsCompanyCode = Mid(QuoteFilter(.Item("COMPANY CODE").ToString), 1, 16)
+                        lsDocumentType = Mid(QuoteFilter(.Item("DOCUMENT TYPE CODE").ToString), 1, 16)
+                        lsReceivedDate = QuoteFilter(.Item("RECEIVED DATE").ToString)
+                        If IsDate(lsReceivedDate) = False Then
+                            lsReceivedDate = "0001-01-01"
+                        Else
+                            lsReceivedDate = Format(CDate(lsReceivedDate), "yyyy-MM-dd")
+                        End If
+                        lsShareholderName = Mid(QuoteFilter(.Item("SHAREHOLDER NAME").ToString), 1, 128)
+                        lsContactNo = Mid(QuoteFilter(.Item("CONTACT NO").ToString), 1, 128)
+                        lsPanNo = Mid(QuoteFilter(.Item("PAN NO").ToString), 1, 128)
+                        lsMailId = Mid(QuoteFilter(.Item("MAIL ID").ToString), 1, 128)
+                        lsFolioNo = Mid(QuoteFilter(.Item("FOLIO NO").ToString), 1, 32)
+                        lsRemarks = Mid(QuoteFilter(.Item("REMARKS").ToString), 1, 255)
+                        lsSubject = Mid(QuoteFilter(.Item("SUBJECT").ToString), 1, 255)
+                        lsAttachmentPath1 = Mid(QuoteFilter(.Item("ATTACHMENT PATH1").ToString), 1, 128)
+                        lsAttachmentPath2 = Mid(QuoteFilter(.Item("ATTACHMENT PATH2").ToString), 1, 128)
+                        lsAttachmentPath3 = Mid(QuoteFilter(.Item("ATTACHMENT PATH3").ToString), 1, 128)
+                        lsAttachmentPath4 = Mid(QuoteFilter(.Item("ATTACHMENT PATH4").ToString), 1, 128)
+                        lsAttachmentPath5 = Mid(QuoteFilter(.Item("ATTACHMENT PATH5").ToString), 1, 128)
+
+                        Using cmd As New MySqlCommand("pr_sta_bulk_tinward_ot", gOdbcConn)
+                            cmd.CommandType = CommandType.StoredProcedure
+                            cmd.Parameters.AddWithValue("?in_file_gid", lnFileId)
+                            cmd.Parameters.AddWithValue("?in_inward_gid", 0)
+                            cmd.Parameters.AddWithValue("?in_entity_gid", 0)
+                            cmd.Parameters.AddWithValue("?in_comp_code", lsCompanyCode)
+                            cmd.Parameters.AddWithValue("?in_inward_no", 0)
+                            cmd.Parameters.AddWithValue("?in_received_date", lsReceivedDate)
+                            cmd.Parameters.AddWithValue("?in_received_mode", lsReceivedMode)
+                            cmd.Parameters.AddWithValue("?in_courier_gid", lsCourierGid)
+                            cmd.Parameters.AddWithValue("?in_awb_no", lsAwbNo)
+                            cmd.Parameters.AddWithValue("?in_tran_code", lsDocumentType)
+                            cmd.Parameters.AddWithValue("?in_docsubtype_code", lsDocumentSubType)
+                            cmd.Parameters.AddWithValue("?in_folio_no", lsFolioNo)
+                            cmd.Parameters.AddWithValue("?in_shareholder_name", lsShareholderName)
+                            cmd.Parameters.AddWithValue("?in_shareholder_addr", "")
+                            cmd.Parameters.AddWithValue("?in_shareholder_pan_no", lsPanNo)
+                            cmd.Parameters.AddWithValue("?in_shareholder_contact_no", lsContactNo)
+                            cmd.Parameters.AddWithValue("?in_shareholder_email_id", lsMailId)
+                            cmd.Parameters.AddWithValue("?in_share_count", 0)
+                            cmd.Parameters.AddWithValue("?in_inward_remark", lsRemarks)
+                            cmd.Parameters.AddWithValue("?in_email_subject", lsSubject)
+                            cmd.Parameters.AddWithValue("?in_action", "INSERT")
+                            cmd.Parameters.AddWithValue("?in_action_by", gsLoginUserCode)
+                            cmd.Parameters.AddWithValue("?In_line_no", i + 1)
+                            cmd.Parameters.AddWithValue("?In_errline_flag", True)
+
+                            'output Para
+                            cmd.Parameters("?in_inward_gid").Direction = ParameterDirection.Output
+                            cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                            cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                            cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                            cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+                            cmd.CommandTimeout = 0
+                            cmd.ExecuteNonQuery()
+
+                            lnResult = Val(cmd.Parameters("?out_result").Value.ToString())
+                            lsMsg = cmd.Parameters("?out_msg").Value.ToString()
+                            lnInwardGid = Val(cmd.Parameters("?in_inward_gid").Value.ToString())
+
+                            If lnResult = 1 Then c += 1
+                        End Using
+
+                        'Add Attachment against Inward
+                        If lnInwardGid > 0 Then
+                            If lsAttachmentPath1 <> "" Then
+                                Call AddAttachment(lsAttachmentPath1, lnInwardGid)
+                            End If
+
+                            If lsAttachmentPath2 <> "" Then
+                                Call AddAttachment(lsAttachmentPath2, lnInwardGid)
+                            End If
+
+                            If lsAttachmentPath3 <> "" Then
+                                Call AddAttachment(lsAttachmentPath3, lnInwardGid)
+                            End If
+
+                            If lsAttachmentPath4 <> "" Then
+                                Call AddAttachment(lsAttachmentPath4, lnInwardGid)
+                            End If
+
+                            If lsAttachmentPath5 <> "" Then
+                                Call AddAttachment(lsAttachmentPath5, lnInwardGid)
+                            End If
+
+                        End If
+
+                    End With
+
+                    i += 1
+                    j += 1
+                    If lnResult = 0 Then
+                        Using sw As New StreamWriter(lsTxtFile)
+                            message += "Line: " + j + " ErrorMsg: " + lsMsg + Environment.NewLine
+                            sw.WriteLine(message)
+                            sw.Close()
+                        End Using
+                    End If
+                End While
+            End With
+
+            Call FileClose(1)
+            frmMain.lblStatus.Text = ""
+
+            lsTxt = "Out of " & i & " record(s) " & c & " record(s) imported successfully !"
+
+            Call gpUpdateFileRemark(lnFileId, lsTxt)
+
+            If i <> c Then
+                Process.Start(lsTxtFile)
+            End If
+            If ShowFlag Then MsgBox(lsTxt, MsgBoxStyle.Information, gsProjectName)
+
+            lobjFileReturn.Result = 1
+            lobjFileReturn.Msg = lsTxt
+
+            Return lobjFileReturn
+
+        Catch ex As Exception
+            If ShowFlag Then MsgBox(ex.Message.ToString, MsgBoxStyle.Critical, gsProjectName)
+
+            lobjFileReturn.Result = 0
+            lobjFileReturn.Msg = ex.Message.ToString
+
+            Return lobjFileReturn
+        End Try
+    End Function
+
+    Public Function Outward(ByVal FileName As String, ByVal SheetName As String, Optional ShowFlag As Boolean = True, Optional LsvItem As ListViewItem = Nothing)
+        Dim i As Integer
+        Dim j As String
+
+        Dim lsFldName(7) As String
+        Dim lsFldFormat As String = ""
+        Dim ds As New DataSet
+        Dim c As Integer = 0
+        Dim d As Integer = 0
+
+        Dim lobjExcelDatatable As New DataTable
+
+        Dim lsSlno As String
+        Dim lsInwardNo As String
+        Dim lsOutwardDate As String
+        Dim lsOutwardMode As String
+        Dim lsCourier As String
+        Dim lsAwbNo As String
+        Dim lsRemarks As String
+        Dim lsMsg As String
+        Dim lsFileName As String = ""
+        Dim lnFileId As Long
+        Dim lsTxt As String
+        Dim lnResult As Long
+        Dim lobjFileReturn As New clsFileReturn
+
+        lsFldName(1) = "SL NO"
+        lsFldName(2) = "INWARD NO"
+        lsFldName(3) = "AWB NO"
+        lsFldName(4) = "COURIER"
+        lsFldName(5) = "DISPATCH DATE"
+        lsFldName(6) = "DISPATCHED BY"
+        lsFldName(7) = "REMARKS"
+
+        Try
+            Call FormatSheet(FileName, SheetName)
+            lsFileName = QuoteFilter(FileName.Substring(FileName.LastIndexOf("\") + 1))
+
+            '---------------------------------
+            lobjExcelDatatable = gpExcelDataset("select * from [" & SheetName & "$]", FileName)
+
+            For i = 1 To 5
+                lsFldFormat &= lsFldName(i) & "|"
+            Next
+
+            For i = 1 To 5
+                If lsFldName(i).Trim <> lobjExcelDatatable.Columns(i - 1).ColumnName.ToUpper.Trim Then
+                    lsMsg = "Excel Column Setting is wrong (" & i & ")" & vbCrLf & vbCrLf _
+                    & lsFldName(i).ToUpper.Trim & " : " & lobjExcelDatatable.Columns(i - 1).ColumnName.ToUpper.Trim & ":" & vbCrLf & vbCrLf _
+                    & "Correct format is " & vbCrLf & vbCrLf & lsFldFormat
+
+                    If ShowFlag Then MsgBox(lsMsg, vbOKOnly + vbExclamation, gsProjectName)
+
+                    lobjFileReturn.Result = 0
+                    lobjFileReturn.Msg = lsMsg
+
+                    Return lobjFileReturn
+                End If
+            Next
+
+            Using cmd As New MySqlCommand("pr_sta_ins_file", gOdbcConn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("?in_file_name", lsFileName)
+                cmd.Parameters("?in_file_name").Direction = ParameterDirection.Input
+                cmd.Parameters.AddWithValue("?in_sheet_name", QuoteFilter(SheetName))
+                cmd.Parameters("?in_sheet_name").Direction = ParameterDirection.Input
+                cmd.Parameters.AddWithValue("?in_file_type", gnDividendAccountMst)
+                cmd.Parameters("?in_file_type").Direction = ParameterDirection.Input
+                cmd.Parameters.AddWithValue("?in_action_by", gsLoginUserCode)
+                cmd.Parameters("?in_action_by").Direction = ParameterDirection.Input
+                'Out put Para
+                cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_file_gid", MySqlDbType.Int64)
+                cmd.Parameters("?out_file_gid").Direction = ParameterDirection.Output
+
+                cmd.CommandTimeout = 0
+
+                cmd.ExecuteNonQuery()
+
+                lnResult = Val(cmd.Parameters("?out_result").Value.ToString())
+
+                If (lnResult = 0) Then
+                    lobjFileReturn.Msg = cmd.Parameters("?out_msg").Value.ToString()
+                    If ShowFlag Then MsgBox(lobjFileReturn.Msg)
+
+                    Return lobjFileReturn
+                End If
+
+                lnFileId = Val(cmd.Parameters("?out_file_gid").Value.ToString())
+            End Using
+
+            Dim lsTxtFile As String = gsAsciiPath & "\Error.txt"
+
+            With lobjExcelDatatable
+                Dim message As String
+                message = String.Empty
+                i = 0
+                j = "0"
+                While i <= .Rows.Count - 1
+                    With .Rows(i)
+                        If LsvItem Is Nothing Then
+                            frmMain.lblStatus.Text = "Reading " & i.ToString & " line..."
+                        Else
+                            LsvItem.Text = "Reading " & i.ToString & " line..."
+                        End If
+
+                        Application.DoEvents()
+
+                        lsInwardNo = Mid(QuoteFilter(.Item("INWARD NO").ToString), 1, 32)
+                        lsCourier = Mid(QuoteFilter(.Item("COURIER").ToString), 1, 255)
+                        lsOutwardDate = QuoteFilter(.Item("DISPATCH DATE").ToString)
+                        If IsDate(lsOutwardDate) = False Then
+                            lsOutwardDate = "0001-01-01"
+                        Else
+                            lsOutwardDate = Format(CDate(lsOutwardDate), "yyyy-MM-dd")
+                        End If
+                        lsAwbNo = Mid(QuoteFilter(.Item("AWB NO").ToString), 1, 32)
+                        lsRemarks = Mid(QuoteFilter(.Item("REMARKS").ToString), 1, 255)
+                        lsOutwardMode = ""
+
+                        Using cmd As New MySqlCommand("pr_sta_bulk_toutward", gOdbcConn)
+                            cmd.CommandType = CommandType.StoredProcedure
+                            cmd.Parameters.AddWithValue("?in_file_gid", lnFileId)
+                            cmd.Parameters.AddWithValue("?in_outward_gid", 0)
+                            cmd.Parameters.AddWithValue("?in_inward_no", lsInwardNo)
+                            cmd.Parameters.AddWithValue("?in_outward_date", lsOutwardDate)
+                            cmd.Parameters.AddWithValue("?in_outward_mode", lsOutwardMode)
+                            cmd.Parameters.AddWithValue("?in_courier", lsCourier)
+                            cmd.Parameters.AddWithValue("?in_awb_no", lsAwbNo)
+                            cmd.Parameters.AddWithValue("?in_outward_remark", lsRemarks)
+                            cmd.Parameters.AddWithValue("?in_action", "INSERT")
+                            cmd.Parameters.AddWithValue("?in_action_by", gsLoginUserCode)
+                            cmd.Parameters.AddWithValue("?In_line_no", i + 1)
+                            cmd.Parameters.AddWithValue("?In_errline_flag", True)
+
+                            'output Para
+                            cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                            cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                            cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                            cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+                            cmd.CommandTimeout = 0
+                            cmd.ExecuteNonQuery()
+
+                            lnResult = Val(cmd.Parameters("?out_result").Value.ToString())
+                            lsMsg = cmd.Parameters("?out_msg").Value.ToString()
+
+                            If lnResult = 1 Then c += 1
+                        End Using
+                    End With
+
+                    i += 1
+                    j += 1
+                    If lnResult = 0 Then
+                        Using sw As New StreamWriter(lsTxtFile)
+                            message += "Line: " + j + " ErrorMsg: " + lsMsg + Environment.NewLine
+                            sw.WriteLine(message)
+                            sw.Close()
+                        End Using
+                    End If
+                End While
+            End With
+
+            Call FileClose(1)
+            frmMain.lblStatus.Text = ""
+
+            lsTxt = "Out of " & i & " record(s) " & c & " record(s) imported successfully !"
+
+            Call gpUpdateFileRemark(lnFileId, lsTxt)
+
+            If i <> c Then
+                Process.Start(lsTxtFile)
+            End If
+            If ShowFlag Then MsgBox(lsTxt, MsgBoxStyle.Information, gsProjectName)
+
+            lobjFileReturn.Result = 1
+            lobjFileReturn.Msg = lsTxt
+
+            Return lobjFileReturn
+
+        Catch ex As Exception
+            If ShowFlag Then MsgBox(ex.Message.ToString, MsgBoxStyle.Critical, gsProjectName)
+
+            lobjFileReturn.Result = 0
+            lobjFileReturn.Msg = ex.Message.ToString
+
+            Return lobjFileReturn
+        End Try
+    End Function
+
+    Private Sub AddAttachment(FileName As String, InwardId As Integer)
+        Dim lnResult As Long
+        Dim lsTxt As String
+        Dim lsFileName As String
+        Dim lnAttachmentId As Long
+        Dim lnAttachmentTypeId As Long = 0
+        Dim lsSrcFile As String
+        Dim lsDestFile As String
+
+        Try
+
+            If File.Exists(FileName) Then
+                lsFileName = FileName.Split("\")(FileName.Split("\").Length - 1)
+            Else
+                lsFileName = ""
+                'MessageBox.Show("File Not Available !", gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+
+            lsSrcFile = FileName.ToString()
+            lnAttachmentTypeId = 1
+
+            Using cmd As New MySqlCommand("pr_sta_trn_tattachment", gOdbcConn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("?in_attachment_gid", 0)
+                cmd.Parameters("?in_attachment_gid").Direction = ParameterDirection.InputOutput
+                cmd.Parameters.AddWithValue("?in_inward_gid", InwardId)
+                cmd.Parameters.AddWithValue("?in_attachmenttype_gid", lnAttachmentTypeId)
+                cmd.Parameters.AddWithValue("?in_file_name", lsFileName)
+                cmd.Parameters.AddWithValue("?in_action", "INSERT")
+                cmd.Parameters.AddWithValue("?in_action_by", gsLoginUserCode)
+
+                'Out put Para
+                cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+
+                cmd.CommandTimeout = 0
+
+                cmd.ExecuteNonQuery()
+
+                lnResult = Val(cmd.Parameters("?out_result").Value.ToString())
+                lsTxt = cmd.Parameters("?out_msg").Value.ToString()
+
+                If lnResult = 1 Then
+                    lnAttachmentId = Val(cmd.Parameters("?in_attachment_gid").Value.ToString())
+                    If Directory.Exists(gsAttachmentPath) = False Then Directory.CreateDirectory(gsAttachmentPath)
+                    lsDestFile = gsAttachmentPath & "\" & lnAttachmentId.ToString & ".sta"
+
+                    Call File.Copy(lsSrcFile, lsDestFile)
+
+                    'MessageBox.Show(lsTxt, gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                    'Else
+                    'MessageBox.Show(lsTxt, gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+            End Using
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 
     Private Sub FormatSheet(ByVal ExcelFileName As String, ByVal SheetName As String)
         Dim objApplication As New Excel.Application

@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.Office.Interop.Word
+Imports Microsoft.Office.Interop
 
 Public Class frmGenerateCoveringLetter2
     Dim objWord As Application
@@ -171,7 +172,10 @@ Public Class frmGenerateCoveringLetter2
             objWord.Selection.ParagraphFormat.TextboxTightWrap = WdTextboxTightWrap.wdTightNone ' wdTightNone
 
             Dim objPara As Microsoft.Office.Interop.Word.Paragraph
+            'Dim objPara As Word.Paragraph = Nothing
+            'objPara = objWord.Documents.Add()
             objPara = objDoc.Content.Paragraphs.Add
+            'objPara = objDoc.Content.Paragraphs.Add()
             objPara.LineSpacing = 10.0
             Dim celsql, trsql, tr_sql, trr_sql, sql_rej, sql_st, Sql_dmt As String
 
@@ -1956,5 +1960,8 @@ Public Class frmGenerateCoveringLetter2
         ' Add any initialization after the InitializeComponent() call.
     End Sub
 
+    Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
+        Call frmCtrClear(Me)
+    End Sub
 End Class
 

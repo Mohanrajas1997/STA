@@ -1,5 +1,5 @@
 ﻿Imports System.IO
-
+Imports Microsoft.Office.Interop
 Public Class frmImportAll
     Private Sub frmImportAll_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -79,11 +79,16 @@ Public Class frmImportAll
 
     Private Sub LoadSheet()
         Dim objXls As New Excel.Application
+        'Dim objXls As Object = Nothing
         Dim objBook As Excel.Workbook
+        'Dim objBook As Object = Nothing
+
+        objXls = CreateObject("Excel.Application")
 
         If Trim(txtFileName.Text) <> "" Then
             If File.Exists(txtFileName.Text) Then
                 objBook = objXls.Workbooks.Open(txtFileName.Text)
+
                 cboSheetName.Items.Clear()
                 For i As Integer = 1 To objXls.ActiveWorkbook.Worksheets.Count
                     cboSheetName.Items.Add(objXls.ActiveWorkbook.Worksheets(i).Name)
@@ -332,6 +337,10 @@ Public Class frmImportAll
                                 objFileReturn = objImp.LossofShares(lsFile, lsSheetName, False, lobjItem)
                             Case "TRANSMISSION"
                                 objFileReturn = objImp.Transmission(lsFile, lsSheetName, False, lobjItem)
+                            Case "INWARD - OTHERS"
+                                objFileReturn = objImp.InwardOthers(lsFile, lsSheetName, False, lobjItem)
+                            Case "OUTWARD"
+                                objFileReturn = objImp.Outward(lsFile, lsSheetName, False, lobjItem)
                         End Select
 
                         lsTxt = objFileReturn.Msg
@@ -371,5 +380,13 @@ Public Class frmImportAll
         If MessageBox.Show("Are you sure to close ?", gsProjectName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
             Me.Close()
         End If
+    End Sub
+
+    Private Sub Label6_Click(sender As Object, e As EventArgs) Handles Label6.Click
+
+    End Sub
+
+    Private Sub txtFileName_TextChanged(sender As Object, e As EventArgs) Handles txtFileName.TextChanged
+
     End Sub
 End Class

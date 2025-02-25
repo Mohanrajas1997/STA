@@ -332,6 +332,10 @@ Public Class frmImportAll
                                 objFileReturn = objImp.LossofShares(lsFile, lsSheetName, False, lobjItem)
                             Case "TRANSMISSION"
                                 objFileReturn = objImp.Transmission(lsFile, lsSheetName, False, lobjItem)
+                            Case "INWARD - OTHERS"
+                                objFileReturn = objImp.InwardOthers(lsFile, lsSheetName, False, lobjItem)
+                            Case "OUTWARD"
+                                objFileReturn = objImp.Outward(lsFile, lsSheetName, False, lobjItem)
                         End Select
 
                         lsTxt = objFileReturn.Msg
