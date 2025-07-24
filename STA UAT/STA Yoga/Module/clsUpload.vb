@@ -440,7 +440,7 @@ Public Class clsUpload
 
                     lsDematPendRejectDesc = gfExecuteScalar(lsSql, gOdbcConn)
                 End If
-               
+
                 lsTxt = Chr(10)
                 lsTxt &= "<Tp>2</Tp>"
                 lsTxt &= "<Bnfcry>" & ds.Tables("header").Rows(i).Item("client_id").ToString & "</Bnfcry>"
@@ -463,10 +463,11 @@ Public Class clsUpload
                     lsTxt &= "<Rmk></Rmk>"
                     lsTxt &= "</Rej>"
                 Else
-                    lsTxt &= "<Veraccpt></Veraccpt>"
-                    lsTxt &= "<Accpt></Accpt>"
+                    lsTxt &= "<Veraccpt>0</Veraccpt>"
                     lsTxt &= "<Verrjct>" & ds.Tables("header").Rows(i).Item("tot_shares").ToString & "</Verrjct>"
-                    lsTxt &= "<Rjct>" & ds.Tables("header").Rows(i).Item("tot_shares").ToString & "</Rjct>"
+                    lsTxt &= "<Accpt>0</Accpt>"
+                    'lsTxt &= "<Rjct>" & ds.Tables("header").Rows(i).Item("tot_shares").ToString & "</Rjct>"
+                    lsTxt &= "<Rjct></Rjct>"
                     lsTxt &= "<Rej>"
                     lsTxt &= "<Flg>V</Flg>"
                     If lsDematPendRejectCode = "" Then
@@ -528,6 +529,18 @@ Public Class clsUpload
                             lsTxt &= "<CertFrm>" & ds.Tables("range").Rows(j).Item("cert_no").ToString & "</CertFrm>"
                             lsTxt &= "<CertTo>" & ds.Tables("range").Rows(j).Item("cert_no").ToString & "</CertTo>"
                             lsTxt &= "<RngStts>A</RngStts>"
+
+                            Call Print(1, lsTxt)
+                            'Mohan Changes on 20-05-2025
+                        Else
+                            lsTxt = Chr(10)
+                            lsTxt &= "<Rngs>" & (j + 1).ToString & "</Rngs>"
+                            lsTxt &= "<DNFrm>" & ds.Tables("range").Rows(j).Item("dist_from").ToString & "</DNFrm>"
+                            lsTxt &= "<DNTo>" & ds.Tables("range").Rows(j).Item("dist_to").ToString & "</DNTo>"
+                            lsTxt &= "<Folio>" & ds.Tables("range").Rows(j).Item("folio_no").ToString & "</Folio>"
+                            lsTxt &= "<CertFrm>" & ds.Tables("range").Rows(j).Item("dist_from").ToString & "</CertFrm>"
+                            lsTxt &= "<CertTo>" & ds.Tables("range").Rows(j).Item("dist_to").ToString & "</CertTo>"
+                            lsTxt &= "<RngStts>R</RngStts>"
 
                             Call Print(1, lsTxt)
                         End If
@@ -1113,6 +1126,678 @@ Public Class clsUpload
 
                 ds.Tables("header").Rows.Clear()
                 ds.Tables("detail").Rows.Clear()
+
+            End If
+        End If
+
+        ds.Tables("upload").Rows.Clear()
+    End Sub
+
+    Public Sub CDSLPhysToIEPF(UploadId As Long)
+        'Dim UploadId = 3266
+        Dim lsSql As String
+        Dim lsTxt As String
+        Dim lnRecCount As Long
+        Dim lsFilePath As String
+        Dim lsFileName As String
+        Dim ds As New DataSet
+        Dim i As Integer
+        Dim j As Integer
+        Dim lnLineNo As Long = 0
+
+        ' upload
+        lsSql = ""
+        lsSql &= " select "
+        lsSql &= " a.upload_no,"
+        lsSql &= " a.upload_filename,"
+        lsSql &= " a.upload_filename_extension,"
+        lsSql &= " a.upload_by,"
+        lsSql &= " a.cdsl_sno,"
+        lsSql &= " b.comp_name,"
+        lsSql &= " c.cdsl_dp_id "
+        lsSql &= " from sta_trn_tupload as a "
+        lsSql &= " inner join sta_mst_tcompany as b on a.comp_gid = b.comp_gid and b.delete_flag = 'N' "
+        lsSql &= " inner join sta_mst_tentity as c on b.entity_gid = c.entity_gid and c.delete_flag = 'N' "
+        lsSql &= " where a.upload_gid = " & UploadId & " "
+        lsSql &= " and a.upload_type = " & gnPhyToiepfCDSL & " "
+        lsSql &= " and a.delete_flag = 'N' "
+
+        Call gpDataSet(lsSql, "upload", gOdbcConn, ds)
+
+        If ds.Tables("upload").Rows.Count > 0 Then
+            lsFilePath = gsUploadPath
+            If Directory.Exists(lsFilePath) = False Then Call Directory.CreateDirectory(lsFilePath)
+
+            lsFilePath = lsFilePath & "\CDSLPhysToIEPF"
+            If Directory.Exists(lsFilePath) = False Then Call Directory.CreateDirectory(lsFilePath)
+
+            lsFilePath = lsFilePath & "\" & ds.Tables("upload").Rows(0).Item("comp_name").ToString
+            If Directory.Exists(lsFilePath) = False Then Call Directory.CreateDirectory(lsFilePath)
+
+            lsFileName = lsFilePath & "\" & ds.Tables("upload").Rows(0).Item("upload_filename").ToString()
+
+            Call FileOpen(1, lsFileName, OpenMode.Output, OpenAccess.Write)
+
+            ' header
+            lsSql = ""
+            lsSql &= " select "
+            lsSql &= " a.inward_gid,"
+            lsSql &= " a.inward_comp_no as 'inward_no',"
+            lsSql &= " a.received_date,"
+            lsSql &= " a.folio_no,"
+            lsSql &= " a.shareholder_name,"
+            lsSql &= " d.isin_id,"
+            lsSql &= " d.comp_listed,"
+            lsSql &= " d.email_id,"
+            lsSql &= " d.cin_no,"
+            lsSql &= " d.isin_id,"
+            lsSql &= " h.rta_internal_ref_no,"
+            lsSql &= " h.catype,"
+            lsSql &= " date_format(h.board_approval_date,'%d%m%Y') as board_approval_date,"
+            lsSql &= " date_format(h.execution_date,'%d%m%Y') as execution_date,"
+            lsSql &= " concat(lpad(h.tot_credit_qty,16,0),'000') as tot_credit_qty,"
+            lsSql &= " floor(h.tot_credit_qty) as credit_qty,"
+            lsSql &= " concat(lpad(h.tot_credit_lockin_qty,16,0),'000') as tot_credit_lockin_qty,"
+            lsSql &= " floor(h.tot_credit_lockin_qty) as credit_lockin_qty,"
+            lsSql &= " concat(lpad(h.tot_debit_qty,16,0),'000') as tot_debit_qty,"
+            lsSql &= " floor(h.tot_debit_qty) as debit_qty,"
+            lsSql &= " concat(lpad(h.tot_debit_lockin_qty,16,0),'000') as tot_debit_lockin_qty,"
+            lsSql &= " floor(h.tot_debit_lockin_qty) as debit_lockin_qty,"
+            lsSql &= " lpad(f.finyear_code,9,'') as finyear_code,"
+            lsSql &= " rpad(floor(h.tot_nominal_amtof_shares),5,0) as tot_nominal_amtof_shares"
+            lsSql &= " from sta_trn_tinward as a "
+            lsSql &= " inner join sta_mst_tcompany as d on a.comp_gid = d.comp_gid and a.delete_flag = 'N' "
+            lsSql &= " inner join sta_trn_tcaiepfheader as h on h.inward_gid = a.inward_gid and h.delete_flag = 'N' "
+            lsSql &= " inner join sta_mst_tfinyear as f on f.finyear_gid = h.div_finyear and f.delete_flag = 'N' "
+            lsSql &= " where a.upload_gid = " & UploadId & " "
+            lsSql &= " and a.delete_flag = 'N' "
+
+            Call gpDataSet(lsSql, "header", gOdbcConn, ds)
+
+            ' detail
+            lsSql = ""
+            lsSql &= " select "
+            lsSql &= " e.inward_gid,"
+            lsSql &= " e.caiepffolio_slno,"
+            lsSql &= " e.dp_id,"
+            lsSql &= " e.client_id,"
+            lsSql &= " e.folio_no,"
+            lsSql &= " concat(e.dp_id,e.client_id) as boid,"
+            'lsSql &= " lpad(e.dist_from,18,0) as dist_from,"
+            'lsSql &= " lpad(e.dist_to,18,0) as dist_to,"
+            lsSql &= " lpad((e.dist_to - e.dist_from )+ 1,18,0) as dn_qty,"
+            lsSql &= " concat(lpad(e.credit_qty,16,0),'000') as credit_qty,"
+            lsSql &= " concat(lpad(e.debit_qty,16,0),'000') as debit_qty,"
+            lsSql &= " e.holder1_name,"
+            lsSql &= " e.investor_category,"
+            lsSql &= " e.creditqty_lockin_reasoncode,"
+            lsSql &= " ifnull(date_format(ifnull(e.creditqty_lockin_releasedate,0),'%d%m%Y'),0) as creditqty_lockin_releasedate,"
+            lsSql &= " e.debitqty_lockin_reasoncode,"
+            lsSql &= " ifnull(date_format(ifnull(e.debitqty_lockin_releasedate,0),'%d%m%Y'),0) as debitqty_lockin_releasedate,"
+            lsSql &= " e.bo_address1,"
+            lsSql &= " e.bo_address2,"
+            lsSql &= " e.bo_address3,"
+            lsSql &= " e.bo_address_city,"
+            lsSql &= " e.bo_address_state,"
+            lsSql &= " e.bo_address_country,"
+            lsSql &= " e.bo_address_pincode"
+            lsSql &= " from sta_trn_tinward as a "
+            lsSql &= " inner join sta_mst_tcompany as d on a.comp_gid = d.comp_gid and a.delete_flag = 'N' "
+            lsSql &= " inner join sta_trn_tcaiepffolio as e on a.inward_gid = e.inward_gid and e.delete_flag = 'N' "
+            lsSql &= " where a.upload_gid = " & UploadId & " "
+            lsSql &= " and a.delete_flag = 'N' "
+            lsSql &= " group by e.dp_id, e.client_id, e.folio_no"
+
+            Call gpDataSet(lsSql, "detail", gOdbcConn, ds)
+
+            lnRecCount = ds.Tables("detail").Rows.Count
+
+            ' Record03
+            lsSql = ""
+            lsSql &= " select "
+            lsSql &= " e.inward_gid,"
+            lsSql &= " e.caiepffolio_slno,"
+            lsSql &= " e.dp_id,"
+            lsSql &= " e.client_id,"
+            lsSql &= " e.folio_no,"
+            lsSql &= " concat(e.dp_id,e.client_id) as boid,"
+            lsSql &= " lpad(e.dist_from,18,0) as dist_from,"
+            lsSql &= " lpad(e.dist_to,18,0) as dist_to,"
+            lsSql &= " lpad((e.dist_to - e.dist_from )+ 1,18,0) as dn_qty,"
+            lsSql &= " concat(lpad(e.credit_qty,16,0),'000') as credit_qty,"
+            lsSql &= " concat(lpad(e.debit_qty,16,0),'000') as debit_qty,"
+            lsSql &= " e.holder1_name,"
+            lsSql &= " e.investor_category,"
+            lsSql &= " e.creditqty_lockin_reasoncode,"
+            lsSql &= " ifnull(date_format(ifnull(e.creditqty_lockin_releasedate,0),'%d%m%Y'),0) as creditqty_lockin_releasedate,"
+            lsSql &= " e.debitqty_lockin_reasoncode,"
+            lsSql &= " ifnull(date_format(ifnull(e.debitqty_lockin_releasedate,0),'%d%m%Y'),0) as debitqty_lockin_releasedate,"
+            lsSql &= " e.bo_address1,"
+            lsSql &= " e.bo_address2,"
+            lsSql &= " e.bo_address3,"
+            lsSql &= " e.bo_address_city,"
+            lsSql &= " e.bo_address_state,"
+            lsSql &= " e.bo_address_country,"
+            lsSql &= " e.bo_address_pincode"
+            lsSql &= " from sta_trn_tinward as a "
+            lsSql &= " inner join sta_mst_tcompany as d on a.comp_gid = d.comp_gid and a.delete_flag = 'N' "
+            lsSql &= " inner join sta_trn_tcaiepffolio as e on a.inward_gid = e.inward_gid and e.delete_flag = 'N' "
+            lsSql &= " where a.upload_gid = " & UploadId & " "
+            lsSql &= " and a.delete_flag = 'N' "
+            'lsSql &= " group by e.dp_id, e.client_id, e.folio_no"
+
+            Call gpDataSet(lsSql, "record03", gOdbcConn, ds)
+
+
+            If ds.Tables("header").Rows.Count > 0 Then
+                ' header
+                lsTxt = ""
+                lsTxt &= AlignTxt("01", 2, 1)
+                lsTxt &= AlignTxt("~", 1, 1)
+                lsTxt &= AlignTxt("000185", 6, 1)
+                lsTxt &= AlignTxt("~", 1, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("rta_internal_ref_no").ToString()
+                lsTxt &= AlignTxt("~", 1, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("isin_id").ToString()
+                lsTxt &= AlignTxt("~", 1, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("catype").ToString()
+                lsTxt &= AlignTxt("~", 1, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("board_approval_date").ToString()
+                lsTxt &= AlignTxt("~", 1, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("execution_date").ToString()
+                lsTxt &= AlignTxt("~", 1, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("debit_qty").ToString()
+                lsTxt &= AlignTxt("~", 1, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("debit_lockin_qty").ToString()
+                lsTxt &= AlignTxt("~", 1, 1)
+                lsTxt &= AlignTxt("~", 1, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("credit_qty").ToString()
+                lsTxt &= AlignTxt("~", 1, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("credit_lockin_qty").ToString()
+                lsTxt &= AlignTxt("~", 1, 1)
+                'lsTxt &= AlignTxt(lnRecCount, 5, 1) ' Total number of detail records
+                lsTxt &= lnRecCount ' Total number of detail records
+                lsTxt &= AlignTxt("~", 1, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("credit_qty").ToString()
+                lsTxt &= AlignTxt("~", 1, 1)
+                'lsTxt &= AlignTxt(ds.Tables("header").Rows(0).Item("cin_no").ToString(), 21, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("cin_no").ToString()
+                lsTxt &= AlignTxt("~", 1, 1)
+                'lsTxt &= AlignTxt(ds.Tables("header").Rows(0).Item("email_id").ToString(), 50, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("email_id").ToString()
+                lsTxt &= AlignTxt("~", 1, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("finyear_code").ToString()
+                lsTxt &= AlignTxt("~", 1, 1)
+                'lsTxt &= ds.Tables("header").Rows(0).Item("tot_nominal_amtof_shares").ToString()
+                lsTxt &= AlignTxt(ds.Tables("header").Rows(0).Item("tot_nominal_amtof_shares").ToString(), 5, 1)
+
+                'If ds.Tables("header").Rows(0).Item("comp_listed").ToString() = "Y" Then
+                '    lsTxt &= AlignTxt(Format(lnRecCount, "0000000000"), 10, 1) ' 
+                'Else
+                '    lsTxt &= AlignTxt(Format(0, "0000000000"), 10, 1) ' 
+                'End If
+                Call Print(1, lsTxt)
+
+                ' Detail
+                For j = 0 To ds.Tables("detail").Rows.Count - 1
+                    lnLineNo += 1
+
+                    lsTxt = vbNewLine
+                    lsTxt &= AlignTxt("02", 2, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt(Format(lnLineNo, "00000"), 5, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= ds.Tables("detail").Rows(j).Item("boid").ToString()
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= ds.Tables("detail").Rows(j).Item("folio_no").ToString()
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= ds.Tables("detail").Rows(j).Item("debit_qty").ToString()
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("0000000000000000000", 19, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= ds.Tables("detail").Rows(j).Item("credit_qty").ToString()
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("0000000000000000000", 19, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= ds.Tables("detail").Rows(j).Item("holder1_name").ToString()
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= ds.Tables("detail").Rows(j).Item("investor_category").ToString()
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= ds.Tables("detail").Rows(j).Item("bo_address1").ToString()
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= ds.Tables("detail").Rows(j).Item("bo_address2").ToString()
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= ds.Tables("detail").Rows(j).Item("bo_address3").ToString()
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= ds.Tables("detail").Rows(j).Item("bo_address_city").ToString()
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= ds.Tables("detail").Rows(j).Item("bo_address_state").ToString()
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= ds.Tables("detail").Rows(j).Item("bo_address_country").ToString()
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= ds.Tables("detail").Rows(j).Item("bo_address_pincode").ToString()
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    lsTxt &= AlignTxt("~", 1, 1)
+                    'If ds.Tables("detail").Rows(j).Item("lockin_reason_code").ToString = "" Then
+                    '    lsTxt &= AlignTxt("00", 2, 1)
+                    'Else
+                    '    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("lockin_reason_code").ToString, 2, 1)
+                    'End If
+
+                    'If ds.Tables("detail").Rows(j).Item("lockin_releasedate").ToString = "0" Then
+                    '    lsTxt &= AlignTxt("", 50, 1)
+                    '    lsTxt &= AlignTxt("00000000", 8, 1)
+                    'Else
+                    '    lsTxt &= AlignTxt("", 50, 1)
+                    '    AlignTxt(ds.Tables("detail").Rows(j).Item("lockin_releasedate").ToString, 8, 1)
+                    'End If
+
+                    Call Print(1, lsTxt)
+                Next j
+
+                If (ds.Tables("header").Rows(0).Item("comp_listed").ToString() = "Y") Then
+                    For m = 0 To ds.Tables("record03").Rows.Count - 1
+                        lnLineNo += 1
+
+                        lsTxt = vbNewLine
+                        lsTxt &= AlignTxt("03", 2, 1)
+                        lsTxt &= AlignTxt("~", 1, 1)
+                        lsTxt &= AlignTxt(Format(lnLineNo, "00000"), 5, 1)
+                        lsTxt &= AlignTxt("~", 1, 1)
+                        lsTxt &= ds.Tables("header").Rows(0).Item("isin_id").ToString()
+                        lsTxt &= AlignTxt("~", 1, 1)
+                        lsTxt &= AlignTxt("C", 1, 1)
+                        lsTxt &= AlignTxt("~", 1, 1)
+                        lsTxt &= Format(ds.Tables("record03").Rows(m).Item("dist_from").ToString(), "000000000000000000")
+                        lsTxt &= AlignTxt("~", 1, 1)
+                        lsTxt &= Format(ds.Tables("record03").Rows(m).Item("dist_to").ToString(), "000000000000000000")
+                        lsTxt &= AlignTxt("~", 1, 1)
+                        lsTxt &= Format(ds.Tables("record03").Rows(m).Item("dn_qty").ToString(), "000000000000000000")
+
+                        Call Print(1, lsTxt)
+                    Next m
+                End If
+
+                Call FileClose(1)
+
+                Call gpOpenFile(lsFilePath)
+
+                ds.Tables("header").Rows.Clear()
+                ds.Tables("detail").Rows.Clear()
+                ds.Tables("record03").Rows.Clear()
+
+            End If
+        End If
+
+        ds.Tables("upload").Rows.Clear()
+    End Sub
+
+    Public Sub NSDLPhysToIEPF(UploadId As Long)
+        'Dim UploadId = 3262
+        Dim lsSql As String
+        Dim lsTxt As String
+        Dim lnRecCount As Long
+        Dim lsFilePath As String
+        Dim lsFileName As String
+        Dim ds As New DataSet
+        Dim i As Integer
+        Dim j As Integer
+        Dim lnLineNo As Long = 0
+
+        ' upload
+        lsSql = ""
+        lsSql &= " select "
+        lsSql &= " a.upload_no,"
+        lsSql &= " a.upload_filename,"
+        lsSql &= " a.upload_filename_extension,"
+        lsSql &= " a.upload_by,"
+        lsSql &= " a.nsdl_sno,"
+        lsSql &= " b.comp_name,"
+        lsSql &= " c.nsdl_dp_id "
+        lsSql &= " from sta_trn_tupload as a "
+        lsSql &= " inner join sta_mst_tcompany as b on a.comp_gid = b.comp_gid and b.delete_flag = 'N' "
+        lsSql &= " inner join sta_mst_tentity as c on b.entity_gid = c.entity_gid and c.delete_flag = 'N' "
+        lsSql &= " where a.upload_gid = " & UploadId & " "
+        lsSql &= " and a.upload_type = " & gnPhyToiepfNSDL & " "
+        lsSql &= " and a.delete_flag = 'N' "
+
+        Call gpDataSet(lsSql, "upload", gOdbcConn, ds)
+
+        If ds.Tables("upload").Rows.Count > 0 Then
+            lsFilePath = gsUploadPath
+            If Directory.Exists(lsFilePath) = False Then Call Directory.CreateDirectory(lsFilePath)
+
+            lsFilePath = lsFilePath & "\NSDLPhysToIEPF"
+            If Directory.Exists(lsFilePath) = False Then Call Directory.CreateDirectory(lsFilePath)
+
+            lsFilePath = lsFilePath & "\" & ds.Tables("upload").Rows(0).Item("comp_name").ToString
+            If Directory.Exists(lsFilePath) = False Then Call Directory.CreateDirectory(lsFilePath)
+
+            lsFileName = lsFilePath & "\" & ds.Tables("upload").Rows(0).Item("upload_filename").ToString()
+
+            Call FileOpen(1, lsFileName, OpenMode.Output, OpenAccess.Write)
+
+            ' header
+            lsSql = ""
+            lsSql &= " select "
+            lsSql &= " a.inward_gid,"
+            lsSql &= " a.inward_comp_no as 'inward_no',"
+            lsSql &= " a.received_date,"
+            lsSql &= " a.folio_no,"
+            lsSql &= " a.shareholder_name,"
+            lsSql &= " d.isin_id,"
+            lsSql &= " d.comp_listed,"
+            lsSql &= " d.email_id,"
+            lsSql &= " d.cin_no,"
+            lsSql &= " d.isin_id,"
+            lsSql &= " h.rta_internal_ref_no,"
+            lsSql &= " h.catype,"
+            lsSql &= " date_format(h.board_approval_date,'%Y%m%d') as board_approval_date,"
+            lsSql &= " date_format(h.execution_date,'%Y%m%d') as execution_date,"
+            lsSql &= " concat(lpad(h.tot_credit_qty,16,0),'000') as tot_credit_qty,"
+            lsSql &= " concat(lpad(floor(h.tot_credit_qty),15,0),'000')  as credit_qty,"
+            lsSql &= " concat(lpad(h.tot_credit_lockin_qty,16,0),'000') as tot_credit_lockin_qty,"
+            lsSql &= " concat(lpad(floor(h.tot_credit_lockin_qty),15,0),'000') as credit_lockin_qty,"
+            lsSql &= " concat(lpad(h.tot_debit_qty,16,0),'000') as tot_debit_qty,"
+            lsSql &= " concat(lpad(floor(h.tot_debit_qty),15,0),'000')  as debit_qty,"
+            lsSql &= " concat(lpad(h.tot_debit_lockin_qty,16,0),'000') as tot_debit_lockin_qty,"
+            lsSql &= " concat(lpad(floor(h.tot_debit_lockin_qty),15,0),'000') as debit_lockin_qty,"
+            lsSql &= " replace(lpad(f.finyear_code,9,''),'-20','-') as finyear_code,"
+            lsSql &= " rpad(floor(h.tot_nominal_amtof_shares),5,0) as tot_nominal_amtof_shares"
+            lsSql &= " from sta_trn_tinward as a "
+            lsSql &= " inner join sta_mst_tcompany as d on a.comp_gid = d.comp_gid and a.delete_flag = 'N' "
+            lsSql &= " inner join sta_trn_tcaiepfheader as h on h.inward_gid = a.inward_gid and h.delete_flag = 'N' "
+            lsSql &= " inner join sta_mst_tfinyear as f on f.finyear_gid = h.div_finyear and f.delete_flag = 'N' "
+            lsSql &= " where a.upload_gid = " & UploadId & " "
+            lsSql &= " and a.delete_flag = 'N' "
+
+            Call gpDataSet(lsSql, "header", gOdbcConn, ds)
+
+            ' detail
+            lsSql = ""
+            lsSql &= " select "
+            lsSql &= " e.inward_gid,"
+            lsSql &= " e.caiepffolio_slno,"
+            lsSql &= " e.dp_id,"
+            lsSql &= " e.client_id,"
+            lsSql &= " e.folio_no,"
+            lsSql &= " concat(e.dp_id,e.client_id) as boid,"
+            'lsSql &= " lpad(e.dist_from,18,0) as dist_from,"
+            'lsSql &= " lpad(e.dist_to,18,0) as dist_to,"
+            'lsSql &= " lpad((e.dist_to - e.dist_from )+ 1,18,0) as dn_qty,"
+            'lsSql &= " concat(lpad(e.credit_qty,16,0),'000') as credit_qty,"
+            'lsSql &= " concat(lpad(e.debit_qty,16,0),'000') as debit_qty,"
+            lsSql &= "lpad(cast(sum((e.dist_to - e.dist_from )+ 1)as char(255)),18,0) as dn_qty,"
+            lsSql &= "concat(lpad(cast(sum(e.credit_qty) as char(255)),15,0),'000') as credit_qty,"
+            lsSql &= "concat(lpad(cast(sum(e.debit_qty) as char(255)),15,0),'000') as debit_qty,"
+            lsSql &= " e.holder1_name,"
+            lsSql &= " e.investor_category,"
+            lsSql &= " e.creditqty_lockin_reasoncode,"
+            lsSql &= " ifnull(date_format(ifnull(e.creditqty_lockin_releasedate,0),'%Y%m%d'),0) as creditqty_lockin_releasedate,"
+            lsSql &= " e.debitqty_lockin_reasoncode,"
+            lsSql &= " ifnull(date_format(ifnull(e.debitqty_lockin_releasedate,0),'%Y%m%d'),0) as debitqty_lockin_releasedate,"
+            lsSql &= " e.bo_address1,"
+            lsSql &= " e.bo_address2,"
+            lsSql &= " e.bo_address3,"
+            lsSql &= " e.bo_address_city,"
+            lsSql &= " e.bo_address_state,"
+            lsSql &= " e.bo_address_country,"
+            lsSql &= " e.bo_address_pincode"
+            lsSql &= " from sta_trn_tinward as a "
+            lsSql &= " inner join sta_mst_tcompany as d on a.comp_gid = d.comp_gid and a.delete_flag = 'N' "
+            lsSql &= " inner join sta_trn_tcaiepffolio as e on a.inward_gid = e.inward_gid and e.delete_flag = 'N' "
+            lsSql &= " where a.upload_gid = " & UploadId & " "
+            lsSql &= " and a.delete_flag = 'N' "
+            lsSql &= " group by e.dp_id, e.client_id, e.folio_no"
+
+            Call gpDataSet(lsSql, "detail", gOdbcConn, ds)
+
+            lnRecCount = ds.Tables("detail").Rows.Count
+
+
+            ' Record 03
+            lsSql = ""
+            lsSql &= " select "
+            lsSql &= " e.inward_gid,"
+            lsSql &= " e.caiepffolio_slno,"
+            lsSql &= " e.dp_id,"
+            lsSql &= " e.client_id,"
+            lsSql &= " e.folio_no,"
+            lsSql &= " concat(e.dp_id,e.client_id) as boid,"
+            lsSql &= " lpad(e.dist_from,18,0) as dist_from,"
+            lsSql &= " lpad(e.dist_to,18,0) as dist_to,"
+            lsSql &= " lpad((e.dist_to - e.dist_from )+ 1,18,0) as dn_qty,"
+            lsSql &= " concat(lpad(e.credit_qty,16,0),'000') as credit_qty,"
+            lsSql &= " concat(lpad(e.debit_qty,16,0),'000') as debit_qty,"
+            'lsSql &= "lpad(cast(sum((e.dist_to - e.dist_from )+ 1)as char(255)),18,0) as dn_qty,"
+            'lsSql &= "concat(lpad(cast(sum(e.credit_qty) as char(255)),16,0),'000') as credit_qty,"
+            'lsSql &= "concat(lpad(cast(sum(e.debit_qty) as char(255)),16,0),'000') as debit_qty,"
+            lsSql &= " e.holder1_name,"
+            lsSql &= " e.investor_category,"
+            lsSql &= " e.creditqty_lockin_reasoncode,"
+            lsSql &= " ifnull(date_format(ifnull(e.creditqty_lockin_releasedate,0),'%Y%m%d'),0) as creditqty_lockin_releasedate,"
+            lsSql &= " e.debitqty_lockin_reasoncode,"
+            lsSql &= " ifnull(date_format(ifnull(e.debitqty_lockin_releasedate,0),'%Y%m%d'),0) as debitqty_lockin_releasedate,"
+            lsSql &= " e.bo_address1,"
+            lsSql &= " e.bo_address2,"
+            lsSql &= " e.bo_address3,"
+            lsSql &= " e.bo_address_city,"
+            lsSql &= " e.bo_address_state,"
+            lsSql &= " e.bo_address_country,"
+            lsSql &= " e.bo_address_pincode"
+            lsSql &= " from sta_trn_tinward as a "
+            lsSql &= " inner join sta_mst_tcompany as d on a.comp_gid = d.comp_gid and a.delete_flag = 'N' "
+            lsSql &= " inner join sta_trn_tcaiepffolio as e on a.inward_gid = e.inward_gid and e.delete_flag = 'N' "
+            lsSql &= " where a.upload_gid = " & UploadId & " "
+            lsSql &= " and a.delete_flag = 'N' "
+            'lsSql &= " group by e.dp_id, e.client_id, e.folio_no"
+
+            Call gpDataSet(lsSql, "record03", gOdbcConn, ds)
+
+            If ds.Tables("header").Rows.Count > 0 Then
+                ' header
+                lsTxt = ""
+                lsTxt &= AlignTxt("01", 2, 1)
+                lsTxt &= AlignTxt("SHRI001", 7, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("rta_internal_ref_no").ToString()
+                lsTxt &= ds.Tables("header").Rows(0).Item("isin_id").ToString()
+                lsTxt &= AlignTxt("", 12, 1)
+                lsTxt &= ds.Tables("header").Rows(0).Item("catype").ToString()
+                lsTxt &= ds.Tables("header").Rows(0).Item("board_approval_date").ToString()
+                lsTxt &= "0078"
+                lsTxt &= ds.Tables("header").Rows(0).Item("execution_date").ToString()
+                lsTxt &= ds.Tables("header").Rows(0).Item("credit_qty").ToString()
+                lsTxt &= ds.Tables("header").Rows(0).Item("debit_qty").ToString()
+                lsTxt &= ds.Tables("header").Rows(0).Item("credit_lockin_qty").ToString()
+                lsTxt &= ds.Tables("header").Rows(0).Item("debit_lockin_qty").ToString()
+                lsTxt &= AlignTxt(Format(lnRecCount, "0000000"), 7, 1) ' Total number of detail records
+                lsTxt &= ds.Tables("header").Rows(0).Item("cin_no").ToString()
+                lsTxt &= ds.Tables("header").Rows(0).Item("finyear_code").ToString()
+
+                Call Print(1, lsTxt)
+
+                For j = 0 To ds.Tables("detail").Rows.Count - 1
+                    lnLineNo += 1
+
+                    lsTxt = vbNewLine
+                    lsTxt &= AlignTxt("02", 2, 1)
+                    lsTxt &= AlignTxt(Format(lnLineNo, "0000000"), 7, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("dp_id").ToString, 8, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("client_id").ToString(), 8, 1)
+                    lsTxt &= AlignTxt("00", 2, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("folio_no").ToString(), 16, 1)
+                    lsTxt &= AlignTxt("00", 2, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("credit_qty").ToString(), 18, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("debit_qty").ToString(), 18, 1)
+                    lsTxt &= AlignTxt("00", 2, 1)
+                    If ds.Tables("detail").Rows(j).Item("creditqty_lockin_releasedate").ToString() = "0" Then
+                        lsTxt &= AlignTxt("", 8, 1)
+                    Else
+                        AlignTxt(ds.Tables("detail").Rows(j).Item("creditqty_lockin_releasedate").ToString(), 8, 1)
+                    End If
+                    lsTxt &= AlignTxt("00", 2, 1)
+                    If ds.Tables("detail").Rows(j).Item("debitqty_lockin_releasedate").ToString() = "0" Then
+                        lsTxt &= AlignTxt("", 8, 1)
+                    Else
+                        AlignTxt(ds.Tables("detail").Rows(j).Item("debitqty_lockin_releasedate").ToString(), 8, 1)
+                    End If
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("holder1_name").ToString(), 164, 1)
+                    lsTxt &= AlignTxt("", 164, 1)
+                    lsTxt &= AlignTxt("", 164, 1)
+                    lsTxt &= AlignTxt("", 142, 1)
+                    lsTxt &= AlignTxt("", 142, 1)
+                    lsTxt &= AlignTxt("", 50, 1)
+                    lsTxt &= AlignTxt("", 1, 1)
+                    lsTxt &= AlignTxt("", 11, 1)
+                    lsTxt &= AlignTxt("", 2, 1)
+                    lsTxt &= AlignTxt("", 2, 1)
+                    lsTxt &= AlignTxt("", 4, 1)
+                    lsTxt &= AlignTxt("", 2, 1)
+                    lsTxt &= AlignTxt("", 4, 1)
+                    lsTxt &= AlignTxt("", 4, 1)
+                    lsTxt &= AlignTxt("", 25, 1)
+                    lsTxt &= AlignTxt("", 25, 1)
+                    lsTxt &= AlignTxt("", 25, 1)
+                    lsTxt &= AlignTxt("", 1, 1)
+                    lsTxt &= AlignTxt("", 2, 1)
+                    lsTxt &= AlignTxt("", 1, 1)
+                    lsTxt &= AlignTxt("", 11, 1)
+                    lsTxt &= AlignTxt("", 24, 1)
+                    lsTxt &= AlignTxt("", 2, 1)
+                    lsTxt &= AlignTxt("", 6, 1)
+                    lsTxt &= AlignTxt("", 8, 1)
+                    lsTxt &= AlignTxt("", 8, 1)
+                    lsTxt &= AlignTxt("", 30, 1)
+                    lsTxt &= AlignTxt("", 11, 1)
+                    lsTxt &= AlignTxt("", 2, 1)
+                    lsTxt &= AlignTxt("", 3, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address1").ToString(), 50, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address2").ToString(), 50, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address3").ToString(), 50, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address_city").ToString(), 30, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address_state").ToString(), 30, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address_country").ToString(), 30, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address_pincode").ToString(), 10, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address1").ToString(), 50, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address2").ToString(), 50, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address3").ToString(), 50, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address_city").ToString(), 30, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address_state").ToString(), 30, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address_country").ToString(), 30, 1)
+                    lsTxt &= AlignTxt(ds.Tables("detail").Rows(j).Item("bo_address_pincode").ToString(), 10, 1)
+                    lsTxt &= AlignTxt("", 17, 1)
+                    lsTxt &= AlignTxt("", 17, 1)
+                    lsTxt &= AlignTxt("", 17, 1)
+                    lsTxt &= AlignTxt("", 50, 1)
+                    lsTxt &= AlignTxt("", 1, 1)
+                    lsTxt &= AlignTxt("", 12, 1)
+                    lsTxt &= AlignTxt("", 12, 1)
+                    lsTxt &= AlignTxt("", 100, 1)
+                    lsTxt &= AlignTxt("", 40, 1)
+                    lsTxt &= AlignTxt("", 40, 1)
+                    lsTxt &= AlignTxt("", 40, 1)
+                    lsTxt &= AlignTxt("", 25, 1)
+                    lsTxt &= AlignTxt("", 25, 1)
+                    lsTxt &= AlignTxt("", 25, 1)
+                    lsTxt &= AlignTxt("", 10, 1)
+                    lsTxt &= AlignTxt("", 6, 1)
+                    lsTxt &= AlignTxt("", 5, 1)
+                    lsTxt &= AlignTxt("", 20, 1)
+                    lsTxt &= AlignTxt("", 22, 1)
+                    lsTxt &= AlignTxt("", 22, 1)
+                    lsTxt &= AlignTxt("", 22, 1)
+                    lsTxt &= AlignTxt("", 22, 1)
+                    lsTxt &= AlignTxt("", 22, 1)
+                    lsTxt &= AlignTxt("", 22, 1)
+                    lsTxt &= AlignTxt("", 22, 1)
+                    lsTxt &= AlignTxt("", 22, 1)
+                    lsTxt &= AlignTxt("", 22, 1)
+                    lsTxt &= AlignTxt("", 8, 1)
+                    lsTxt &= AlignTxt("", 22, 1)
+                    lsTxt &= AlignTxt("", 22, 1)
+                    lsTxt &= AlignTxt("", 1, 1)
+                    lsTxt &= AlignTxt("", 12, 1)
+                    lsTxt &= AlignTxt("", 12, 1)
+                    lsTxt &= AlignTxt("", 12, 1)
+                    lsTxt &= AlignTxt("", 10, 1)
+                    lsTxt &= AlignTxt("", 12, 1)
+                    lsTxt &= AlignTxt("", 25, 1)
+                    lsTxt &= AlignTxt("", 25, 1)
+                    lsTxt &= AlignTxt("", 25, 1)
+                    lsTxt &= AlignTxt("", 25, 1)
+                    lsTxt &= AlignTxt("", 25, 1)
+                    lsTxt &= AlignTxt("", 1, 1)
+                    lsTxt &= AlignTxt("", 1, 1)
+                    lsTxt &= AlignTxt("", 1, 1)
+                    lsTxt &= AlignTxt("", 1, 1)
+                    lsTxt &= AlignTxt("", 1, 1)
+
+                    Call Print(1, lsTxt)
+                Next j
+
+                If (ds.Tables("header").Rows(0).Item("comp_listed").ToString() = "Y") Then
+                    For m = 0 To ds.Tables("record03").Rows.Count - 1
+                        lnLineNo += 1
+
+                        lsTxt = vbNewLine
+                        lsTxt &= AlignTxt("03", 2, 1)
+                        lsTxt &= Format(lnLineNo, "0000000")
+                        lsTxt &= ds.Tables("header").Rows(0).Item("isin_id").ToString()
+                        lsTxt &= AlignTxt("C", 1, 1)
+                        lsTxt &= ds.Tables("record03").Rows(m).Item("dist_from").ToString()
+                        lsTxt &= ds.Tables("record03").Rows(m).Item("dist_to").ToString()
+                        lsTxt &= ds.Tables("record03").Rows(m).Item("dn_qty").ToString()
+                        lsTxt &= AlignTxt("98", 2, 1)
+                        lsTxt &= ds.Tables("header").Rows(0).Item("catype").ToString()
+                        'lsTxt &= AlignTxt("0034", 4, 1)
+
+                        Call Print(1, lsTxt)
+                    Next m
+                End If
+
+                Call FileClose(1)
+
+                Call gpOpenFile(lsFilePath)
+
+                ds.Tables("header").Rows.Clear()
+                ds.Tables("detail").Rows.Clear()
+                ds.Tables("record03").Rows.Clear()
 
             End If
         End If
@@ -2749,6 +3434,10 @@ Public Class clsUpload
                 Call CDSLAllotment(UploadId)
             Case gnAllotmentNSDL
                 Call NSDLAllotment(UploadId)
+            Case gnPhyToiepfCDSL
+                Call CDSLPhysToIEPF(UploadId)
+            Case gnPhyToiepfNSDL
+                Call NSDLPhysToIEPF(UploadId)
         End Select
     End Sub
 

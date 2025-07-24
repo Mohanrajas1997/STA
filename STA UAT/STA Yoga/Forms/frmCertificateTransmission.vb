@@ -451,7 +451,6 @@ Public Class frmCertificateTransmission
                 cmd.Parameters.AddWithValue("?in_cert_gid", lsCertId)
                 cmd.Parameters.AddWithValue("?in_src_folio_gid", mnSrcFolioId)
                 cmd.Parameters.AddWithValue("?in_new_folio_gid", lnNewFolioId)
-
                 cmd.Parameters.AddWithValue("?in_chklst_valid", lnChklstValid)
                 cmd.Parameters.AddWithValue("?in_chklst_disc", lnChklstDisc)
                 cmd.Parameters.AddWithValue("?in_remark", lsRemark)

@@ -11,7 +11,9 @@
     <AssemblyName>sta</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -22,6 +24,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>sta.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,6 +35,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>sta.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -47,6 +51,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>NOTE12.ICO</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AxInterop.MSFlexGridLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -67,12 +74,12 @@
     <Reference Include="Interop.Excel, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>bin\Debug\Interop.Excel.dll</HintPath>
+      <HintPath>..\..\..\..\..\Interop.Excel.dll</HintPath>
     </Reference>
     <Reference Include="Interop.Microsoft.Office.Core, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>bin\Debug\Interop.Microsoft.Office.Core.dll</HintPath>
+      <HintPath>bin\Debug1\Interop.Microsoft.Office.Core.dll</HintPath>
     </Reference>
     <Reference Include="Interop.MSFlexGridLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -87,19 +94,18 @@
     <Reference Include="itextsharp">
       <HintPath>..\..\..\..\ARMS\ARMS\Murali\29-11-2021\ambatturvault\ambatturvault\bin\Debug\itextsharp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Visual Studio Tools for Office\PIA\Office15\Microsoft.Office.Interop.Word.dll</HintPath>
-    </Reference>
     <Reference Include="MySql.Data, Version=8.0.30.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="OFFICE, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=13.0.1.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>bin\Debug\OFFICE.DLL</HintPath>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Visual Studio Tools for Office\PIA\Office15\Office.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -107,7 +113,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
@@ -124,6 +129,12 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\Form1Test.Designer.vb">
+      <DependentUpon>Form1Test.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Form1Test.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmAddressChange.Designer.vb">
       <DependentUpon>frmAddressChange.vb</DependentUpon>
     </Compile>
@@ -160,16 +171,22 @@
     <Compile Include="Forms\frmBeneficiaryDetails.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmBenposBulkimport.Designer.vb">
+      <DependentUpon>frmBenposBulkimport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmBenposBulkimport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmCAAllotment.Designer.vb">
       <DependentUpon>frmCAAllotment.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmCAAllotment.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmCAAllotmentUpload.Designer.vb">
-      <DependentUpon>frmCAAllotmentUpload.vb</DependentUpon>
+    <Compile Include="Forms\frmCAPhysicalToIEPF.Designer.vb">
+      <DependentUpon>frmCAPhysicalToIEPF.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\frmCAAllotmentUpload.vb">
+    <Compile Include="Forms\frmCAPhysicalToIEPF.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmCertificatePPCancel.Designer.vb">
@@ -196,10 +213,52 @@
     <Compile Include="Forms\frmCertificatePrePrintUtilized.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmCertificateTransmission_new.Designer.vb">
+      <DependentUpon>frmCertificateTransmission_new.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCertificateTransmission_new.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCompanyAttachmentAdd.Designer.vb">
+      <DependentUpon>frmCompanyAttachmentAdd.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCompanyAttachmentAdd.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCompanyAttachmentView.Designer.vb">
+      <DependentUpon>frmCompanyAttachmentView.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCompanyAttachmentView.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCompanyGroupMaster.Designer.vb">
+      <DependentUpon>frmCompanyGroupMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCompanyGroupMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmCompanyMaster.Designer.vb">
       <DependentUpon>frmCompanyMaster.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmCompanyMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCompanyMasterNew.Designer.vb">
+      <DependentUpon>frmCompanyMasterNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCompanyMasterNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCompanySubGroupMaster.Designer.vb">
+      <DependentUpon>frmCompanySubGroupMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCompanySubGroupMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmCoveringLetterDetails.Designer.vb">
+      <DependentUpon>frmCoveringLetterDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmCoveringLetterDetails.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmDDWarrantUpdation.designer.vb">
@@ -244,6 +303,12 @@
     <Compile Include="Forms\frmDollarDraft.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmDpMaster.Designer.vb">
+      <DependentUpon>frmDpMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmDpMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmDTInwardEntry.designer.vb">
       <DependentUpon>frmDTInwardEntry.vb</DependentUpon>
     </Compile>
@@ -278,6 +343,12 @@
       <DependentUpon>frmEvotingNsdl.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmEvotingNsdl.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmFolioCreate_new.Designer.vb">
+      <DependentUpon>frmFolioCreate_new.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmFolioCreate_new.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmGenerateCoveringLetter2.designer.vb">
@@ -562,6 +633,12 @@
     <Compile Include="Forms\frmPostRepayment.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\frmPrintLetter.Designer.vb">
+      <DependentUpon>frmPrintLetter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmPrintLetter.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmQueryMaster.designer.vb">
       <DependentUpon>frmQueryMaster.vb</DependentUpon>
     </Compile>
@@ -572,6 +649,12 @@
       <DependentUpon>frmQueue.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmQueue.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmReminderOutwardEntry.Designer.vb">
+      <DependentUpon>frmReminderOutwardEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmReminderOutwardEntry.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmRevokeIEPF.Designer.vb">
@@ -811,6 +894,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Reports\frmBenpostBulkImportReport.Designer.vb">
+      <DependentUpon>frmBenpostBulkImportReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmBenpostBulkImportReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Reports\frmBenpostDebarrtPanReport.Designer.vb">
       <DependentUpon>frmBenpostDebarrtPanReport.vb</DependentUpon>
     </Compile>
@@ -827,6 +916,12 @@
       <DependentUpon>frmCertificatePrePrintReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Reports\frmCertificatePrePrintReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmCompMasterReport.Designer.vb">
+      <DependentUpon>frmCompMasterReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmCompMasterReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Reports\frmDebarrtOrderReport.Designer.vb">
@@ -1069,6 +1164,12 @@
     <Compile Include="Reports\frmInterDepositoryRpt.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Reports\frmInwardDashboardReport.Designer.vb">
+      <DependentUpon>frmInwardDashboardReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmInwardDashboardReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Reports\frmInwardReport.Designer.vb">
       <DependentUpon>frmInwardReport.vb</DependentUpon>
     </Compile>
@@ -1087,10 +1188,28 @@
     <Compile Include="Reports\frmLetterDispatchRpt.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Reports\frmLetterGenerator.Designer.vb">
+      <DependentUpon>frmLetterGenerator.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmLetterGenerator.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Reports\frmLetterResponseRpt.Designer.vb">
       <DependentUpon>frmLetterResponseRpt.vb</DependentUpon>
     </Compile>
     <Compile Include="Reports\frmLetterResponseRpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmLocReminderReport.Designer.vb">
+      <DependentUpon>frmLocReminderReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmLocReminderReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmLocReminderSentReport.Designer.vb">
+      <DependentUpon>frmLocReminderSentReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmLocReminderSentReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Reports\frmPanstatusReport.Designer.vb">
@@ -1183,6 +1302,12 @@
     <Compile Include="Reports\frmwarrantfile.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Reports\frmDaywisebenpostreport.Designer.vb">
+      <DependentUpon>frmDaywisebenpostreport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmDaywisebenpostreport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Reports\Frm_divpaid_unpaid.designer.vb">
       <DependentUpon>Frm_divpaid_unpaid.vb</DependentUpon>
     </Compile>
@@ -1227,6 +1352,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\Form1Test.resx">
+      <DependentUpon>Form1Test.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAddressChange.resx">
       <DependentUpon>frmAddressChange.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -1248,11 +1376,14 @@
     <EmbeddedResource Include="Forms\frmBeneficiaryDetails.resx">
       <DependentUpon>frmBeneficiaryDetails.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmBenposBulkimport.resx">
+      <DependentUpon>frmBenposBulkimport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCAAllotment.resx">
       <DependentUpon>frmCAAllotment.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmCAAllotmentUpload.resx">
-      <DependentUpon>frmCAAllotmentUpload.vb</DependentUpon>
+    <EmbeddedResource Include="Forms\frmCAPhysicalToIEPF.resx">
+      <DependentUpon>frmCAPhysicalToIEPF.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCertificatePPCancel.resx">
       <DependentUpon>frmCertificatePPCancel.vb</DependentUpon>
@@ -1266,8 +1397,29 @@
     <EmbeddedResource Include="Forms\frmCertificatePrePrintUtilized.resx">
       <DependentUpon>frmCertificatePrePrintUtilized.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCertificateTransmission_new.resx">
+      <DependentUpon>frmCertificateTransmission_new.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCompanyAttachmentAdd.resx">
+      <DependentUpon>frmCompanyAttachmentAdd.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCompanyAttachmentView.resx">
+      <DependentUpon>frmCompanyAttachmentView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCompanyGroupMaster.resx">
+      <DependentUpon>frmCompanyGroupMaster.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCompanyMaster.resx">
       <DependentUpon>frmCompanyMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCompanyMasterNew.resx">
+      <DependentUpon>frmCompanyMasterNew.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCompanySubGroupMaster.resx">
+      <DependentUpon>frmCompanySubGroupMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmCoveringLetterDetails.resx">
+      <DependentUpon>frmCoveringLetterDetails.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDDWarrantUpdation.resx">
       <DependentUpon>frmDDWarrantUpdation.vb</DependentUpon>
@@ -1287,6 +1439,9 @@
     <EmbeddedResource Include="Forms\frmDividendReset.resx">
       <DependentUpon>frmDividendReset.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmDpMaster.resx">
+      <DependentUpon>frmDpMaster.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmDTInwardEntry.resx">
       <DependentUpon>frmDTInwardEntry.vb</DependentUpon>
     </EmbeddedResource>
@@ -1301,6 +1456,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmEvotingNsdl.resx">
       <DependentUpon>frmEvotingNsdl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmFolioCreate_new.resx">
+      <DependentUpon>frmFolioCreate_new.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmGenerateCoveringLetter2.resx">
       <DependentUpon>frmGenerateCoveringLetter2.vb</DependentUpon>
@@ -1432,11 +1590,17 @@
     <EmbeddedResource Include="Forms\frmPostPaymentProcess.resx">
       <DependentUpon>frmPostPaymentProcess.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmPrintLetter.resx">
+      <DependentUpon>frmPrintLetter.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmQueryMaster.resx">
       <DependentUpon>frmQueryMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmQueue.resx">
       <DependentUpon>frmQueue.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmReminderOutwardEntry.resx">
+      <DependentUpon>frmReminderOutwardEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmRevokeIEPF.resx">
       <DependentUpon>frmRevokeIEPF.vb</DependentUpon>
@@ -1561,6 +1725,9 @@
     <EmbeddedResource Include="Reports\frmAuditLog_Rpt.resx">
       <DependentUpon>frmAuditLog_Rpt.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmBenpostBulkImportReport.resx">
+      <DependentUpon>frmBenpostBulkImportReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\frmBenpostComparisonReport.resx">
       <DependentUpon>frmBenpostComparisonReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -1591,6 +1758,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\frmCertReport.resx">
       <DependentUpon>frmCertReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmCompMasterReport.resx">
+      <DependentUpon>frmCompMasterReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\frmDebarrtOrderReport.resx">
       <DependentUpon>frmDebarrtOrderReport.vb</DependentUpon>
@@ -1676,6 +1846,9 @@
     <EmbeddedResource Include="Reports\frmIEPFRpt.resx">
       <DependentUpon>frmIEPFRpt.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmInwardDashboardReport.resx">
+      <DependentUpon>frmInwardDashboardReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\frmInwardReport.resx">
       <DependentUpon>frmInwardReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -1685,8 +1858,17 @@
     <EmbeddedResource Include="Reports\frmLetterDispatchRpt.resx">
       <DependentUpon>frmLetterDispatchRpt.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmLetterGenerator.resx">
+      <DependentUpon>frmLetterGenerator.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\frmLetterResponseRpt.resx">
       <DependentUpon>frmLetterResponseRpt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmLocReminderReport.resx">
+      <DependentUpon>frmLocReminderReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmLocReminderSentReport.resx">
+      <DependentUpon>frmLocReminderSentReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\frmPanstatusReport.resx">
       <DependentUpon>frmPanstatusReport.vb</DependentUpon>
@@ -1733,6 +1915,9 @@
     <EmbeddedResource Include="Reports\frmUserManagementReport.resx">
       <DependentUpon>frmUserManagementReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmDaywisebenpostreport.resx">
+      <DependentUpon>frmDaywisebenpostreport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\Frm_divpaid_unpaid.resx">
       <DependentUpon>Frm_divpaid_unpaid.vb</DependentUpon>
     </EmbeddedResource>
@@ -1756,6 +1941,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -1768,6 +1955,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="NOTE12.ICO" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Interop.Word">
+      <Guid>{00020905-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>6</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

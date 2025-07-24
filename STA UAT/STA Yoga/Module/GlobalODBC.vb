@@ -40,6 +40,22 @@ Module GlobalODBC
     Public gnDematProcessDays As Integer = 15
     Public gnInwardThresholdValue As Integer = 200000
 
+    'MAil
+    Public gssmtpClient As String = "smtp.gmail.com"
+    Public gssmtpClientUsername As String = "noreplysta@gnsaindia.com"
+    'Public gssmtpClientpswd As String = "Gnsa@123456789"
+    Public gssmtpClientpswd As String = "ddzv dotn ckty zwoa"
+    'Public gssmtpClientUsername As String = "mohanraja.s@flexicodeindia.com"
+    'Public gssmtpClientpswd As String = "******"
+
+    'SMS
+    Public gsApiUrl As String = "https://www.smsgatewayhub.com/api/mt/SendSMS?"
+    Public gssmsApiKey As String = "heYy2TmZoEmWpIGRbusETw"
+    Public gsRouteid As String = "1"
+    Public gsSenderCode As String = "GNSAIN"
+    Public gsTemplateid As String = "1307174358940303474"
+    Public gsInwardSmsContent As String = "Dear Sir/ Madam, Your Investor Service Request has been Rcvd on #recived_date. This SMS is a confirmation on your Registered Phone Number. GNSA Infotech"
+
     Public gnEntityId As Long = 1
     Public gnSearchId As Long
 
@@ -102,8 +118,6 @@ Module GlobalODBC
     Public gnCertificatePPUtilized As Integer = 52
     Public gnCertificatePPSplitofshares As Integer = 53
 
-
-
     Public gnInwardReceived As Integer = 1
     Public gnInwardInprocess As Integer = 2
     Public gnInwardCompleted As Integer = 4
@@ -130,6 +144,8 @@ Module GlobalODBC
     Public gnUploadCDSLUpload As Integer = 16
     Public gnAllotmentNSDL As Integer = 32
     Public gnAllotmentCDSL As Integer = 64
+    Public gnPhyToiepfNSDL As Integer = 128
+    Public gnPhyToiepfCDSL As Integer = 256
 
     Public gsQry As String = ""
 
@@ -318,7 +334,7 @@ Module GlobalODBC
 
         With ds.Tables("config")
             For n = 0 To .Rows.Count - 1
-                lsTxt = .Rows(n).Item("config_value").ToString.ToUpper
+                lsTxt = .Rows(n).Item("config_value").ToString
 
                 If lsTxt <> "" Then
                     Select Case .Rows(n).Item("config_name").ToString.ToUpper
@@ -336,6 +352,16 @@ Module GlobalODBC
                             gsCompAttachmentPath = lsTxt
                         Case "INWARD THRESHOLD VALUE"
                             gnInwardThresholdValue = Val(lsTxt)
+                        Case "SMTPCLIENT USER NAME"
+                            gssmtpClientUsername = lsTxt
+                        Case "SMTPCLIENT PSWD"
+                            gssmtpClientpswd = lsTxt
+                        Case "SMSAPIKEY"
+                            gssmsApiKey = lsTxt
+                        Case "SMSROUTEID"
+                            gsRouteid = lsTxt
+                        Case "SMSAPIURL"
+                            gsApiUrl = lsTxt
                     End Select
                 End If
             Next n

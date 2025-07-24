@@ -767,7 +767,7 @@ Module objExcel
 
             PrintLine(1, "<Row>")
             For Col = 1 To TotCol
-                PrintLine(1, "<Cell ss:StyleID=""s1""><Data ss:Type=""String"">" & objDataTable.Columns(Col - 1).Caption.ToString & "</Data></Cell>")
+                PrintLine(1, "<Cell ss:StyleID=""s1""><Data ss:Type=""String"">" & XmlEncode(objDataTable.Columns(Col - 1).Caption.ToString) & "</Data></Cell>")
             Next
             PrintLine(1, "</Row>")
 
@@ -775,9 +775,9 @@ Module objExcel
                 PrintLine(1, "<Row>")
                 For Col = 1 To TotCol
                     If IsNumericFldCol(Col, NumericCols) = False Then
-                        PrintLine(1, "<Cell ss:StyleID=""s2""><Data ss:Type=""String"" x:Ticked=""1"">" & objDataTable.Rows(Row).Item(Col - 1).ToString & "</Data></Cell>")
+                        PrintLine(1, "<Cell ss:StyleID=""s2""><Data ss:Type=""String"" x:Ticked=""1"">" & XmlEncode(objDataTable.Rows(Row).Item(Col - 1).ToString) & "</Data></Cell>")
                     Else
-                        PrintLine(1, "<Cell ss:StyleID=""s2""><Data ss:Type=""Number"">" & objDataTable.Rows(Row).Item(Col - 1).ToString & "</Data></Cell>")
+                        PrintLine(1, "<Cell ss:StyleID=""s2""><Data ss:Type=""Number"">" & XmlEncode(objDataTable.Rows(Row).Item(Col - 1).ToString) & "</Data></Cell>")
                     End If
                 Next
                 PrintLine(1, "</Row>")
@@ -794,6 +794,11 @@ Module objExcel
             MsgBox(ex.Message)
         End Try
     End Sub
+
+    Private Function XmlEncode(ByVal text As String) As String
+        Return text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("""", "&quot;").Replace("'", "&apos;")
+    End Function
+
     Function IsNumericFldCol(ByVal ColPosition As Integer, ByVal NumericCols() As String) As Boolean
         Dim Temp As Integer
         For Temp = 0 To UBound(NumericCols)

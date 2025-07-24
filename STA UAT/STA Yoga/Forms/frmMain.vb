@@ -626,7 +626,7 @@ Public Class frmMain
         frm.MdiParent = Me
         frm.Show()
     End Sub
-   
+
     Private Sub InwardToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InwardToolStripMenuItem.Click
         Dim frm As New frmrudinward
         frm.ShowDialog()
@@ -973,6 +973,51 @@ Public Class frmMain
 
     Private Sub DayWiseBenpostReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DayWiseBenpostReportToolStripMenuItem.Click
         Dim frm As New frmDaywisebenpostreport
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
+
+    Private Sub DPMasterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DPMasterToolStripMenuItem.Click
+        Dim Objfrm As New frmDpMaster()
+        Objfrm.ShowDialog()
+    End Sub
+
+    Private Sub mnulettergenerator_Click(sender As Object, e As EventArgs) Handles mnulettergenerator.Click
+        Dim frm As New frmLetterGenerator
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
+
+    Private Sub CompanyGroupMasterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CompanyGroupMasterToolStripMenuItem.Click
+        Dim Objfrm As New frmCompanyGroupMaster
+        Objfrm.ShowDialog()
+    End Sub
+
+    Private Sub CompanySubGroupMasterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CompanySubGroupMasterToolStripMenuItem.Click
+        Dim Objfrm As New frmCompanySubGroupMaster
+        Objfrm.ShowDialog()
+    End Sub
+
+    Private Sub LOCReminderToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles LOCReminderToolStripMenuItem1.Click
+        Dim frm As New frmLocReminderReport
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
+
+    Private Sub LOCReminderSentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LOCReminderSentToolStripMenuItem.Click
+        Dim frm As New frmLocReminderSentReport
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
+
+    Private Sub BenposBulkImportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BenposBulkImportToolStripMenuItem.Click
+        Dim frm As New frmBenposBulkimport
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
+
+    Private Sub BenpostBulkUploadStatusToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BenpostBulkUploadStatusToolStripMenuItem.Click
+        Dim frm As New frmBenpostBulkImportReport
         frm.MdiParent = Me
         frm.Show()
     End Sub

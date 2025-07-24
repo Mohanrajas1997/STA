@@ -55,6 +55,12 @@ Public Class frmUpload
             Case gnAllotmentCDSL
                 lsCond = " and a.queue_to = '" & msGroupCode & "' "
                 lsCond &= " and g.folio_no = '00888888' "
+            Case gnPhyToiepfNSDL
+                lsCond = " and a.queue_to = '" & msGroupCode & "' "
+                lsCond &= " and g.folio_no = '00999999' "
+            Case gnPhyToiepfCDSL
+                lsCond = " and a.queue_to = '" & msGroupCode & "' "
+                lsCond &= " and g.folio_no = '00888888' "
         End Select
 
         lsSql = ""
@@ -213,6 +219,10 @@ Public Class frmUpload
                             Call lobjUpload.CDSLAllotment(lnUploadId)
                         Case gnAllotmentNSDL
                             Call lobjUpload.NSDLAllotment(lnUploadId)
+                        Case gnPhyToiepfCDSL
+                            Call lobjUpload.CDSLPhysToIEPF(lnUploadId)
+                        Case gnPhyToiepfNSDL
+                            Call lobjUpload.NSDLPhysToIEPF(lnUploadId)
                     End Select
 
                     Me.Close()

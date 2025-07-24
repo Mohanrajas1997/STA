@@ -53,19 +53,19 @@ Public Class frmDocHistory
                 objFrm = New frmCertificateTransfer("V", mnInwardId, 0, msTranCode)
                 objFrm.ShowDialog()
             Case "TM"
-                objFrm = New frmCertificateTransmission("V", mnInwardId, 0, msTranCode)
+                objFrm = New frmCertificateTransmission_new("V", mnInwardId, 0, msTranCode)
                 objFrm.Text = "Certificate Transmission"
                 objFrm.ShowDialog()
             Case "OL"
-                objFrm = New frmCertificateTransmission("V", mnInwardId, 0, msTranCode)
+                objFrm = New frmCertificateTransmission_new("V", mnInwardId, 0, msTranCode)
                 objFrm.Text = "Certificate Old Transfer"
                 objFrm.ShowDialog()
             Case "TP"
-                objFrm = New frmCertificateTransmission("V", mnInwardId, 0, msTranCode)
+                objFrm = New frmCertificateTransmission_new("V", mnInwardId, 0, msTranCode)
                 objFrm.Text = "Certificate Transposition"
                 objFrm.ShowDialog()
             Case "FC"
-                objFrm = New frmCertificateTransmission("V", mnInwardId, 0, msTranCode)
+                objFrm = New frmCertificateTransmission_new("V", mnInwardId, 0, msTranCode)
                 objFrm.Text = "Folio Consolidation"
                 objFrm.ShowDialog()
             Case "ST"
@@ -128,6 +128,9 @@ Public Class frmDocHistory
                 objFrm.ShowDialog()
             Case "IS"
                 objFrm = New frmISR1("V", mnInwardId, 0, msTranCode)
+                objFrm.ShowDialog()
+            Case "AM"
+                objFrm = New frmCAAllotment("V", mnInwardId, 0, msTranCode)
                 objFrm.ShowDialog()
         End Select
     End Sub

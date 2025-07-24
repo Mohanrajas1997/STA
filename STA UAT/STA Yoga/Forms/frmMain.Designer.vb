@@ -61,9 +61,12 @@ Partial Class frmMain
         Me.AMLApplyRuleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NSDLCategory = New System.Windows.Forms.ToolStripMenuItem()
         Me.CompanyMasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CompanyGroupMasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CompanySubGroupMasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebarrtToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebarrtEntryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DebarrtReleaseEntryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DPMasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuTran = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuInwardEntry = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuAutoInwardEntry = New System.Windows.Forms.ToolStripMenuItem()
@@ -93,6 +96,7 @@ Partial Class frmMain
         Me.mnuSignatureBulkAdd = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator()
         Me.mnuImport = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BenposBulkImportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuDelFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem15 = New System.Windows.Forms.ToolStripSeparator()
         Me.mnuTranUpdate = New System.Windows.Forms.ToolStripMenuItem()
@@ -173,8 +177,11 @@ Partial Class frmMain
         Me.mnuFolioTranReport = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuDematPendReport = New System.Windows.Forms.ToolStripMenuItem()
         Me.BenpostToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DayWiseBenpostReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PledgeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BenpostToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LOCReminderToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LOCReminderSentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripSeparator()
         Me.mnuInwardDashboardReport = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuInwardReport = New System.Windows.Forms.ToolStripMenuItem()
@@ -217,6 +224,7 @@ Partial Class frmMain
         Me.mnuImportedReport = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuRptFile = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuRptImpErrLine = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnulettergenerator = New System.Windows.Forms.ToolStripMenuItem()
         Me.WindowsMenu = New System.Windows.Forms.ToolStripMenuItem()
         Me.CascadeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TileVerticalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -227,7 +235,7 @@ Partial Class frmMain
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.lblStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
-        Me.DayWiseBenpostReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BenpostBulkUploadStatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -325,7 +333,7 @@ Partial Class frmMain
         '
         'mnuMaintenance
         '
-        Me.mnuMaintenance.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAttachmentTypeMaster, Me.mnuCategoryMaster, Me.mnuCourier, Me.ToolStripMenuItem1, Me.mnuCountryMaster, Me.mnuStateMaster, Me.CityToolStripMenuItem, Me.ToolStripMenuItem4, Me.mnuBankMaster, Me.mnuBankAccTypeMaster, Me.mnuConfigMaster, Me.DividendToolStripMenuItem, Me.ShareholdingPatternToolStripMenuItem1, Me.BeneficiaryDetailsToolStripMenuItem, Me.AMLRuleToolStripMenuItem, Me.AMLApplyRuleToolStripMenuItem, Me.NSDLCategory, Me.CompanyMasterToolStripMenuItem, Me.DebarrtToolStripMenuItem})
+        Me.mnuMaintenance.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAttachmentTypeMaster, Me.mnuCategoryMaster, Me.mnuCourier, Me.ToolStripMenuItem1, Me.mnuCountryMaster, Me.mnuStateMaster, Me.CityToolStripMenuItem, Me.ToolStripMenuItem4, Me.mnuBankMaster, Me.mnuBankAccTypeMaster, Me.mnuConfigMaster, Me.DividendToolStripMenuItem, Me.ShareholdingPatternToolStripMenuItem1, Me.BeneficiaryDetailsToolStripMenuItem, Me.AMLRuleToolStripMenuItem, Me.AMLApplyRuleToolStripMenuItem, Me.NSDLCategory, Me.CompanyMasterToolStripMenuItem, Me.CompanyGroupMasterToolStripMenuItem, Me.CompanySubGroupMasterToolStripMenuItem, Me.DebarrtToolStripMenuItem, Me.DPMasterToolStripMenuItem})
         Me.mnuMaintenance.Name = "mnuMaintenance"
         Me.mnuMaintenance.Size = New System.Drawing.Size(124, 29)
         Me.mnuMaintenance.Text = "Maintenance"
@@ -333,72 +341,72 @@ Partial Class frmMain
         'mnuAttachmentTypeMaster
         '
         Me.mnuAttachmentTypeMaster.Name = "mnuAttachmentTypeMaster"
-        Me.mnuAttachmentTypeMaster.Size = New System.Drawing.Size(261, 30)
+        Me.mnuAttachmentTypeMaster.Size = New System.Drawing.Size(323, 30)
         Me.mnuAttachmentTypeMaster.Text = "Attachment Type"
         '
         'mnuCategoryMaster
         '
         Me.mnuCategoryMaster.Name = "mnuCategoryMaster"
-        Me.mnuCategoryMaster.Size = New System.Drawing.Size(261, 30)
+        Me.mnuCategoryMaster.Size = New System.Drawing.Size(323, 30)
         Me.mnuCategoryMaster.Text = "Category"
         '
         'mnuCourier
         '
         Me.mnuCourier.Name = "mnuCourier"
-        Me.mnuCourier.Size = New System.Drawing.Size(261, 30)
+        Me.mnuCourier.Size = New System.Drawing.Size(323, 30)
         Me.mnuCourier.Text = "Courier"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(258, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(320, 6)
         '
         'mnuCountryMaster
         '
         Me.mnuCountryMaster.Name = "mnuCountryMaster"
-        Me.mnuCountryMaster.Size = New System.Drawing.Size(261, 30)
+        Me.mnuCountryMaster.Size = New System.Drawing.Size(323, 30)
         Me.mnuCountryMaster.Text = "Country"
         '
         'mnuStateMaster
         '
         Me.mnuStateMaster.Name = "mnuStateMaster"
-        Me.mnuStateMaster.Size = New System.Drawing.Size(261, 30)
+        Me.mnuStateMaster.Size = New System.Drawing.Size(323, 30)
         Me.mnuStateMaster.Text = "State"
         '
         'CityToolStripMenuItem
         '
         Me.CityToolStripMenuItem.Name = "CityToolStripMenuItem"
-        Me.CityToolStripMenuItem.Size = New System.Drawing.Size(261, 30)
+        Me.CityToolStripMenuItem.Size = New System.Drawing.Size(323, 30)
         Me.CityToolStripMenuItem.Text = "City"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(258, 6)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(320, 6)
         '
         'mnuBankMaster
         '
         Me.mnuBankMaster.Name = "mnuBankMaster"
-        Me.mnuBankMaster.Size = New System.Drawing.Size(261, 30)
+        Me.mnuBankMaster.Size = New System.Drawing.Size(323, 30)
         Me.mnuBankMaster.Text = "Bank"
         '
         'mnuBankAccTypeMaster
         '
         Me.mnuBankAccTypeMaster.Name = "mnuBankAccTypeMaster"
-        Me.mnuBankAccTypeMaster.Size = New System.Drawing.Size(261, 30)
+        Me.mnuBankAccTypeMaster.Size = New System.Drawing.Size(323, 30)
         Me.mnuBankAccTypeMaster.Text = "Bank A/C Type"
         '
         'mnuConfigMaster
         '
         Me.mnuConfigMaster.Name = "mnuConfigMaster"
-        Me.mnuConfigMaster.Size = New System.Drawing.Size(261, 30)
+        Me.mnuConfigMaster.Size = New System.Drawing.Size(323, 30)
         Me.mnuConfigMaster.Text = "Config"
         '
         'DividendToolStripMenuItem
         '
         Me.DividendToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PaymentInfoToolStripMenuItem, Me.BankInfoToolStripMenuItem})
         Me.DividendToolStripMenuItem.Name = "DividendToolStripMenuItem"
-        Me.DividendToolStripMenuItem.Size = New System.Drawing.Size(261, 30)
+        Me.DividendToolStripMenuItem.Size = New System.Drawing.Size(323, 30)
         Me.DividendToolStripMenuItem.Text = "Dividend"
         '
         'PaymentInfoToolStripMenuItem
@@ -417,7 +425,7 @@ Partial Class frmMain
         '
         Me.ShareholdingPatternToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PromoterMaintanenceToolStripMenuItem})
         Me.ShareholdingPatternToolStripMenuItem1.Name = "ShareholdingPatternToolStripMenuItem1"
-        Me.ShareholdingPatternToolStripMenuItem1.Size = New System.Drawing.Size(261, 30)
+        Me.ShareholdingPatternToolStripMenuItem1.Size = New System.Drawing.Size(323, 30)
         Me.ShareholdingPatternToolStripMenuItem1.Text = "Shareholding Pattern"
         '
         'PromoterMaintanenceToolStripMenuItem
@@ -429,38 +437,50 @@ Partial Class frmMain
         'BeneficiaryDetailsToolStripMenuItem
         '
         Me.BeneficiaryDetailsToolStripMenuItem.Name = "BeneficiaryDetailsToolStripMenuItem"
-        Me.BeneficiaryDetailsToolStripMenuItem.Size = New System.Drawing.Size(261, 30)
+        Me.BeneficiaryDetailsToolStripMenuItem.Size = New System.Drawing.Size(323, 30)
         Me.BeneficiaryDetailsToolStripMenuItem.Text = "Beneficiary Details"
         '
         'AMLRuleToolStripMenuItem
         '
         Me.AMLRuleToolStripMenuItem.Name = "AMLRuleToolStripMenuItem"
-        Me.AMLRuleToolStripMenuItem.Size = New System.Drawing.Size(261, 30)
+        Me.AMLRuleToolStripMenuItem.Size = New System.Drawing.Size(323, 30)
         Me.AMLRuleToolStripMenuItem.Text = "AML Rule"
         '
         'AMLApplyRuleToolStripMenuItem
         '
         Me.AMLApplyRuleToolStripMenuItem.Name = "AMLApplyRuleToolStripMenuItem"
-        Me.AMLApplyRuleToolStripMenuItem.Size = New System.Drawing.Size(261, 30)
+        Me.AMLApplyRuleToolStripMenuItem.Size = New System.Drawing.Size(323, 30)
         Me.AMLApplyRuleToolStripMenuItem.Text = "AML Apply Rule"
         '
         'NSDLCategory
         '
         Me.NSDLCategory.Name = "NSDLCategory"
-        Me.NSDLCategory.Size = New System.Drawing.Size(261, 30)
+        Me.NSDLCategory.Size = New System.Drawing.Size(323, 30)
         Me.NSDLCategory.Text = "NSDL Category"
         '
         'CompanyMasterToolStripMenuItem
         '
         Me.CompanyMasterToolStripMenuItem.Name = "CompanyMasterToolStripMenuItem"
-        Me.CompanyMasterToolStripMenuItem.Size = New System.Drawing.Size(261, 30)
+        Me.CompanyMasterToolStripMenuItem.Size = New System.Drawing.Size(323, 30)
         Me.CompanyMasterToolStripMenuItem.Text = "Company Master"
+        '
+        'CompanyGroupMasterToolStripMenuItem
+        '
+        Me.CompanyGroupMasterToolStripMenuItem.Name = "CompanyGroupMasterToolStripMenuItem"
+        Me.CompanyGroupMasterToolStripMenuItem.Size = New System.Drawing.Size(323, 30)
+        Me.CompanyGroupMasterToolStripMenuItem.Text = "Company Group Master"
+        '
+        'CompanySubGroupMasterToolStripMenuItem
+        '
+        Me.CompanySubGroupMasterToolStripMenuItem.Name = "CompanySubGroupMasterToolStripMenuItem"
+        Me.CompanySubGroupMasterToolStripMenuItem.Size = New System.Drawing.Size(323, 30)
+        Me.CompanySubGroupMasterToolStripMenuItem.Text = "Company Sub Group Master"
         '
         'DebarrtToolStripMenuItem
         '
         Me.DebarrtToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DebarrtEntryToolStripMenuItem, Me.DebarrtReleaseEntryToolStripMenuItem})
         Me.DebarrtToolStripMenuItem.Name = "DebarrtToolStripMenuItem"
-        Me.DebarrtToolStripMenuItem.Size = New System.Drawing.Size(261, 30)
+        Me.DebarrtToolStripMenuItem.Size = New System.Drawing.Size(323, 30)
         Me.DebarrtToolStripMenuItem.Text = "Debarrt"
         '
         'DebarrtEntryToolStripMenuItem
@@ -474,6 +494,12 @@ Partial Class frmMain
         Me.DebarrtReleaseEntryToolStripMenuItem.Name = "DebarrtReleaseEntryToolStripMenuItem"
         Me.DebarrtReleaseEntryToolStripMenuItem.Size = New System.Drawing.Size(264, 30)
         Me.DebarrtReleaseEntryToolStripMenuItem.Text = "Debarrt Release Entry"
+        '
+        'DPMasterToolStripMenuItem
+        '
+        Me.DPMasterToolStripMenuItem.Name = "DPMasterToolStripMenuItem"
+        Me.DPMasterToolStripMenuItem.Size = New System.Drawing.Size(323, 30)
+        Me.DPMasterToolStripMenuItem.Text = "DP Master"
         '
         'mnuTran
         '
@@ -645,9 +671,16 @@ Partial Class frmMain
         '
         'mnuImport
         '
+        Me.mnuImport.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BenposBulkImportToolStripMenuItem})
         Me.mnuImport.Name = "mnuImport"
         Me.mnuImport.Size = New System.Drawing.Size(353, 30)
         Me.mnuImport.Text = "Import"
+        '
+        'BenposBulkImportToolStripMenuItem
+        '
+        Me.BenposBulkImportToolStripMenuItem.Name = "BenposBulkImportToolStripMenuItem"
+        Me.BenposBulkImportToolStripMenuItem.Size = New System.Drawing.Size(253, 30)
+        Me.BenposBulkImportToolStripMenuItem.Text = "Benpos Bulk Import"
         '
         'mnuDelFile
         '
@@ -890,7 +923,7 @@ Partial Class frmMain
         '
         'mnuReport
         '
-        Me.mnuReport.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShareholdingPatternToolStripMenuItem, Me.EVotingToolStripMenuItem, Me.AnnualReportToolStripMenuItem, Me.mnuFolioReport, Me.CompanyMasterReport, Me.ToolStripMenuItem22, Me.DividendReportToolStripMenuItem, Me.RUDCorrespondenceToolStripMenuItem1, Me.mnuCertReport, Me.mnuCertDistReport, Me.ToolStripMenuItem6, Me.mnuFolioTranReport, Me.mnuDematPendReport, Me.BenpostToolStripMenuItem, Me.PledgeToolStripMenuItem, Me.BenpostToolStripMenuItem1, Me.ToolStripMenuItem7, Me.mnuInwardDashboardReport, Me.mnuInwardReport, Me.mnuOutwardReport, Me.mnuUploadReport, Me.ToolStripMenuItem11, Me.mnuMis, Me.AMLResultToolStripMenuItem, Me.mnuSummaryReport, Me.LetterDispatchToolStripMenuItem, Me.LetterResponseToolStripMenuItem, Me.ToolStripMenuItem12, Me.mnuSearchEngine, Me.mnuHistoryReport, Me.ToolStripMenuItem13, Me.mnuQuery, Me.mnuQryBuilder, Me.ToolStripMenuItem14, Me.mnuImportedReport})
+        Me.mnuReport.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShareholdingPatternToolStripMenuItem, Me.EVotingToolStripMenuItem, Me.AnnualReportToolStripMenuItem, Me.mnuFolioReport, Me.CompanyMasterReport, Me.ToolStripMenuItem22, Me.DividendReportToolStripMenuItem, Me.RUDCorrespondenceToolStripMenuItem1, Me.mnuCertReport, Me.mnuCertDistReport, Me.ToolStripMenuItem6, Me.mnuFolioTranReport, Me.mnuDematPendReport, Me.BenpostToolStripMenuItem, Me.PledgeToolStripMenuItem, Me.BenpostToolStripMenuItem1, Me.LOCReminderToolStripMenuItem1, Me.ToolStripMenuItem7, Me.mnuInwardDashboardReport, Me.mnuInwardReport, Me.mnuOutwardReport, Me.mnuUploadReport, Me.ToolStripMenuItem11, Me.mnuMis, Me.AMLResultToolStripMenuItem, Me.mnuSummaryReport, Me.LetterDispatchToolStripMenuItem, Me.LetterResponseToolStripMenuItem, Me.ToolStripMenuItem12, Me.mnuSearchEngine, Me.mnuHistoryReport, Me.ToolStripMenuItem13, Me.mnuQuery, Me.mnuQryBuilder, Me.ToolStripMenuItem14, Me.mnuImportedReport, Me.mnulettergenerator})
         Me.mnuReport.Name = "mnuReport"
         Me.mnuReport.Size = New System.Drawing.Size(77, 29)
         Me.mnuReport.Text = "Report"
@@ -1133,10 +1166,16 @@ Partial Class frmMain
         '
         'BenpostToolStripMenuItem
         '
-        Me.BenpostToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DayWiseBenpostReportToolStripMenuItem})
+        Me.BenpostToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DayWiseBenpostReportToolStripMenuItem, Me.BenpostBulkUploadStatusToolStripMenuItem})
         Me.BenpostToolStripMenuItem.Name = "BenpostToolStripMenuItem"
         Me.BenpostToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
         Me.BenpostToolStripMenuItem.Text = "Benpost"
+        '
+        'DayWiseBenpostReportToolStripMenuItem
+        '
+        Me.DayWiseBenpostReportToolStripMenuItem.Name = "DayWiseBenpostReportToolStripMenuItem"
+        Me.DayWiseBenpostReportToolStripMenuItem.Size = New System.Drawing.Size(315, 30)
+        Me.DayWiseBenpostReportToolStripMenuItem.Text = "Day Wise Benpost Report"
         '
         'PledgeToolStripMenuItem
         '
@@ -1149,6 +1188,19 @@ Partial Class frmMain
         Me.BenpostToolStripMenuItem1.Name = "BenpostToolStripMenuItem1"
         Me.BenpostToolStripMenuItem1.Size = New System.Drawing.Size(311, 30)
         Me.BenpostToolStripMenuItem1.Text = "Benpost Identification"
+        '
+        'LOCReminderToolStripMenuItem1
+        '
+        Me.LOCReminderToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LOCReminderSentToolStripMenuItem})
+        Me.LOCReminderToolStripMenuItem1.Name = "LOCReminderToolStripMenuItem1"
+        Me.LOCReminderToolStripMenuItem1.Size = New System.Drawing.Size(311, 30)
+        Me.LOCReminderToolStripMenuItem1.Text = "LOC Reminder"
+        '
+        'LOCReminderSentToolStripMenuItem
+        '
+        Me.LOCReminderSentToolStripMenuItem.Name = "LOCReminderSentToolStripMenuItem"
+        Me.LOCReminderSentToolStripMenuItem.Size = New System.Drawing.Size(258, 30)
+        Me.LOCReminderSentToolStripMenuItem.Text = "LOC Reminder (Sent)"
         '
         'ToolStripMenuItem7
         '
@@ -1397,6 +1449,12 @@ Partial Class frmMain
         Me.mnuRptImpErrLine.Size = New System.Drawing.Size(170, 30)
         Me.mnuRptImpErrLine.Text = "Error Line"
         '
+        'mnulettergenerator
+        '
+        Me.mnulettergenerator.Name = "mnulettergenerator"
+        Me.mnulettergenerator.Size = New System.Drawing.Size(311, 30)
+        Me.mnulettergenerator.Text = "Covering Letter Generation"
+        '
         'WindowsMenu
         '
         Me.WindowsMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CascadeToolStripMenuItem, Me.TileVerticalToolStripMenuItem, Me.TileHorizontalToolStripMenuItem, Me.CloseAllToolStripMenuItem, Me.ArrangeIconsToolStripMenuItem})
@@ -1457,11 +1515,11 @@ Partial Class frmMain
         Me.lblStatus.Size = New System.Drawing.Size(60, 25)
         Me.lblStatus.Text = "Status"
         '
-        'DayWiseBenpostReportToolStripMenuItem
+        'BenpostBulkUploadStatusToolStripMenuItem
         '
-        Me.DayWiseBenpostReportToolStripMenuItem.Name = "DayWiseBenpostReportToolStripMenuItem"
-        Me.DayWiseBenpostReportToolStripMenuItem.Size = New System.Drawing.Size(298, 30)
-        Me.DayWiseBenpostReportToolStripMenuItem.Text = "Day Wise Benpost Report"
+        Me.BenpostBulkUploadStatusToolStripMenuItem.Name = "BenpostBulkUploadStatusToolStripMenuItem"
+        Me.BenpostBulkUploadStatusToolStripMenuItem.Size = New System.Drawing.Size(315, 30)
+        Me.BenpostBulkUploadStatusToolStripMenuItem.Text = "Benpost Bulk Upload Status"
         '
         'frmMain
         '
@@ -1688,4 +1746,12 @@ Partial Class frmMain
     Friend WithEvents CompanyMasterReport As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuInwardDashboardReport As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents DayWiseBenpostReportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DPMasterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnulettergenerator As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CompanyGroupMasterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CompanySubGroupMasterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents LOCReminderToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents LOCReminderSentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents BenposBulkImportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents BenpostBulkUploadStatusToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

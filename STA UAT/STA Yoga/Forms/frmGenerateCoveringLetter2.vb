@@ -330,9 +330,9 @@ Public Class frmGenerateCoveringLetter2
 
 
             trr_sql = " SELECT @s:=@s+1 Sno,a.*,b.*,c.*,d.* FROM sta_trn_tcertentry a "
-            trr_sql &= " left join sta_trn_tcert b ON b.cert_gid = a.cert_gid "
-            trr_sql &= " left join sta_trn_tcertdist c ON c.cert_gid = b.cert_gid "
-            trr_sql &= " left join sta_trn_tinward d on d.inward_gid = a.inward_gid,(SELECT @s:= 0) AS s where a.inward_gid = '" & lnInwardId & "' and a.delete_flag = 'N'"
+            trr_sql &= " left join sta_trn_tcert b ON b.cert_gid = a.cert_gid and b.delete_flag = 'N' "
+            trr_sql &= " left join sta_trn_tcertdist c ON c.cert_gid = b.cert_gid and c.delete_flag = 'N' "
+            trr_sql &= " left join sta_trn_tinward d on d.inward_gid = a.inward_gid and d.delete_flag = 'N',(SELECT @s:= 0) AS s where a.inward_gid = '" & lnInwardId & "' and a.delete_flag = 'N'"
             dt_tt = New DataSet
             da = New Odbc.OdbcDataAdapter(trr_sql, con)
             da.Fill(dt_tt, trr_sql)
@@ -347,8 +347,8 @@ Public Class frmGenerateCoveringLetter2
             ''release stoptransfer/loss of share
             sql_st = ""
             sql_st &= " select @s:=@s+1 Sno,a.*,b.*,c.* from sta_trn_tinward a"
-            sql_st &= " left join sta_trn_tcert b on b.folio_gid = a.folio_gid"
-            sql_st &= " left join sta_mst_treason c on c.reason_gid = a.reason_gid,"
+            sql_st &= " left join sta_trn_tcert b on b.folio_gid = a.folio_gid and b.delete_flag = 'N'"
+            sql_st &= " left join sta_mst_treason c on c.reason_gid = a.reason_gid and c.delete_flag = 'N',"
             sql_st &= " (SELECT @s:= 0) AS s where a.inward_gid = '" & lnInwardId & "' and a.delete_flag = 'N'"
             dt_st = New DataSet
             da = New Odbc.OdbcDataAdapter(sql_st, con)
@@ -1876,7 +1876,7 @@ Public Class frmGenerateCoveringLetter2
 
                             objWord.Selection.TypeParagraph()
                             If dematreject_code = 30 Then
-                                objWord.Selection.TypeText("Kindly provide to us Govt. Gazzette Copy (Duly Notarized by a Notary Public) Notarized copy of Name Change Affidavit Authorized by 1st Class Magistrate.")
+                                objWord.Selection.TypeText("Kindly provide to us Govt. Gazzette Copy (Duly Notarized by a Notary Public).")
                                 objWord.Selection.TypeParagraph()
                             ElseIf dematreject_code = 22 Then
                                 objWord.Selection.TypeText("Kindly arrange to forward a new demat request duly attested by Bank (or) Notary Public for Signature Mismatch.")

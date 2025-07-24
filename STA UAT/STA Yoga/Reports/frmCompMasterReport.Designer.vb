@@ -64,7 +64,7 @@ Partial Class frmCompMasterReport
         Me.txtISIN.MaxLength = 0
         Me.txtISIN.Name = "txtISIN"
         Me.txtISIN.Size = New System.Drawing.Size(171, 27)
-        Me.txtISIN.TabIndex = 167
+        Me.txtISIN.TabIndex = 1
         '
         'lblISIN
         '
@@ -81,7 +81,7 @@ Partial Class frmCompMasterReport
         Me.txtCompName.MaxLength = 0
         Me.txtCompName.Name = "txtCompName"
         Me.txtCompName.Size = New System.Drawing.Size(171, 27)
-        Me.txtCompName.TabIndex = 166
+        Me.txtCompName.TabIndex = 0
         '
         'lblCompName
         '
@@ -99,7 +99,7 @@ Partial Class frmCompMasterReport
         Me.txtPanno.MaxLength = 0
         Me.txtPanno.Name = "txtPanno"
         Me.txtPanno.Size = New System.Drawing.Size(171, 27)
-        Me.txtPanno.TabIndex = 4
+        Me.txtPanno.TabIndex = 2
         '
         'lblPanno
         '
@@ -115,7 +115,7 @@ Partial Class frmCompMasterReport
         Me.btnClose.Location = New System.Drawing.Point(470, 41)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(72, 24)
-        Me.btnClose.TabIndex = 7
+        Me.btnClose.TabIndex = 5
         Me.btnClose.Text = "&Close"
         '
         'btnClear
@@ -123,7 +123,7 @@ Partial Class frmCompMasterReport
         Me.btnClear.Location = New System.Drawing.Point(392, 41)
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(72, 24)
-        Me.btnClear.TabIndex = 6
+        Me.btnClear.TabIndex = 4
         Me.btnClear.Text = "&Clear"
         '
         'btnRefresh
@@ -131,7 +131,7 @@ Partial Class frmCompMasterReport
         Me.btnRefresh.Location = New System.Drawing.Point(314, 41)
         Me.btnRefresh.Name = "btnRefresh"
         Me.btnRefresh.Size = New System.Drawing.Size(72, 24)
-        Me.btnRefresh.TabIndex = 5
+        Me.btnRefresh.TabIndex = 3
         Me.btnRefresh.Text = "&Refresh"
         '
         'pnlExport

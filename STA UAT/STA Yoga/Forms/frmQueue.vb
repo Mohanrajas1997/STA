@@ -186,19 +186,19 @@
                                 objFrm = New frmCertificateTransfer(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
                                 objFrm.ShowDialog()
                             Case "TM"
-                                objFrm = New frmCertificateTransmission(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
+                                objFrm = New frmCertificateTransmission_new(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
                                 objFrm.Text = "Certificate Transmission"
                                 objFrm.ShowDialog()
                             Case "TP"
-                                objFrm = New frmCertificateTransmission(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
+                                objFrm = New frmCertificateTransmission_new(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
                                 objFrm.Text = "Certificate Transposition"
                                 objFrm.ShowDialog()
                             Case "OL"
-                                objFrm = New frmCertificateTransmission(msGroupCode, lnInwardId, lnQueueId, lsTranCode, False)
+                                objFrm = New frmCertificateTransmission_new(msGroupCode, lnInwardId, lnQueueId, lsTranCode, False)
                                 objFrm.Text = "Certificate Old Transfer"
                                 objFrm.ShowDialog()
                             Case "FC"
-                                objFrm = New frmCertificateTransmission(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
+                                objFrm = New frmCertificateTransmission_new(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
                                 objFrm.Text = "Folio Consolidation"
                                 objFrm.ShowDialog()
                             Case "ST"
@@ -279,6 +279,11 @@
                                 objFrm = New frmCAAllotment(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
                                 objFrm.Text = "CA Allotment"
                                 objFrm.ShowDialog()
+                            Case "PI"
+                                ' Signature
+                                objFrm = New frmCAPhysicalToIEPF(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
+                                objFrm.Text = "CA Physical To IEPF"
+                                objFrm.ShowDialog()
                         End Select
                     End If
                 End If
@@ -323,15 +328,15 @@
                         objFrm = New frmCertificateTransfer(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
                         objFrm.ShowDialog()
                     Case "TM"
-                        objFrm = New frmCertificateTransmission(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
+                        objFrm = New frmCertificateTransmission_new(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
                         objFrm.Text = "Certificate Transmission"
                         objFrm.ShowDialog()
                     Case "TP"
-                        objFrm = New frmCertificateTransmission(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
+                        objFrm = New frmCertificateTransmission_new(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
                         objFrm.Text = "Certificate Transposition"
                         objFrm.ShowDialog()
                     Case "FC"
-                        objFrm = New frmCertificateTransmission(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
+                        objFrm = New frmCertificateTransmission_new(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
                         objFrm.Text = "Folio Consolidation"
                         objFrm.ShowDialog()
                     Case "ST"

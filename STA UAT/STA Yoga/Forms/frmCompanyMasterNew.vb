@@ -3,6 +3,7 @@
 Public Class frmCompanyMasterNew
 
     Private Sub frmCompany_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.Height = 630
         Dim lsSql As String
         lnkAddAttachment.Enabled = False
         ' Security type
@@ -21,7 +22,21 @@ Public Class frmCompanyMasterNew
 
         Call gpBindCombo(lsSql, "depository_name", "depository_name", cboDepositoryType, gOdbcConn)
 
+        Call LoadCompanygrpName()
+
         Call EnableSave(False)
+    End Sub
+
+    Private Sub LoadCompanygrpName()
+        Dim lsSql As String
+
+        ' Company Grp Name
+        lsSql = ""
+        lsSql &= " select compgrp_gid,compgrp_name from sta_mst_tcompanygroup "
+        lsSql &= " where delete_flag = 'N' "
+        lsSql &= " order by compgrp_name asc "
+
+        Call gpBindCombo(lsSql, "compgrp_name", "compgrp_gid", cboCompGrp, gOdbcConn)
     End Sub
 
     Private Sub EnableSave(ByVal Status As Boolean)
@@ -106,13 +121,13 @@ Public Class frmCompanyMasterNew
         Dim SearchDialog As frmSearch
 
         Try
-            SearchDialog = New frmSearch(gOdbcConn, "select comp_gid as 'Comp Id'," &
-            "entity_gid as 'Entity Id',comp_code as 'Company Code',comp_short_code as 'Company Short Code',comp_name as 'Company Name'," &
+            SearchDialog = New frmSearch(gOdbcConn, "select comp_gid as 'Comp Id',entity_gid as 'Entity Id',compgrp_gid as 'Comp Group Id',compsubgrp_gid as 'Comp Subgrp Id'," &
+            "comp_code as 'Company Code',comp_short_code as 'Company Short Code',comp_name as 'Company Name'," &
             "isin_id as 'Isin Id',folio_no_format as 'Folio No Format',folio_prefix_flag as 'Folio Prefix Flag',folio_prefix_sno_flag as 'Folio Prefix Slno Flag',electronics_flag as 'Electronics Flag', " &
             "folio_prefix as 'Folio Prefix',folio_prefix_field as 'Folio Prefix Field',start_date as 'Start Date',maturity_date as 'Maturity Date',depository_code as 'Depository Code', " &
             "comp_listed as 'Comp Listed',active_flag as 'Active Flag',share_captial as 'Share Capital',share_type as 'Security Type',cin_no as 'Cin No', " &
             "pan_no as 'Pan No',share_qty as 'Share Quantity',paid_up_value as 'Paid Up Value',address1 as Address1,address2 as Address2,address3 as Address3,city as City,state as State,country as Country, pincode as Pincode FROM sta_mst_tcompany ",
-            "comp_gid,entity_gid,comp_code,comp_short_code,comp_name,isin_id,folio_no_format,folio_prefix_flag,folio_prefix_sno_flag,folio_prefix,folio_prefix_field,folio_prefix_length,upload_sno,folio_sno,transfer_sno,cert_sno,objx_sno,inward_sno,comp_listed,active_flag,share_captial," &
+            "comp_gid,entity_gid,compgrp_gid,compsubgrp_gid,comp_code,comp_short_code,comp_name,isin_id,folio_no_format,folio_prefix_flag,folio_prefix_sno_flag,folio_prefix,folio_prefix_field,folio_prefix_length,upload_sno,folio_sno,transfer_sno,cert_sno,objx_sno,inward_sno,comp_listed,active_flag,share_captial," &
             "share_type,share_qty,paid_up_value,address1,address2,address3,city,state,country, pincode ",
             " 1 = 1 and delete_flag = 'N' ")
             SearchDialog.ShowDialog()
@@ -134,13 +149,21 @@ Public Class frmCompanyMasterNew
         Dim lsElectronicsFlag As String
         Dim lsCompListed As String
         Dim lsActiveFlag As String
+        Dim lsCboCompGrp As Long
+        Dim lsCboCompSubGrp As Long
 
         Try
             lobjDataReader = gfExecuteQry(SqlStr, gOdbcConn)
-
             If lobjDataReader.HasRows Then
                 If lobjDataReader.Read Then
                     txtid.Text = lobjDataReader.Item("comp_gid").ToString
+
+                    lsCboCompGrp = lobjDataReader.Item("compgrp_gid").ToString
+                    cboCompGrp.SelectedIndex = -1
+                    cboCompGrp.SelectedValue = lsCboCompGrp
+                    Call gpAutoFillCombo(cboCompGrp)
+                    lsCboCompSubGrp = lobjDataReader.Item("compsubgrp_gid").ToString
+                    
                     txtCompanyCode.Text = lobjDataReader.Item("comp_code").ToString
                     txtCompShortCode.Text = lobjDataReader.Item("comp_short_code").ToString
                     txtCompanyName.Text = lobjDataReader.Item("comp_name").ToString
@@ -223,7 +246,20 @@ Public Class frmCompanyMasterNew
             End If
 
             lobjDataReader.Close()
+            If Val(cboCompGrp.SelectedValue) > 0 Then
+                Dim lsSql As String
+                ' Company Sub Grp Name
+                lsSql = ""
+                lsSql &= " select compsubgrp_gid,compsubgrp_name from sta_mst_tcompanysubgroup "
+                lsSql &= " where delete_flag = 'N' and compgrp_gid = " & lsCboCompGrp
+                lsSql &= " order by compSubgrp_name asc "
 
+                Call gpBindCombo(lsSql, "compsubgrp_name", "compsubgrp_gid", cboCompSubgrp, gOdbcConn)
+
+                cboCompSubgrp.SelectedIndex = -1
+                cboCompSubgrp.SelectedValue = lsCboCompSubGrp
+                Call gpAutoFillCombo(cboCompSubgrp)
+            End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Information, gsProjectName)
         End Try
@@ -233,6 +269,8 @@ Public Class frmCompanyMasterNew
         Dim lnResult As Integer
         Dim lsTxt As String
         Dim lnCompId As Long
+        Dim lnCompGrpId As Long
+        Dim lnCompSubGrpId As Long
         Dim lsCompCode As String
         Dim lsCompShortCode As String
         Dim lsCompName As String
@@ -276,6 +314,8 @@ Public Class frmCompanyMasterNew
             lsCompCode = QuoteFilter(txtCompanyCode.Text)
             lsCompShortCode = QuoteFilter(txtCompShortCode.Text)
             lnCompId = Val(txtid.Text)
+            lnCompGrpId = Val(cboCompGrp.SelectedValue)
+            lnCompSubGrpId = Val(cboCompSubgrp.SelectedValue)
             lsCompName = QuoteFilter(txtCompanyName.Text)
             lsIsinId = QuoteFilter(txtIsinId.Text)
             lsFolioNoFormat = QuoteFilter(txtFolioNoFormat.Text)
@@ -368,6 +408,8 @@ Public Class frmCompanyMasterNew
             Using cmd As New MySqlCommand("pr_sta_mst_tcompany_new", gOdbcConn)
                 cmd.CommandType = CommandType.StoredProcedure
                 cmd.Parameters.AddWithValue("?in_comp_gid", lnCompId)
+                cmd.Parameters.AddWithValue("?in_compgrp_gid", lnCompGrpId)
+                cmd.Parameters.AddWithValue("?in_compsubgrp_gid", lnCompSubGrpId)
                 cmd.Parameters.AddWithValue("?in_entity_gid", 1)
                 cmd.Parameters.AddWithValue("?in_comp_code", lsCompCode)
                 cmd.Parameters.AddWithValue("?in_comp_short_code", lsCompShortCode)
@@ -446,6 +488,8 @@ Public Class frmCompanyMasterNew
         Dim lnResult As Integer
         Dim lsTxt As String
         Dim lnCompId As Long
+        Dim lnCompSubGrpId As Long
+        Dim lnCompGrpId As Long
         Dim lsCompCode As String
         Dim lsCompShortCode As String
         Dim lsCompName As String
@@ -497,6 +541,8 @@ Public Class frmCompanyMasterNew
                     lsCompCode = QuoteFilter(txtCompanyCode.Text)
                     lsCompShortCode = QuoteFilter(txtCompShortCode.Text)
                     lnCompId = Val(txtid.Text)
+                    lnCompGrpId = Val(cboCompGrp.SelectedValue)
+                    lnCompSubGrpId = Val(cboCompSubgrp.SelectedValue)
                     lsCompName = QuoteFilter(txtCompanyName.Text)
                     lsIsinId = QuoteFilter(txtIsinId.Text)
                     lsFolioNoFormat = QuoteFilter(txtFolioNoFormat.Text)
@@ -570,6 +616,8 @@ Public Class frmCompanyMasterNew
                     Using cmd As New MySqlCommand("pr_sta_mst_tcompany_new", gOdbcConn)
                         cmd.CommandType = CommandType.StoredProcedure
                         cmd.Parameters.AddWithValue("?in_comp_gid", lnCompId)
+                        cmd.Parameters.AddWithValue("?in_compgrp_gid", lnCompGrpId)
+                        cmd.Parameters.AddWithValue("?in_compsubgrp_gid", lnCompSubGrpId)
                         cmd.Parameters.AddWithValue("?in_entity_gid", 1)
                         cmd.Parameters.AddWithValue("?in_comp_code", lsCompCode)
                         cmd.Parameters.AddWithValue("?in_comp_short_code", lsCompShortCode)
@@ -659,7 +707,6 @@ Public Class frmCompanyMasterNew
         Call Sharecapital_calc()
     End Sub
 
-
     Private Sub txtPaidupValue_TextChanged(sender As Object, e As EventArgs) Handles txtPaidupValue.TextChanged
         Call Sharecapital_calc()
     End Sub
@@ -671,5 +718,27 @@ Public Class frmCompanyMasterNew
         Else
             dtpMaturityDate.Enabled = True
         End If
+    End Sub
+
+    Private Sub cboCompGrp_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cboCompGrp.SelectionChangeCommitted
+        Dim lsSql As String
+        ' Company Sub Grp Name
+        lsSql = ""
+        lsSql &= " select compsubgrp_gid,compsubgrp_name from sta_mst_tcompanysubgroup "
+        lsSql &= " where delete_flag = 'N' and compgrp_gid = " & Val(cboCompGrp.SelectedValue)
+        lsSql &= " order by compSubgrp_name asc "
+
+        Call gpBindCombo(lsSql, "compsubgrp_name", "compsubgrp_gid", cboCompSubgrp, gOdbcConn)
+    End Sub
+
+    Private Sub btnAddGrp_Click(sender As Object, e As EventArgs) Handles btnAddGrp.Click
+        Dim Objfrm As New frmCompanyGroupMaster
+        Objfrm.ShowDialog()
+        LoadCompanygrpName()
+    End Sub
+
+    Private Sub btnAddSubgrp_Click(sender As Object, e As EventArgs) Handles btnAddSubgrp.Click
+        Dim Objfrm As New frmCompanySubGroupMaster
+        Objfrm.ShowDialog()
     End Sub
 End Class

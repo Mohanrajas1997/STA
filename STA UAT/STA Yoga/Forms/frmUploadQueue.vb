@@ -44,11 +44,11 @@
         Dim lobjbtnColumn As DataGridViewButtonColumn
         Dim n As Integer
         Dim lsUploadType As String
-        Dim lnUploadType As Integer
+        Dim lnUploadType As Long
 
-        Dim lnArrUploadType(7) As Integer
-        Dim lsArrUploadType(7) As String
-        Dim lsArrCode(7) As String
+        Dim lnArrUploadType(9) As Integer
+        Dim lsArrUploadType(9) As String
+        Dim lsArrCode(9) As String
         Dim lnStart As Integer
         Dim lnEnd As Integer
 
@@ -59,6 +59,8 @@
         lnArrUploadType(4) = gnUploadNSDLUpload
         lnArrUploadType(5) = gnAllotmentNSDL
         lnArrUploadType(6) = gnAllotmentCDSL
+        lnArrUploadType(7) = gnPhyToiepfNSDL
+        lnArrUploadType(8) = gnPhyToiepfCDSL
 
         lsArrUploadType(0) = "Transfer Register"
         lsArrUploadType(1) = "Certificate Register"
@@ -67,6 +69,8 @@
         lsArrUploadType(4) = "NSDL Upload"
         lsArrUploadType(5) = "Allotment NSDL"
         lsArrUploadType(6) = "Allotment CDSL"
+        lsArrUploadType(7) = "PhyToIEPF NSDL"
+        lsArrUploadType(8) = "PhyToIEPF CDSL"
 
         lsArrCode(0) = " and c.transfer_flag = 'Y' and a.queue_to = '" & msGroupCode & "' "
         lsArrCode(1) = " and c.cert_flag = 'Y' and a.queue_to = '" & msGroupCode & "' "
@@ -84,10 +88,16 @@
         lsArrCode(4) &= " and f.depository_code = 'N' "
 
         lsArrCode(5) = " and a.queue_to = '" & msGroupCode & "' "
-        lsArrCode(5) &= " and g.folio_no = '00999999' "
+        lsArrCode(5) &= " and g.folio_no = '00999999' and c.trantype_code = 'AM' "
 
         lsArrCode(6) = " and a.queue_to = '" & msGroupCode & "' "
-        lsArrCode(6) &= " and g.folio_no = '00888888' "
+        lsArrCode(6) &= " and g.folio_no = '00888888' and c.trantype_code = 'AM' "
+
+        lsArrCode(7) = " and a.queue_to = '" & msGroupCode & "' "
+        lsArrCode(7) &= " and g.folio_no = '00999999'  and c.trantype_code = 'PI' "
+
+        lsArrCode(8) = " and a.queue_to = '" & msGroupCode & "' "
+        lsArrCode(8) &= " and g.folio_no = '00888888' and c.trantype_code = 'PI' "
 
         If cboCompany.Text <> "" And cboCompany.SelectedIndex <> -1 Then
             lsCond &= " and b.comp_gid = " & Val(cboCompany.SelectedValue.ToString) & " "
@@ -122,9 +132,15 @@
             Case gnAllotmentCDSL
                 lnStart = 6
                 lnEnd = 6
+            Case gnPhyToiepfNSDL
+                lnStart = 7
+                lnEnd = 7
+            Case gnPhyToiepfCDSL
+                lnStart = 8
+                lnEnd = 8
             Case Else
                 lnStart = 0
-                lnEnd = 6
+                lnEnd = 8
         End Select
 
         'Select Case lnUploadType

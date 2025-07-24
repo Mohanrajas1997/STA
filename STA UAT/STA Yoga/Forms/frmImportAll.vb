@@ -1,5 +1,8 @@
 ﻿Imports System.IO
 Imports Microsoft.Office.Interop
+Imports System.Net.Mail
+Imports System.Net
+
 Public Class frmImportAll
     Private Sub frmImportAll_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -79,9 +82,7 @@ Public Class frmImportAll
 
     Private Sub LoadSheet()
         Dim objXls As New Excel.Application
-        'Dim objXls As Object = Nothing
         Dim objBook As Excel.Workbook
-        'Dim objBook As Object = Nothing
 
         objXls = CreateObject("Excel.Application")
 
@@ -327,6 +328,8 @@ Public Class frmImportAll
                                 objFileReturn = objImp.DividendStatus(lsFile, lsSheetName, False, lobjItem)
                             Case "COMPANY SHARE CAPTIAL"
                                 objFileReturn = objImp.CompanyShareCaptial(lsFile, lsSheetName, False, lobjItem)
+                            Case "DIVIDEND SHARE CAPITAL CONTACT COMP"
+                                objFileReturn = objImp.DividendShareCapital_ContactComp(lsFile, lsSheetName, False, lobjItem)
                             Case "DIVIDEND ACCOUNT MASTER"
                                 objFileReturn = objImp.DividendAccountMaster(lsFile, lsSheetName, False, lobjItem)
                             Case "DIVIDEND SHARE CAPITAL"
@@ -382,11 +385,4 @@ Public Class frmImportAll
         End If
     End Sub
 
-    Private Sub Label6_Click(sender As Object, e As EventArgs) Handles Label6.Click
-
-    End Sub
-
-    Private Sub txtFileName_TextChanged(sender As Object, e As EventArgs) Handles txtFileName.TextChanged
-
-    End Sub
 End Class

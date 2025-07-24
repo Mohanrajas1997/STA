@@ -32,8 +32,10 @@ Public Class frmCAAllotment
         Dim lsCurrQueue As String
         Dim lsSql As String
 
-        dtpAllotmentDate.MaxDate = DateTime.Today
-        dtpExecDate.MinDate = DateTime.Today
+        If msGroupCode <> "V" And msGroupCode <> "C" Then
+            dtpAllotmentDate.MaxDate = DateTime.Today
+            dtpExecDate.MinDate = DateTime.Today
+        End If
 
         ' CA Type
         lsSql = ""
@@ -123,7 +125,7 @@ Public Class frmCAAllotment
                 Call gpAutoFillCombo(cboCAtype)
 
                 dtpAllotmentDate.Text = .Rows(0).Item("allotment_date").ToString
-
+                dtpExecDate.Text = .Rows(0).Item("execution_date").ToString
                 'cboAllotmentdesc.Text = .Rows(0).Item("allocation_allotment_desc").ToString
                 cboAllotmentdesc.SelectedIndex = -1
                 cboAllotmentdesc.SelectedValue = .Rows(0).Item("allocation_allotment_desc").ToString
@@ -466,9 +468,12 @@ Public Class frmCAAllotment
                 cmd.ExecuteNonQuery()
             End Using
 
+
+
             'CA Entry 
             For Each row As DataGridViewRow In dgvRecord2.Rows
                 If Not row.IsNewRow Then
+                
                     Dim lsLockinFlag As String = "N"
                     Dim lsreleaseDate As String = ""
 
@@ -710,12 +715,15 @@ Public Class frmCAAllotment
                 lssumofpurcaseCost += purcaseCost
 
                 Dim stampDuty As Decimal = 0
-                'NSDL Stamp duty Calc
-                If txtFolioNo.Text = "00999999" Then
-                    stampDuty = purcaseCost * 0.005 / 100
-                    'CDSL Stamp duty Calc
-                ElseIf txtFolioNo.Text = "00888888" Then
-                    stampDuty = offerpriPremium
+
+                If cboStampDuty.Text = "Yes" Then
+                    'NSDL Stamp duty Calc
+                    If txtFolioNo.Text = "00999999" Then
+                        stampDuty = purcaseCost * 0.005 / 100
+                        'CDSL Stamp duty Calc
+                    ElseIf txtFolioNo.Text = "00888888" Then
+                        stampDuty = offerpriPremium
+                    End If
                 End If
 
                 dgvRecord2.Rows.Add(dpId, clientId, distFrom, distTo, shareCount, faceValue,
@@ -975,9 +983,5 @@ Public Class frmCAAllotment
 
             End If
         End With
-    End Sub
-
-    Private Sub txtSharesCount_Validated_1(sender As Object, e As EventArgs)
-
     End Sub
 End Class
