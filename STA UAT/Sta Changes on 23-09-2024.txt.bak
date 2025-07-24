@@ -1,0 +1,56 @@
+date : 16-09-2024 connector changes done on poc db
+
+pr_con_bcpdefvalset
+
+
+-------------------------------------------
+ALTER TABLE `sta`.`sta_mst_tcompany` 
+ADD COLUMN `contact_person` VARCHAR(128) NULL AFTER `paid_up_value`,
+ADD COLUMN `contact_no` VARCHAR(128) NULL AFTER `contact_person`,
+ADD COLUMN `email_id` VARCHAR(45) NULL AFTER `contact_no`;
+
+ALTER TABLE `sta`.`sta_mst_tcompany` 
+ADD COLUMN `start_date` DATE NOT NULL AFTER `email_id`,
+ADD COLUMN `maturity_date` DATE NULL AFTER `start_date`;
+
+CREATE TABLE `sta_mst_tsecuritytype` (
+  `securitytype_gid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `securitytype_code` varchar(64) DEFAULT NULL,
+  `securitytype_name` varchar(64) DEFAULT NULL,
+  `delete_flag` char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`securitytype_gid`),
+  KEY `idx_securitytype_code` (`securitytype_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+INSERT INTO `sta`.`sta_mst_tsecuritytype` (`securitytype_code`, `securitytype_name`, `delete_flag`) VALUES ('DEBENTURE', 'DEBENTURE', 'N');
+INSERT INTO `sta`.`sta_mst_tsecuritytype` (`securitytype_code`, `securitytype_name`, `delete_flag`) VALUES ('EQUITY SHARES', 'EQUITY SHARES', 'N');
+INSERT INTO `sta`.`sta_mst_tsecuritytype` (`securitytype_code`, `securitytype_name`, `delete_flag`) VALUES ('PREFERENCE SHARES', 'PREFERENCE SHARES', 'N');
+INSERT INTO `sta`.`sta_mst_tsecuritytype` (`securitytype_code`, `securitytype_name`, `delete_flag`) VALUES ('WARRANT', 'WARRANT', 'N');
+
+New Storeprocedure -- > pr_sta_mst_tcompany_new
+
+CREATE TABLE `sta_trn_tcompanyattachment` (
+  `comp_attachment_gid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `comp_gid` int(10) unsigned DEFAULT NULL,
+  `comp_attachmenttype_gid` smallint(6) NOT NULL DEFAULT '0',
+  `file_name` varchar(128) DEFAULT NULL,
+  `insert_date` datetime DEFAULT NULL,
+  `insert_by` varchar(16) DEFAULT NULL,
+  `update_date` datetime DEFAULT NULL,
+  `update_by` varchar(16) DEFAULT NULL,
+  `delete_flag` char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`comp_attachment_gid`),
+  KEY `idx_comp_gid` (`comp_gid`),
+  KEY `idx_file_name` (`file_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+New Forms
+1) frmCompanyMasterNew
+2) frmCompanyAttachmentAdd
+3) frmCompanyAttachmentView 
+
+GlobalODBC.vb file new global variable added
+gsCompAttachmentPath
+Config table new record added for company attachment 

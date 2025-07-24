@@ -113,7 +113,7 @@ Partial Class frmCAAllotment
         Me.lnkAddAttachment.AutoSize = True
         Me.lnkAddAttachment.Location = New System.Drawing.Point(935, 462)
         Me.lnkAddAttachment.Name = "lnkAddAttachment"
-        Me.lnkAddAttachment.Size = New System.Drawing.Size(100, 13)
+        Me.lnkAddAttachment.Size = New System.Drawing.Size(149, 21)
         Me.lnkAddAttachment.TabIndex = 3
         Me.lnkAddAttachment.TabStop = True
         Me.lnkAddAttachment.Text = "Add Attachment"
@@ -226,7 +226,7 @@ Partial Class frmCAAllotment
         Me.txtPaidupamt.MaxLength = 0
         Me.txtPaidupamt.Name = "txtPaidupamt"
         Me.txtPaidupamt.ReadOnly = True
-        Me.txtPaidupamt.Size = New System.Drawing.Size(114, 21)
+        Me.txtPaidupamt.Size = New System.Drawing.Size(114, 27)
         Me.txtPaidupamt.TabIndex = 152
         '
         'txtFolioNo
@@ -237,7 +237,7 @@ Partial Class frmCAAllotment
         Me.txtFolioNo.MaxLength = 0
         Me.txtFolioNo.Name = "txtFolioNo"
         Me.txtFolioNo.ReadOnly = True
-        Me.txtFolioNo.Size = New System.Drawing.Size(295, 21)
+        Me.txtFolioNo.Size = New System.Drawing.Size(295, 27)
         Me.txtFolioNo.TabIndex = 139
         Me.txtFolioNo.TabStop = False
         '
@@ -249,7 +249,7 @@ Partial Class frmCAAllotment
         Me.txtIssueamt.MaxLength = 0
         Me.txtIssueamt.Name = "txtIssueamt"
         Me.txtIssueamt.ReadOnly = True
-        Me.txtIssueamt.Size = New System.Drawing.Size(114, 21)
+        Me.txtIssueamt.Size = New System.Drawing.Size(114, 27)
         Me.txtIssueamt.TabIndex = 151
         '
         'lblPaidupamt
@@ -278,7 +278,7 @@ Partial Class frmCAAllotment
         Me.dtpExecDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.dtpExecDate.Location = New System.Drawing.Point(292, 201)
         Me.dtpExecDate.Name = "dtpExecDate"
-        Me.dtpExecDate.Size = New System.Drawing.Size(114, 21)
+        Me.dtpExecDate.Size = New System.Drawing.Size(114, 27)
         Me.dtpExecDate.TabIndex = 146
         Me.dtpExecDate.Value = New Date(2024, 6, 11, 0, 0, 0, 0)
         '
@@ -298,7 +298,7 @@ Partial Class frmCAAllotment
         Me.dtpAllotmentDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.dtpAllotmentDate.Location = New System.Drawing.Point(111, 200)
         Me.dtpAllotmentDate.Name = "dtpAllotmentDate"
-        Me.dtpAllotmentDate.Size = New System.Drawing.Size(114, 21)
+        Me.dtpAllotmentDate.Size = New System.Drawing.Size(114, 27)
         Me.dtpAllotmentDate.TabIndex = 145
         Me.dtpAllotmentDate.Value = New Date(2024, 6, 11, 0, 0, 0, 0)
         '
@@ -308,7 +308,7 @@ Partial Class frmCAAllotment
         Me.cboStampDuty.Items.AddRange(New Object() {"Yes", "No"})
         Me.cboStampDuty.Location = New System.Drawing.Point(110, 228)
         Me.cboStampDuty.Name = "cboStampDuty"
-        Me.cboStampDuty.Size = New System.Drawing.Size(114, 21)
+        Me.cboStampDuty.Size = New System.Drawing.Size(114, 29)
         Me.cboStampDuty.TabIndex = 147
         '
         'lblAllotmentdesc
@@ -337,7 +337,7 @@ Partial Class frmCAAllotment
         Me.txtDistto.Location = New System.Drawing.Point(292, 255)
         Me.txtDistto.MaxLength = 0
         Me.txtDistto.Name = "txtDistto"
-        Me.txtDistto.Size = New System.Drawing.Size(114, 21)
+        Me.txtDistto.Size = New System.Drawing.Size(114, 27)
         Me.txtDistto.TabIndex = 150
         '
         'Label5
@@ -356,7 +356,7 @@ Partial Class frmCAAllotment
         Me.txtDistfrom.Location = New System.Drawing.Point(110, 255)
         Me.txtDistfrom.MaxLength = 0
         Me.txtDistfrom.Name = "txtDistfrom"
-        Me.txtDistfrom.Size = New System.Drawing.Size(114, 21)
+        Me.txtDistfrom.Size = New System.Drawing.Size(114, 27)
         Me.txtDistfrom.TabIndex = 149
         '
         'Label19
@@ -387,7 +387,7 @@ Partial Class frmCAAllotment
         Me.txtInwardNo.MaxLength = 0
         Me.txtInwardNo.Name = "txtInwardNo"
         Me.txtInwardNo.ReadOnly = True
-        Me.txtInwardNo.Size = New System.Drawing.Size(295, 21)
+        Me.txtInwardNo.Size = New System.Drawing.Size(295, 27)
         Me.txtInwardNo.TabIndex = 137
         Me.txtInwardNo.TabStop = False
         '
@@ -396,7 +396,7 @@ Partial Class frmCAAllotment
         Me.cboAllotmentdesc.FormattingEnabled = True
         Me.cboAllotmentdesc.Location = New System.Drawing.Point(111, 174)
         Me.cboAllotmentdesc.Name = "cboAllotmentdesc"
-        Me.cboAllotmentdesc.Size = New System.Drawing.Size(295, 21)
+        Me.cboAllotmentdesc.Size = New System.Drawing.Size(295, 29)
         Me.cboAllotmentdesc.TabIndex = 144
         '
         'Label20
@@ -414,7 +414,7 @@ Partial Class frmCAAllotment
         Me.cboCAtype.FormattingEnabled = True
         Me.cboCAtype.Location = New System.Drawing.Point(111, 147)
         Me.cboCAtype.Name = "cboCAtype"
-        Me.cboCAtype.Size = New System.Drawing.Size(295, 21)
+        Me.cboCAtype.Size = New System.Drawing.Size(295, 29)
         Me.cboCAtype.TabIndex = 143
         '
         'txtCompName
@@ -425,7 +425,7 @@ Partial Class frmCAAllotment
         Me.txtCompName.MaxLength = 0
         Me.txtCompName.Name = "txtCompName"
         Me.txtCompName.ReadOnly = True
-        Me.txtCompName.Size = New System.Drawing.Size(295, 21)
+        Me.txtCompName.Size = New System.Drawing.Size(295, 27)
         Me.txtCompName.TabIndex = 138
         Me.txtCompName.TabStop = False
         '
@@ -455,7 +455,7 @@ Partial Class frmCAAllotment
         Me.txtCAno.Location = New System.Drawing.Point(292, 119)
         Me.txtCAno.MaxLength = 16
         Me.txtCAno.Name = "txtCAno"
-        Me.txtCAno.Size = New System.Drawing.Size(114, 21)
+        Me.txtCAno.Size = New System.Drawing.Size(114, 27)
         Me.txtCAno.TabIndex = 142
         '
         'Label21
@@ -474,7 +474,7 @@ Partial Class frmCAAllotment
         Me.txtRtarefno.Location = New System.Drawing.Point(111, 119)
         Me.txtRtarefno.MaxLength = 16
         Me.txtRtarefno.Name = "txtRtarefno"
-        Me.txtRtarefno.Size = New System.Drawing.Size(114, 21)
+        Me.txtRtarefno.Size = New System.Drawing.Size(114, 27)
         Me.txtRtarefno.TabIndex = 141
         '
         'txtShareHolder
@@ -485,7 +485,7 @@ Partial Class frmCAAllotment
         Me.txtShareHolder.MaxLength = 0
         Me.txtShareHolder.Name = "txtShareHolder"
         Me.txtShareHolder.ReadOnly = True
-        Me.txtShareHolder.Size = New System.Drawing.Size(295, 21)
+        Me.txtShareHolder.Size = New System.Drawing.Size(295, 27)
         Me.txtShareHolder.TabIndex = 140
         Me.txtShareHolder.TabStop = False
         '
@@ -505,7 +505,7 @@ Partial Class frmCAAllotment
         Me.txtSharesCount.Location = New System.Drawing.Point(292, 228)
         Me.txtSharesCount.MaxLength = 10
         Me.txtSharesCount.Name = "txtSharesCount"
-        Me.txtSharesCount.Size = New System.Drawing.Size(114, 21)
+        Me.txtSharesCount.Size = New System.Drawing.Size(114, 27)
         Me.txtSharesCount.TabIndex = 148
         '
         'lblDistTo
@@ -565,7 +565,7 @@ Partial Class frmCAAllotment
         Me.txtFileName.Location = New System.Drawing.Point(493, 17)
         Me.txtFileName.Name = "txtFileName"
         Me.txtFileName.ReadOnly = True
-        Me.txtFileName.Size = New System.Drawing.Size(402, 21)
+        Me.txtFileName.Size = New System.Drawing.Size(402, 27)
         Me.txtFileName.TabIndex = 128
         '
         'btnBrowse
@@ -620,11 +620,11 @@ Partial Class frmCAAllotment
         'txtIsinId
         '
         Me.txtIsinId.BackColor = System.Drawing.SystemColors.Window
-        Me.txtIsinId.Location = New System.Drawing.Point(422, 61)
+        Me.txtIsinId.Location = New System.Drawing.Point(422, 68)
         Me.txtIsinId.MaxLength = 0
         Me.txtIsinId.Name = "txtIsinId"
         Me.txtIsinId.ReadOnly = True
-        Me.txtIsinId.Size = New System.Drawing.Size(30, 21)
+        Me.txtIsinId.Size = New System.Drawing.Size(30, 27)
         Me.txtIsinId.TabIndex = 79
         Me.txtIsinId.TabStop = False
         Me.txtIsinId.Visible = False
@@ -758,7 +758,7 @@ Partial Class frmCAAllotment
         '
         'frmCAAllotment
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(11.0!, 21.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1063, 513)
         Me.Controls.Add(Me.grpHeader)

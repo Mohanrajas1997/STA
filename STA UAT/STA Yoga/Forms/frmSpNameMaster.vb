@@ -84,9 +84,9 @@ Public Class frmSpNameMaster
         '
         Me.btnNew.BackColor = System.Drawing.SystemColors.Control
         Me.btnNew.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnNew.Location = New System.Drawing.Point(1, 1)
+        Me.btnNew.Location = New System.Drawing.Point(2, 1)
         Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(72, 24)
+        Me.btnNew.Size = New System.Drawing.Size(108, 35)
         Me.btnNew.TabIndex = 0
         Me.btnNew.Text = "&New"
         Me.btnNew.UseVisualStyleBackColor = False
@@ -95,9 +95,9 @@ Public Class frmSpNameMaster
         '
         Me.btnSave.BackColor = System.Drawing.SystemColors.Control
         Me.btnSave.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnSave.Location = New System.Drawing.Point(2, 1)
+        Me.btnSave.Location = New System.Drawing.Point(3, 1)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(72, 24)
+        Me.btnSave.Size = New System.Drawing.Size(108, 35)
         Me.btnSave.TabIndex = 4
         Me.btnSave.Text = "&Save"
         Me.btnSave.UseVisualStyleBackColor = False
@@ -106,18 +106,18 @@ Public Class frmSpNameMaster
         '
         Me.pnlSave.Controls.Add(Me.btnCancel)
         Me.pnlSave.Controls.Add(Me.btnSave)
-        Me.pnlSave.Location = New System.Drawing.Point(133, 65)
+        Me.pnlSave.Location = New System.Drawing.Point(200, 93)
         Me.pnlSave.Name = "pnlSave"
-        Me.pnlSave.Size = New System.Drawing.Size(152, 28)
+        Me.pnlSave.Size = New System.Drawing.Size(228, 40)
         Me.pnlSave.TabIndex = 33
         '
         'btnCancel
         '
         Me.btnCancel.BackColor = System.Drawing.SystemColors.Control
         Me.btnCancel.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnCancel.Location = New System.Drawing.Point(80, 1)
+        Me.btnCancel.Location = New System.Drawing.Point(120, 1)
         Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(72, 24)
+        Me.btnCancel.Size = New System.Drawing.Size(108, 35)
         Me.btnCancel.TabIndex = 10
         Me.btnCancel.Text = "&Cancel"
         Me.btnCancel.UseVisualStyleBackColor = False
@@ -129,18 +129,18 @@ Public Class frmSpNameMaster
         Me.pnlButtons.Controls.Add(Me.btnDelete)
         Me.pnlButtons.Controls.Add(Me.btnEdit)
         Me.pnlButtons.Controls.Add(Me.btnNew)
-        Me.pnlButtons.Location = New System.Drawing.Point(15, 65)
+        Me.pnlButtons.Location = New System.Drawing.Point(22, 93)
         Me.pnlButtons.Name = "pnlButtons"
-        Me.pnlButtons.Size = New System.Drawing.Size(389, 28)
+        Me.pnlButtons.Size = New System.Drawing.Size(584, 40)
         Me.pnlButtons.TabIndex = 34
         '
         'btnClose
         '
         Me.btnClose.BackColor = System.Drawing.SystemColors.Control
         Me.btnClose.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnClose.Location = New System.Drawing.Point(313, 1)
+        Me.btnClose.Location = New System.Drawing.Point(470, 1)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(72, 24)
+        Me.btnClose.Size = New System.Drawing.Size(108, 35)
         Me.btnClose.TabIndex = 4
         Me.btnClose.Text = "C&lose"
         Me.btnClose.UseVisualStyleBackColor = False
@@ -149,9 +149,9 @@ Public Class frmSpNameMaster
         '
         Me.btnFind.BackColor = System.Drawing.SystemColors.Control
         Me.btnFind.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnFind.Location = New System.Drawing.Point(157, 1)
+        Me.btnFind.Location = New System.Drawing.Point(236, 1)
         Me.btnFind.Name = "btnFind"
-        Me.btnFind.Size = New System.Drawing.Size(72, 24)
+        Me.btnFind.Size = New System.Drawing.Size(108, 35)
         Me.btnFind.TabIndex = 2
         Me.btnFind.Text = "&Find"
         Me.btnFind.UseVisualStyleBackColor = False
@@ -160,9 +160,9 @@ Public Class frmSpNameMaster
         '
         Me.btnDelete.BackColor = System.Drawing.SystemColors.Control
         Me.btnDelete.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnDelete.Location = New System.Drawing.Point(235, 1)
+        Me.btnDelete.Location = New System.Drawing.Point(352, 1)
         Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(72, 24)
+        Me.btnDelete.Size = New System.Drawing.Size(108, 35)
         Me.btnDelete.TabIndex = 3
         Me.btnDelete.Text = "&Delete"
         Me.btnDelete.UseVisualStyleBackColor = False
@@ -171,9 +171,9 @@ Public Class frmSpNameMaster
         '
         Me.btnEdit.BackColor = System.Drawing.SystemColors.Control
         Me.btnEdit.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.btnEdit.Location = New System.Drawing.Point(79, 1)
+        Me.btnEdit.Location = New System.Drawing.Point(118, 1)
         Me.btnEdit.Name = "btnEdit"
-        Me.btnEdit.Size = New System.Drawing.Size(72, 24)
+        Me.btnEdit.Size = New System.Drawing.Size(108, 35)
         Me.btnEdit.TabIndex = 1
         Me.btnEdit.Text = "&Edit"
         Me.btnEdit.UseVisualStyleBackColor = False
@@ -183,41 +183,41 @@ Public Class frmSpNameMaster
         Me.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.pnlMain.Controls.Add(Me.txtName)
         Me.pnlMain.Controls.Add(Me.lblName)
-        Me.pnlMain.Location = New System.Drawing.Point(8, 8)
+        Me.pnlMain.Location = New System.Drawing.Point(12, 11)
         Me.pnlMain.Name = "pnlMain"
-        Me.pnlMain.Size = New System.Drawing.Size(406, 50)
+        Me.pnlMain.Size = New System.Drawing.Size(609, 72)
         Me.pnlMain.TabIndex = 35
         '
         'txtName
         '
-        Me.txtName.Location = New System.Drawing.Point(127, 12)
+        Me.txtName.Location = New System.Drawing.Point(190, 17)
         Me.txtName.MaxLength = 64
         Me.txtName.Name = "txtName"
-        Me.txtName.Size = New System.Drawing.Size(263, 21)
+        Me.txtName.Size = New System.Drawing.Size(395, 27)
         Me.txtName.TabIndex = 3
         '
         'lblName
         '
         Me.lblName.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.lblName.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblName.Location = New System.Drawing.Point(10, 14)
+        Me.lblName.Location = New System.Drawing.Point(15, 20)
         Me.lblName.Name = "lblName"
-        Me.lblName.Size = New System.Drawing.Size(111, 13)
+        Me.lblName.Size = New System.Drawing.Size(167, 19)
         Me.lblName.TabIndex = 55
         Me.lblName.Text = "A/C Type Name"
         Me.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtId
         '
-        Me.txtId.Location = New System.Drawing.Point(8, 64)
+        Me.txtId.Location = New System.Drawing.Point(12, 91)
         Me.txtId.Name = "txtId"
-        Me.txtId.Size = New System.Drawing.Size(11, 21)
+        Me.txtId.Size = New System.Drawing.Size(16, 27)
         Me.txtId.TabIndex = 60
         Me.txtId.Visible = False
         '
-        'frmNameMaster
+        'frmSpNameMaster
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 14)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(9, 20)
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(418, 100)
         Me.Controls.Add(Me.txtId)
@@ -229,7 +229,7 @@ Public Class frmSpNameMaster
         Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "frmNameMaster"
+        Me.Name = "frmSpNameMaster"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "A/C Type Master"
         Me.pnlSave.ResumeLayout(False)

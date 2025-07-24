@@ -4,8 +4,17 @@ Imports System.Data.OleDb
 Imports System.IO
 Imports Microsoft.SqlServer
 Imports Microsoft.Office.Interop
+Imports System.Net.Mail
+Imports System.Net
+Imports System.Net.Security
+Imports System.Security.Cryptography.X509Certificates
+Imports Newtonsoft.Json.Linq
+Imports System.Text
 
 Public Class clsImport
+
+    Dim mnInwardGID As Long
+
     Public Function CertificateDistSeries(FileName As String, SheetName As String, Optional ShowFlag As Boolean = True, Optional LsvItem As ListViewItem = Nothing) As clsFileReturn
         Dim i As Integer
         Dim lsFldName(7) As String
@@ -5809,23 +5818,58 @@ Public Class clsImport
         Dim lsBeneAcccat As String
         Dim lsBeneOccupation As String
 
-        Dim lsLeiNo As String
-        Dim lsModeOfOper As String
-        Dim lsComPreference As String
-        Dim lsNomineeGuardName As String
-        Dim lsNomineeRelWBO As Long
-        Dim lsNomineePercOfShare As Long
-        Dim ls2NomineeName As String
-        Dim ls2NomineeGuardName As String
-        Dim ls2NomineeRelWBO As Long
-        Dim ls2NomineePercOfShare As Long
-        Dim ls3NomineeName As String
-        Dim ls3NomineeGuardName As String
-        Dim ls3NomineeRelWBO As Long
-        Dim ls3NomineePercOfShare As Long
-        Dim lsPanflagHolder1 As String
-        Dim lsPanflagHolder2 As String
-        Dim lsPanflagHolder3 As String
+        'Dim lsLeiNo As String
+        'Dim lsModeOfOper As String
+        'Dim lsComPreference As String
+        'Dim lsNomineeGuardName As String
+        'Dim lsNomineeRelWBO As Long
+        'Dim lsNomineePercOfShare As Long
+        'Dim ls2NomineeName As String
+        'Dim ls2NomineeGuardName As String
+        'Dim ls2NomineeRelWBO As Long
+        'Dim ls2NomineePercOfShare As Long
+        'Dim ls3NomineeName As String
+        'Dim ls3NomineeGuardName As String
+        'Dim ls3NomineeRelWBO As Long
+        'Dim ls3NomineePercOfShare As Long
+        'Dim lsPanflagHolder1 As String
+        'Dim lsPanflagHolder2 As String
+        'Dim lsPanflagHolder3 As String
+
+        Dim lsBenetaxdeductionstatus As String
+        Dim lsBeneStatus As String
+        Dim lsBeneFreePosition As Long
+        Dim lsBeneBlockPosition As Long
+        Dim lsBenePledgewithLockinPosition As Long
+        Dim lsBenePledgedUnconfirmedPosition As Long
+        Dim lsBeneUncnfrmPledgedwithLockinPosition As Long
+        Dim lsBeneCMIDDPositions As Long
+        Dim lsHolder1PanFlag As String
+        Dim lsHolder2PanFlag As String
+        Dim lsHolder3PanFlag As String
+
+        Dim lsGuardianName As String
+        Dim lsBirthDate As String
+        Dim lsAccountStatus As String
+        Dim lsBoFreezeFlag As String
+        Dim lsFreezeReasonCode As Long
+        Dim lsISINStatus As String
+        Dim lsAccOpeningDate As String
+        Dim lsTaxDeductionStatus As Long
+        Dim lsNationality As String
+        Dim lsSecondaryPhoneno As String
+        Dim lsECSMandateFlag As String
+        Dim lsDividentBankCurrency As Long
+        Dim lsFreeBal As Long
+        Dim lsPendingDematVerification As Long
+        Dim lsPendingDematConfirmation As Long
+        Dim lsPledgeSetupBal As Long
+        Dim lsUIDofHolder1 As String
+        Dim lsUIDofHolder2 As String
+        Dim lsUIDofHolder3 As String
+        Dim lsSafeKeepBal As Long
+        Dim lsEarmarkBal As Long
+
         Dim lsbool_flag As Boolean = True
 
         Dim lsMsg As String
@@ -5956,23 +6000,58 @@ Public Class clsImport
                 lsBeneSubType = ""
                 lsBeneAcccat = ""
                 lsBeneOccupation = ""
-                lsLeiNo = ""
-                lsModeOfOper = ""
-                lsComPreference = ""
-                lsNomineeGuardName = ""
-                lsNomineeRelWBO = 0
-                lsNomineePercOfShare = 0
-                ls2NomineeName = ""
-                ls2NomineeGuardName = ""
-                ls2NomineeRelWBO = 0
-                ls2NomineePercOfShare = 0
-                ls3NomineeName = ""
-                ls3NomineeGuardName = ""
-                ls3NomineeRelWBO = 0
-                ls3NomineePercOfShare = 0
-                lsPanflagHolder1 = ""
-                lsPanflagHolder2 = ""
-                lsPanflagHolder3 = ""
+
+                'lsLeiNo = ""
+                'lsModeOfOper = ""
+                'lsComPreference = ""
+                'lsNomineeGuardName = ""
+                'lsNomineeRelWBO = 0
+                'lsNomineePercOfShare = 0
+                'ls2NomineeName = ""
+                'ls2NomineeGuardName = ""
+                'ls2NomineeRelWBO = 0
+                'ls2NomineePercOfShare = 0
+                'ls3NomineeName = ""
+                'ls3NomineeGuardName = ""
+                'ls3NomineeRelWBO = 0
+                'ls3NomineePercOfShare = 0
+                'lsPanflagHolder1 = ""
+                'lsPanflagHolder2 = ""
+                'lsPanflagHolder3 = ""
+
+                lsBenetaxdeductionstatus = ""
+                lsBeneStatus = ""
+                lsBeneFreePosition = 0
+                lsBeneBlockPosition = 0
+                lsBenePledgewithLockinPosition = 0
+                lsBenePledgedUnconfirmedPosition = 0
+                lsBeneUncnfrmPledgedwithLockinPosition = 0
+                lsBeneCMIDDPositions = 0
+                lsHolder1PanFlag = ""
+                lsHolder2PanFlag = ""
+                lsHolder3PanFlag = ""
+
+                lsGuardianName = ""
+                lsBirthDate = ""
+                lsAccountStatus = ""
+                lsBoFreezeFlag = ""
+                lsFreezeReasonCode = 0
+                lsISINStatus = ""
+                lsAccOpeningDate = ""
+                lsTaxDeductionStatus = 0
+                lsNationality = ""
+                lsSecondaryPhoneno = ""
+                lsECSMandateFlag = ""
+                lsDividentBankCurrency = 0
+                lsFreeBal = 0
+                lsPendingDematVerification = 0
+                lsPendingDematConfirmation = 0
+                lsPledgeSetupBal = 0
+                lsUIDofHolder1 = ""
+                lsUIDofHolder2 = ""
+                lsUIDofHolder3 = ""
+                lssafekeepbal = 0
+                lsearmarkbal = 0
 
                 If (lsFldValues.Length = 20 Or lsFldValues.Length = 24) And lbHeaderFlag = False And lsFldValues(0) = "01" Then
                     lsIsinID = lsFldValues(1)
@@ -6019,8 +6098,8 @@ Public Class clsImport
                     lsHolder1Addr2 = Mid(lsFldValues(11), 1, 128)
                     lsHolder1Addr3 = Mid(lsFldValues(12), 1, 128)
                     lsHolder1City = Mid(lsFldValues(13), 1, 128)
-                    lsHolder1State = Mid(lsFldValues(75), 1, 128)
-                    lsHolder1Country = Mid(lsFldValues(76), 1, 128)
+                    lsHolder1State = ""
+                    lsHolder1Country = ""
                     lsHolder1Pincode = Mid(lsFldValues(14), 1, 128)
                     lsHolder1ContactNo = Mid(lsFldValues(15), 1, 128)
                     lsHolder1FaxNo = Mid(lsFldValues(16), 1, 128)
@@ -6063,10 +6142,23 @@ Public Class clsImport
                     lsBeneAcccat = Mid(lsFldValues(6), 1, 16)
                     lsBeneOccupation = Mid(lsFldValues(7), 1, 16)
 
-                    lsLeiNo = Mid(lsFldValues(77), 1, 32)
-                    lsPanflagHolder1 = Mid(lsFldValues(78), 1, 1)
-                    lsPanflagHolder2 = Mid(lsFldValues(79), 1, 1)
-                    lsPanflagHolder3 = Mid(lsFldValues(80), 1, 1)
+                    'lsLeiNo = Mid(lsFldValues(77), 1, 32)
+                    'lsPanflagHolder1 = Mid(lsFldValues(78), 1, 1)
+                    'lsPanflagHolder2 = Mid(lsFldValues(79), 1, 1)
+                    'lsPanflagHolder3 = Mid(lsFldValues(80), 1, 1)
+
+                    lsBenetaxdeductionstatus = Mid(lsFldValues(45), 1, 20)
+                    lsBeneStatus = Mid(lsFldValues(46), 1, 2)
+                    lsBeneFreePosition = Val(lsFldValues(47))
+                    lsBeneBlockPosition = Val(lsFldValues(49))
+                    lsBenePledgewithLockinPosition = Val(lsFldValues(51))
+                    lsBenePledgedUnconfirmedPosition = Val(lsFldValues(52))
+                    lsBeneUncnfrmPledgedwithLockinPosition = Val(lsFldValues(53))
+                    lsBeneCMIDDPositions = Val(lsFldValues(56))
+                    lsHolder1PanFlag = lsFldValues(77)
+                    lsHolder2PanFlag = lsFldValues(78)
+                    lsHolder3PanFlag = lsFldValues(79)
+
 
                     If lsbool_flag = True Then
                         Using cmd As New MySqlCommand("pr_sta_del_currentbenpost", gOdbcConn)
@@ -6083,7 +6175,7 @@ Public Class clsImport
                     End If
 
 
-                    Using cmd As New MySqlCommand("pr_sta_ins_benpostnew", gOdbcConn)
+                    Using cmd As New MySqlCommand("pr_sta_ins_benpost_15042025", gOdbcConn)
                         cmd.CommandType = CommandType.StoredProcedure
                         cmd.Parameters.AddWithValue("?in_file_gid", lnFileId)
                         cmd.Parameters.AddWithValue("?in_depository_code", gsNSDLCode)
@@ -6147,23 +6239,55 @@ Public Class clsImport
                         cmd.Parameters.AddWithValue("?in_bene_subtype", lsBeneSubType)
                         cmd.Parameters.AddWithValue("?in_bene_acccat", lsBeneAcccat)
                         cmd.Parameters.AddWithValue("?in_bene_occupation", lsBeneOccupation)
-                        cmd.Parameters.AddWithValue("?in_lei_no", lsLeiNo)
-                        cmd.Parameters.AddWithValue("?in_mode_of_operation", lsModeOfOper)
-                        cmd.Parameters.AddWithValue("?in_com_preference", lsComPreference)
-                        cmd.Parameters.AddWithValue("?in_nominee_guardian_name", lsNomineeGuardName)
-                        cmd.Parameters.AddWithValue("?in_nominee_relation_wbo", lsNomineeRelWBO)
-                        cmd.Parameters.AddWithValue("?in_nominee_pos", lsNomineePercOfShare)
-                        cmd.Parameters.AddWithValue("?in_2nominee_name", ls2NomineeName)
-                        cmd.Parameters.AddWithValue("?in_2nominee_guardian_name", ls2NomineeGuardName)
-                        cmd.Parameters.AddWithValue("?in_2nominee_relation_wbo", ls2NomineeRelWBO)
-                        cmd.Parameters.AddWithValue("?in_2nominee_perc_of_shares", ls2NomineePercOfShare)
-                        cmd.Parameters.AddWithValue("?in_3nominee_name", ls3NomineeName)
-                        cmd.Parameters.AddWithValue("?in_3nominee_guardian_name", ls3NomineeGuardName)
-                        cmd.Parameters.AddWithValue("?in_3nominee_relation_wbo", ls3NomineeRelWBO)
-                        cmd.Parameters.AddWithValue("?in_3nominee_perc_of_shares", ls3NomineePercOfShare)
-                        cmd.Parameters.AddWithValue("?in_panflag_for_holder1", lsPanflagHolder1)
-                        cmd.Parameters.AddWithValue("?in_panflag_for_holder2", lsPanflagHolder2)
-                        cmd.Parameters.AddWithValue("?in_panflag_for_holder3", lsPanflagHolder3)
+
+                        cmd.Parameters.AddWithValue("?in_bene_tax_deduction_status", lsBenetaxdeductionstatus)
+                        cmd.Parameters.AddWithValue("?in_bene_status", lsBeneStatus)
+                        cmd.Parameters.AddWithValue("?in_bene_free_positions", lsBeneFreePosition)
+                        cmd.Parameters.AddWithValue("?in_bene_block_positions", lsBeneBlockPosition)
+                        cmd.Parameters.AddWithValue("?in_bene_pledge_with_lockin_position", lsBenePledgewithLockinPosition)
+                        cmd.Parameters.AddWithValue("?in_bene_pledged_unconfirmed_Position", lsBenePledgedUnconfirmedPosition)
+                        cmd.Parameters.AddWithValue("?in_bene_uncnfrm_Pledged_with_Lockin_position", lsBeneUncnfrmPledgedwithLockinPosition)
+                        cmd.Parameters.AddWithValue("?in_bene_cm_idd_positions", lsBeneCMIDDPositions)
+                        cmd.Parameters.AddWithValue("?in_holder1_pan_flag", lsHolder1PanFlag)
+                        cmd.Parameters.AddWithValue("?in_holder2_pan_flag", lsHolder2PanFlag)
+                        cmd.Parameters.AddWithValue("?in_holder3_pan_flag", lsHolder3PanFlag)
+                        cmd.Parameters.AddWithValue("?in_guardian_name", lsGuardianName)
+                        cmd.Parameters.AddWithValue("?in_birth_date", lsBirthDate)
+                        cmd.Parameters.AddWithValue("?in_account_status", lsAccountStatus)
+                        cmd.Parameters.AddWithValue("?in_bo_freeze_flag", lsBoFreezeFlag)
+                        cmd.Parameters.AddWithValue("?in_freeze_reason_code", lsFreezeReasonCode)
+                        cmd.Parameters.AddWithValue("?in_isin_status", lsISINStatus)
+                        cmd.Parameters.AddWithValue("?in_acc_opening_date", lsAccOpeningDate)
+                        cmd.Parameters.AddWithValue("?in_nationality", lsNationality)
+                        cmd.Parameters.AddWithValue("?in_secondary_phone_no", lsSecondaryPhoneno)
+                        cmd.Parameters.AddWithValue("?in_ecs_mandate_flag", lsECSMandateFlag)
+                        cmd.Parameters.AddWithValue("?in_divident_bank_currency", lsDividentBankCurrency)
+                        cmd.Parameters.AddWithValue("?in_pending_demat_verification", lsPendingDematVerification)
+                        cmd.Parameters.AddWithValue("?in_pending_demat_confirmation", lsPendingDematConfirmation)
+                        cmd.Parameters.AddWithValue("?in_pledge_setup_bal", lsPledgeSetupBal)
+                        cmd.Parameters.AddWithValue("?in_uid_of_holder1", lsUIDofHolder1)
+                        cmd.Parameters.AddWithValue("?in_uid_of_holder2", lsUIDofHolder2)
+                        cmd.Parameters.AddWithValue("?in_uid_of_holder3", lsUIDofHolder3)
+                        cmd.Parameters.AddWithValue("?in_safe_keep_bal", lssafekeepbal)
+                        cmd.Parameters.AddWithValue("?in_earmark_bal", lsearmarkbal)
+
+                        'cmd.Parameters.AddWithValue("?in_lei_no", lsLeiNo)
+                        'cmd.Parameters.AddWithValue("?in_mode_of_operation", lsModeOfOper)
+                        'cmd.Parameters.AddWithValue("?in_com_preference", lsComPreference)
+                        'cmd.Parameters.AddWithValue("?in_nominee_guardian_name", lsNomineeGuardName)
+                        'cmd.Parameters.AddWithValue("?in_nominee_relation_wbo", lsNomineeRelWBO)
+                        'cmd.Parameters.AddWithValue("?in_nominee_pos", lsNomineePercOfShare)
+                        'cmd.Parameters.AddWithValue("?in_2nominee_name", ls2NomineeName)
+                        'cmd.Parameters.AddWithValue("?in_2nominee_guardian_name", ls2NomineeGuardName)
+                        'cmd.Parameters.AddWithValue("?in_2nominee_relation_wbo", ls2NomineeRelWBO)
+                        'cmd.Parameters.AddWithValue("?in_2nominee_perc_of_shares", ls2NomineePercOfShare)
+                        'cmd.Parameters.AddWithValue("?in_3nominee_name", ls3NomineeName)
+                        'cmd.Parameters.AddWithValue("?in_3nominee_guardian_name", ls3NomineeGuardName)
+                        'cmd.Parameters.AddWithValue("?in_3nominee_relation_wbo", ls3NomineeRelWBO)
+                        'cmd.Parameters.AddWithValue("?in_3nominee_perc_of_shares", ls3NomineePercOfShare)
+                        'cmd.Parameters.AddWithValue("?in_panflag_for_holder1", lsPanflagHolder1)
+                        'cmd.Parameters.AddWithValue("?in_panflag_for_holder2", lsPanflagHolder2)
+                        'cmd.Parameters.AddWithValue("?in_panflag_for_holder3", lsPanflagHolder3)
                         cmd.Parameters.AddWithValue("?in_line_no", i)
                         cmd.Parameters.AddWithValue("?in_errline_flag", True)
 
@@ -6309,23 +6433,58 @@ Public Class clsImport
         Dim lsBeneAcccat As String
         Dim lsBeneOccupation As String
 
-        Dim lsLeiNo As String
-        Dim lsModeOfOper As String
-        Dim lsComPreference As String
-        Dim lsNomineeGuardName As String
-        Dim lsNomineeRelWBO As Long
-        Dim lsNomineePercOfShare As Long
-        Dim ls2NomineeName As String
-        Dim ls2NomineeGuardName As String
-        Dim ls2NomineeRelWBO As Long
-        Dim ls2NomineePercOfShare As Long
-        Dim ls3NomineeName As String
-        Dim ls3NomineeGuardName As String
-        Dim ls3NomineeRelWBO As Long
-        Dim ls3NomineePercOfShare As Long
-        Dim lsPanflagHolder1 As String
-        Dim lsPanflagHolder2 As String
-        Dim lsPanflagHolder3 As String
+        'Dim lsLeiNo As String
+        'Dim lsModeOfOper As String
+        'Dim lsComPreference As String
+        'Dim lsNomineeGuardName As String
+        'Dim lsNomineeRelWBO As Long
+        'Dim lsNomineePercOfShare As Long
+        'Dim ls2NomineeName As String
+        'Dim ls2NomineeGuardName As String
+        'Dim ls2NomineeRelWBO As Long
+        'Dim ls2NomineePercOfShare As Long
+        'Dim ls3NomineeName As String
+        'Dim ls3NomineeGuardName As String
+        'Dim ls3NomineeRelWBO As Long
+        'Dim ls3NomineePercOfShare As Long
+        'Dim lsPanflagHolder1 As String
+        'Dim lsPanflagHolder2 As String
+        'Dim lsPanflagHolder3 As String
+
+        Dim lsBenetaxdeductionstatus As String
+        Dim lsBeneStatus As String
+        Dim lsBeneFreePosition As Long
+        Dim lsBeneBlockPosition As Long
+        Dim lsBenePledgewithLockinPosition As Long
+        Dim lsBenePledgedUnconfirmedPosition As Long
+        Dim lsBeneUncnfrmPledgedwithLockinPosition As Long
+        Dim lsBeneCMIDDPositions As Long
+        Dim lsHolder1PanFlag As String
+        Dim lsHolder2PanFlag As String
+        Dim lsHolder3PanFlag As String
+
+        Dim lsGuardianName As String
+        Dim lsBirthDate As String
+        Dim lsAccountStatus As String
+        Dim lsBoFreezeFlag As String
+        Dim lsFreezeReasonCode As Long
+        Dim lsISINStatus As String
+        Dim lsAccOpeningDate As String
+        Dim lsTaxDeductionStatus As Long
+        Dim lsNationality As String
+        Dim lsSecondaryPhoneno As String
+        Dim lsECSMandateFlag As String
+        Dim lsDividentBankCurrency As Long
+        Dim lsFreeBal As Long
+        Dim lsPendingDematVerification As Long
+        Dim lsPendingDematConfirmation As Long
+        Dim lsPledgeSetupBal As Long
+        Dim lsUIDofHolder1 As String
+        Dim lsUIDofHolder2 As String
+        Dim lsUIDofHolder3 As String
+        Dim lsSafeKeepBal As Long
+        Dim lsEarmarkBal As Long
+
         Dim lsbool_flag As Boolean = True
 
         Dim lsMsg As String
@@ -6457,23 +6616,57 @@ Public Class clsImport
                 lsBeneSubType = ""
                 lsBeneAcccat = ""
                 lsBeneOccupation = ""
-                lsLeiNo = ""
-                lsModeOfOper = ""
-                lsComPreference = ""
-                lsNomineeGuardName = ""
-                lsNomineeRelWBO = 0
-                lsNomineePercOfShare = 0
-                ls2NomineeName = ""
-                ls2NomineeGuardName = ""
-                ls2NomineeRelWBO = 0
-                ls2NomineePercOfShare = 0
-                ls3NomineeName = ""
-                ls3NomineeGuardName = ""
-                ls3NomineeRelWBO = 0
-                ls3NomineePercOfShare = 0
-                lsPanflagHolder1 = ""
-                lsPanflagHolder2 = ""
-                lsPanflagHolder3 = ""
+                'lsLeiNo = ""
+                'lsModeOfOper = ""
+                'lsComPreference = ""
+                'lsNomineeGuardName = ""
+                'lsNomineeRelWBO = 0
+                'lsNomineePercOfShare = 0
+                'ls2NomineeName = ""
+                'ls2NomineeGuardName = ""
+                'ls2NomineeRelWBO = 0
+                'ls2NomineePercOfShare = 0
+                'ls3NomineeName = ""
+                'ls3NomineeGuardName = ""
+                'ls3NomineeRelWBO = 0
+                'ls3NomineePercOfShare = 0
+                'lsPanflagHolder1 = ""
+                'lsPanflagHolder2 = ""
+                'lsPanflagHolder3 = ""
+
+                lsBenetaxdeductionstatus = ""
+                lsBeneStatus = ""
+                lsBeneFreePosition = 0
+                lsBeneBlockPosition = 0
+                lsBenePledgewithLockinPosition = 0
+                lsBenePledgedUnconfirmedPosition = 0
+                lsBeneUncnfrmPledgedwithLockinPosition = 0
+                lsBeneCMIDDPositions = 0
+                lsHolder1PanFlag = ""
+                lsHolder2PanFlag = ""
+                lsHolder3PanFlag = ""
+
+                lsGuardianName = ""
+                lsBirthDate = ""
+                lsAccountStatus = ""
+                lsBoFreezeFlag = ""
+                lsFreezeReasonCode = 0
+                lsISINStatus = ""
+                lsAccOpeningDate = ""
+                lsTaxDeductionStatus = 0
+                lsNationality = ""
+                lsSecondaryPhoneno = ""
+                lsECSMandateFlag = ""
+                lsDividentBankCurrency = 0
+                lsFreeBal = 0
+                lsPendingDematVerification = 0
+                lsPendingDematConfirmation = 0
+                lsPledgeSetupBal = 0
+                lsUIDofHolder1 = ""
+                lsUIDofHolder2 = ""
+                lsUIDofHolder3 = ""
+                lssafekeepbal = 0
+                lsearmarkbal = 0
 
                 lsBenpostDate = lsFldValues(73)
                 If lsBenpostDate.Length = 8 And IsNumeric(lsBenpostDate) = True Then lsBenpostDate = Mid(lsBenpostDate, 5, 4) & "-" & Mid(lsBenpostDate, 3, 2) & "-" & Mid(lsBenpostDate, 1, 2)
@@ -6481,7 +6674,7 @@ Public Class clsImport
 
                 'actual value is 105 is on there i have added 100 and 102 reason:- uploaded failed scenario -- cmt line added by Mohan
                 'Or lsFldValues.Length = 100 Or lsFldValues.Length = 102 Or lsFldValues.Length = 105
-                If lsFldValues.Length = 91 Or lsFldValues.Length = 92 Or lsFldValues.Length = 100 Or lsFldValues.Length = 102 Or lsFldValues.Length = 105 Then
+                If lsFldValues.Length = 91 Or lsFldValues.Length = 92 Or lsFldValues.Length = 100 Or lsFldValues.Length = 102 Or lsFldValues.Length = 105 Or lsFldValues.Length = 104 Then
                     lsIsinID = lsFldValues(0)
 
                     lsDpId = Mid(lsFldValues(1), 1, 8)
@@ -6562,6 +6755,46 @@ Public Class clsImport
                     'ls3NomineeRelWBO = Mid(lsFldValues(102), 1, 2)
                     'ls3NomineePercOfShare = Mid(lsFldValues(103), 1, 7)
 
+                    lsGuardianName = Mid(lsFldValues(5), 1, 142)
+
+                    lsBirthDate = lsFldValues(9)
+                    If lsBirthDate.Length = 8 And IsNumeric(lsBirthDate) = True Then lsBirthDate = Mid(lsBirthDate, 1, 4) & "-" & Mid(lsBirthDate, 5, 2) & "-" & Mid(lsBirthDate, 7, 2)
+                    If IsDate(lsBirthDate) Then lsBirthDate = Format(CDate(lsBirthDate), "yyyy-MM-dd") Else lsBirthDate = "0001-01-01"
+
+                    lsAccountStatus = Mid(lsFldValues(10), 1, 1)
+                    lsBeneStatus = Mid(lsFldValues(10), 1, 1)
+                    lsBoFreezeFlag = Mid(lsFldValues(19), 1, 1)
+                    lsFreezeReasonCode = Val(lsFldValues(20))
+
+                    lsISINStatus = Mid(lsFldValues(21), 1, 1)
+                    lsAccOpeningDate = Mid(lsFldValues(22), 1, 11)
+                    'If lsAccOpeningDate.Length = 11 And IsNumeric(lsAccOpeningDate) = True Then lsAccOpeningDate = Mid(lsAccOpeningDate, 1, 4) & "-" & Mid(lsAccOpeningDate, 5, 2) & "-" & Mid(lsAccOpeningDate, 7, 2)
+                    'If IsDate(lsAccOpeningDate) Then lsAccOpeningDate = Format(CDate(lsAccOpeningDate), "yyyy-MM-dd") Else lsAccOpeningDate = "0001-01-01"
+
+                    If IsDate(lsAccOpeningDate) Then
+                        lsAccOpeningDate = Format(CDate(lsAccOpeningDate), "yyyy-MM-dd")
+                    Else
+                        lsAccOpeningDate = "0001-01-01"
+                    End If
+
+                    'lsTaxDeductionStatus = Val(lsFldValues(30))
+                    lsBenetaxdeductionstatus = Val(lsFldValues(30))
+                    lsNationality = Mid(lsFldValues(31), 1, 3)
+                    lsSecondaryPhoneno = Mid(lsFldValues(47), 1, 17)
+                    lsECSMandateFlag = Mid(lsFldValues(50), 1, 1)
+                    lsDividentBankCurrency = Val(lsFldValues(61))
+                    'lsFreeBal = Val(lsFldValues(70))
+                    lsBeneFreePosition = Val(lsFldValues(70))
+                    lsPendingDematVerification = Val(lsFldValues(71))
+                    lsPendingDematConfirmation = Val(lsFldValues(72))
+                    lsPledgeSetupBal = Val(lsFldValues(74))
+                    lsUIDofHolder1 = Mid(lsFldValues(77), 1, 15)
+                    lsUIDofHolder2 = Mid(lsFldValues(78), 1, 15)
+                    lsUIDofHolder3 = Mid(lsFldValues(79), 1, 15)
+                    lsSafeKeepBal = Val(lsFldValues(67))
+                    lsEarmarkBal = Val(lsFldValues(68))
+
+
                     If lsbool_flag = True Then
                         Using cmd As New MySqlCommand("pr_sta_del_currentbenpost", gOdbcConn)
                             cmd.CommandType = CommandType.StoredProcedure
@@ -6576,10 +6809,7 @@ Public Class clsImport
                         lsbool_flag = False
                     End If
 
-
-
-
-                    Using cmd As New MySqlCommand("pr_sta_ins_benpostnew", gOdbcConn)
+                    Using cmd As New MySqlCommand("pr_sta_ins_benpost_15042025", gOdbcConn)
                         cmd.CommandType = CommandType.StoredProcedure
                         cmd.Parameters.AddWithValue("?in_file_gid", lnFileId)
                         cmd.Parameters.AddWithValue("?in_depository_code", gsCDSLCode)
@@ -6643,23 +6873,55 @@ Public Class clsImport
                         cmd.Parameters.AddWithValue("?in_bene_subtype", lsBeneSubType)
                         cmd.Parameters.AddWithValue("?in_bene_acccat", lsBeneAcccat)
                         cmd.Parameters.AddWithValue("?in_bene_occupation", lsBeneOccupation)
-                        cmd.Parameters.AddWithValue("?in_lei_no", lsLeiNo)
-                        cmd.Parameters.AddWithValue("?in_mode_of_operation", lsModeOfOper)
-                        cmd.Parameters.AddWithValue("?in_com_preference", lsComPreference)
-                        cmd.Parameters.AddWithValue("?in_nominee_guardian_name", lsNomineeGuardName)
-                        cmd.Parameters.AddWithValue("?in_nominee_relation_wbo", lsNomineeRelWBO)
-                        cmd.Parameters.AddWithValue("?in_nominee_pos", lsNomineePercOfShare)
-                        cmd.Parameters.AddWithValue("?in_2nominee_name", ls2NomineeName)
-                        cmd.Parameters.AddWithValue("?in_2nominee_guardian_name", ls2NomineeGuardName)
-                        cmd.Parameters.AddWithValue("?in_2nominee_relation_wbo", ls2NomineeRelWBO)
-                        cmd.Parameters.AddWithValue("?in_2nominee_perc_of_shares", ls2NomineePercOfShare)
-                        cmd.Parameters.AddWithValue("?in_3nominee_name", ls3NomineeName)
-                        cmd.Parameters.AddWithValue("?in_3nominee_guardian_name", ls3NomineeGuardName)
-                        cmd.Parameters.AddWithValue("?in_3nominee_relation_wbo", ls3NomineeRelWBO)
-                        cmd.Parameters.AddWithValue("?in_3nominee_perc_of_shares", ls3NomineePercOfShare)
-                        cmd.Parameters.AddWithValue("?in_panflag_for_holder1", lsPanflagHolder1)
-                        cmd.Parameters.AddWithValue("?in_panflag_for_holder2", lsPanflagHolder2)
-                        cmd.Parameters.AddWithValue("?in_panflag_for_holder3", lsPanflagHolder3)
+
+                        cmd.Parameters.AddWithValue("?in_bene_tax_deduction_status", lsBenetaxdeductionstatus)
+                        cmd.Parameters.AddWithValue("?in_bene_status", lsBeneStatus)
+                        cmd.Parameters.AddWithValue("?in_bene_free_positions", lsBeneFreePosition)
+                        cmd.Parameters.AddWithValue("?in_bene_block_positions", lsBeneBlockPosition)
+                        cmd.Parameters.AddWithValue("?in_bene_pledge_with_lockin_position", lsBenePledgewithLockinPosition)
+                        cmd.Parameters.AddWithValue("?in_bene_pledged_unconfirmed_Position", lsBenePledgedUnconfirmedPosition)
+                        cmd.Parameters.AddWithValue("?in_bene_uncnfrm_Pledged_with_Lockin_position", lsBeneUncnfrmPledgedwithLockinPosition)
+                        cmd.Parameters.AddWithValue("?in_bene_cm_idd_positions", lsBeneCMIDDPositions)
+                        cmd.Parameters.AddWithValue("?in_holder1_pan_flag", lsHolder1PanFlag)
+                        cmd.Parameters.AddWithValue("?in_holder2_pan_flag", lsHolder2PanFlag)
+                        cmd.Parameters.AddWithValue("?in_holder3_pan_flag", lsHolder3PanFlag)
+                        cmd.Parameters.AddWithValue("?in_guardian_name", lsGuardianName)
+                        cmd.Parameters.AddWithValue("?in_birth_date", lsBirthDate)
+                        cmd.Parameters.AddWithValue("?in_account_status", lsAccountStatus)
+                        cmd.Parameters.AddWithValue("?in_bo_freeze_flag", lsBoFreezeFlag)
+                        cmd.Parameters.AddWithValue("?in_freeze_reason_code", lsFreezeReasonCode)
+                        cmd.Parameters.AddWithValue("?in_isin_status", lsISINStatus)
+                        cmd.Parameters.AddWithValue("?in_acc_opening_date", lsAccOpeningDate)
+                        cmd.Parameters.AddWithValue("?in_nationality", lsNationality)
+                        cmd.Parameters.AddWithValue("?in_secondary_phone_no", lsSecondaryPhoneno)
+                        cmd.Parameters.AddWithValue("?in_ecs_mandate_flag", lsECSMandateFlag)
+                        cmd.Parameters.AddWithValue("?in_divident_bank_currency", lsDividentBankCurrency)
+                        cmd.Parameters.AddWithValue("?in_pending_demat_verification", lsPendingDematVerification)
+                        cmd.Parameters.AddWithValue("?in_pending_demat_confirmation", lsPendingDematConfirmation)
+                        cmd.Parameters.AddWithValue("?in_pledge_setup_bal", lsPledgeSetupBal)
+                        cmd.Parameters.AddWithValue("?in_uid_of_holder1", lsUIDofHolder1)
+                        cmd.Parameters.AddWithValue("?in_uid_of_holder2", lsUIDofHolder2)
+                        cmd.Parameters.AddWithValue("?in_uid_of_holder3", lsUIDofHolder3)
+                        cmd.Parameters.AddWithValue("?in_safe_keep_bal", lsSafeKeepBal)
+                        cmd.Parameters.AddWithValue("?in_earmark_bal", lsEarmarkBal)
+
+                        'cmd.Parameters.AddWithValue("?in_lei_no", lsLeiNo)
+                        'cmd.Parameters.AddWithValue("?in_mode_of_operation", lsModeOfOper)
+                        'cmd.Parameters.AddWithValue("?in_com_preference", lsComPreference)
+                        'cmd.Parameters.AddWithValue("?in_nominee_guardian_name", lsNomineeGuardName)
+                        'cmd.Parameters.AddWithValue("?in_nominee_relation_wbo", lsNomineeRelWBO)
+                        'cmd.Parameters.AddWithValue("?in_nominee_pos", lsNomineePercOfShare)
+                        'cmd.Parameters.AddWithValue("?in_2nominee_name", ls2NomineeName)
+                        'cmd.Parameters.AddWithValue("?in_2nominee_guardian_name", ls2NomineeGuardName)
+                        'cmd.Parameters.AddWithValue("?in_2nominee_relation_wbo", ls2NomineeRelWBO)
+                        'cmd.Parameters.AddWithValue("?in_2nominee_perc_of_shares", ls2NomineePercOfShare)
+                        'cmd.Parameters.AddWithValue("?in_3nominee_name", ls3NomineeName)
+                        'cmd.Parameters.AddWithValue("?in_3nominee_guardian_name", ls3NomineeGuardName)
+                        'cmd.Parameters.AddWithValue("?in_3nominee_relation_wbo", ls3NomineeRelWBO)
+                        'cmd.Parameters.AddWithValue("?in_3nominee_perc_of_shares", ls3NomineePercOfShare)
+                        'cmd.Parameters.AddWithValue("?in_panflag_for_holder1", lsPanflagHolder1)
+                        'cmd.Parameters.AddWithValue("?in_panflag_for_holder2", lsPanflagHolder2)
+                        'cmd.Parameters.AddWithValue("?in_panflag_for_holder3", lsPanflagHolder3)
                         cmd.Parameters.AddWithValue("?in_line_no", i)
                         cmd.Parameters.AddWithValue("?in_errline_flag", True)
 
@@ -8235,6 +8497,319 @@ Public Class clsImport
         End Try
     End Function
 
+    Public Function DividendShareCapital_ContactComp(ByVal FileName As String, ByVal SheetName As String, Optional ShowFlag As Boolean = True, Optional LsvItem As ListViewItem = Nothing)
+        Dim i As Integer
+        Dim J As String
+        Dim lsFldName(36) As String
+        Dim lsFldFormat As String = ""
+        Dim ds As New DataSet
+        Dim c As Integer = 0
+        Dim d As Integer = 0
+
+        Dim lobjExcelDatatable As New DataTable
+
+        Dim lsSlno As String
+        Dim lsCompanyCode As String
+        Dim lsFinyearCode As String
+        Dim lsFolioDpid As String
+        Dim lsAccno As String
+        Dim lsShareHolder As String
+        Dim lsShareCount As Integer
+        Dim lsDividendRate As Double
+        Dim lsDividendAmt As Double
+        Dim lsTdsPercent As Double
+        Dim lsTdsAmt As Double
+        Dim lsNetAmt As Double
+        Dim lsForeignCurr As Double
+        Dim lsDividendDate As Date
+        Dim lsWarrantNo As String
+        Dim lsDividendPayMode As String
+        Dim lsDividendPayRefno As String
+        Dim lsJoint1 As String
+        Dim lsJoint2 As String
+        Dim lsPanNo As String
+        Dim lsEmailId As String
+        Dim lsAddress1 As String
+        Dim lsAddress2 As String
+        Dim lsAddress3 As String
+        Dim lsCity As String
+        Dim lsState As String
+        Dim lsCountry As String
+        Dim lsPincode As String
+        Dim lsBankName As String
+        Dim lsBankBranch As String
+        Dim lsBankAccNo As String
+        Dim lsBankAccType As String
+        Dim lsMicrCode As String
+        Dim lsIFSCcode As String
+        Dim lsCategory As String
+        Dim lsRemarks As String
+
+        Dim lsMsg As String
+        Dim lsFileName As String = ""
+        Dim lnFileId As Long
+        Dim lsTxt As String
+        Dim lnResult As Long
+        Dim lobjFileReturn As New clsFileReturn
+
+
+        lsFldName(1) = "SL NO"
+        lsFldName(2) = "COMPANY CODE"
+        lsFldName(3) = "CONTACT COMP FINYEAR CODE"
+        lsFldName(4) = "CONTACT COMP ACC NO"
+        lsFldName(5) = "CONTACT COMP FOLIO DPID"
+        lsFldName(6) = "CONTACT COMP SHARE HOLDER"
+        lsFldName(7) = "CONTACT COMP SHARE COUNT"
+        lsFldName(8) = "CONTACT COMP DIVIDEND RATE"
+        lsFldName(9) = "CONTACT COMP DIVIDEND AMOUNT"
+        lsFldName(10) = "CONTACT COMP TDS PERCENTAGE"
+        lsFldName(11) = "CONTACT COMP TDS AMOUNT"
+        lsFldName(12) = "CONTACT COMP NET AMOUNT"
+        lsFldName(13) = "CONTACT COMP FOREGIN CURRENCY"
+        lsFldName(14) = "CONTACT COMP DIVIDEND DATE"
+        lsFldName(15) = "CONTACT COMP WARRANT NO"
+        lsFldName(16) = "CONTACT COMP DIVIDEND PAY MODE"
+        lsFldName(17) = "CONTACT COMP DIVIDEND PAY REF NO"
+        lsFldName(18) = "CONTACT COMP JOINT1"
+        lsFldName(19) = "CONTACT COMP JOINT2"
+        lsFldName(20) = "CONTACT COMP PAN NO"
+        lsFldName(21) = "CONTACT COMP EMAIL ID"
+        lsFldName(22) = "CONTACT COMP ADDR1"
+        lsFldName(23) = "CONTACT COMP ADDR2"
+        lsFldName(24) = "CONTACT COMP ADDR3"
+        lsFldName(25) = "CONTACT COMP CITY"
+        lsFldName(26) = "CONTACT COMP STATE"
+        lsFldName(27) = "CONTACT COMP COUNTRY"
+        lsFldName(28) = "CONTACT COMP PINCODE"
+        lsFldName(29) = "CONTACT COMP BANK NAME"
+        lsFldName(30) = "CONTACT COMP BANK BRANCH"
+        lsFldName(31) = "CONTACT COMP BANK ACC NO"
+        lsFldName(32) = "CONTACT COMP BANK ACC TYPE"
+        lsFldName(33) = "CONTACT COMP BANK MICR CODE"
+        lsFldName(34) = "CONTACT COMP BANK IFSC CODE"
+        lsFldName(35) = "CONTACT COMP CATEGORY"
+        lsFldName(36) = "CONTACT COMP REMARKS"
+
+
+        Try
+            Call FormatSheet(FileName, SheetName)
+            lsFileName = QuoteFilter(FileName.Substring(FileName.LastIndexOf("\") + 1))
+
+            '---------------------------------
+            lobjExcelDatatable = gpExcelDataset("select * from [" & SheetName & "$]", FileName)
+
+            For i = 1 To 36
+                lsFldFormat &= lsFldName(i) & "|"
+            Next
+
+            For i = 1 To 36
+                If lsFldName(i).Trim <> lobjExcelDatatable.Columns(i - 1).ColumnName.ToUpper.Trim Then
+                    lsMsg = "Excel Column Setting is wrong (" & i & ")" & vbCrLf & vbCrLf _
+                    & lsFldName(i).ToUpper.Trim & " : " & lobjExcelDatatable.Columns(i - 1).ColumnName.ToUpper.Trim & ":" & vbCrLf & vbCrLf _
+                    & "Correct format is " & vbCrLf & vbCrLf & lsFldFormat
+
+                    If ShowFlag Then MsgBox(lsMsg, vbOKOnly + vbExclamation, gsProjectName)
+
+                    lobjFileReturn.Result = 0
+                    lobjFileReturn.Msg = lsMsg
+
+                    Return lobjFileReturn
+                End If
+            Next
+
+            Using cmd As New MySqlCommand("pr_sta_ins_file", gOdbcConn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("?in_file_name", lsFileName)
+                cmd.Parameters("?in_file_name").Direction = ParameterDirection.Input
+                cmd.Parameters.AddWithValue("?in_sheet_name", QuoteFilter(SheetName))
+                cmd.Parameters("?in_sheet_name").Direction = ParameterDirection.Input
+                cmd.Parameters.AddWithValue("?in_file_type", gnDividendShareCapital)
+                cmd.Parameters("?in_file_type").Direction = ParameterDirection.Input
+                cmd.Parameters.AddWithValue("?in_action_by", gsLoginUserCode)
+                cmd.Parameters("?in_action_by").Direction = ParameterDirection.Input
+                'Out put Para
+                cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_file_gid", MySqlDbType.Int64)
+                cmd.Parameters("?out_file_gid").Direction = ParameterDirection.Output
+
+                cmd.CommandTimeout = 0
+
+                cmd.ExecuteNonQuery()
+
+                lnResult = Val(cmd.Parameters("?out_result").Value.ToString())
+
+                If (lnResult = 0) Then
+                    lobjFileReturn.Msg = cmd.Parameters("?out_msg").Value.ToString()
+                    If ShowFlag Then MsgBox(lobjFileReturn.Msg)
+
+                    Return lobjFileReturn
+                End If
+
+                lnFileId = Val(cmd.Parameters("?out_file_gid").Value.ToString())
+            End Using
+
+            Dim lsTxtFile As String = gsAsciiPath & "\Error.txt"
+
+            With lobjExcelDatatable
+                Dim message As String
+                message = String.Empty
+                i = 0
+                J = "0"
+
+                While i <= .Rows.Count - 1
+                    With .Rows(i)
+                        If LsvItem Is Nothing Then
+                            frmMain.lblStatus.Text = "Reading " & i.ToString & " line..."
+                        Else
+                            LsvItem.Text = "Reading " & i.ToString & " line..."
+                        End If
+
+                        Application.DoEvents()
+
+                        lsCompanyCode = Mid(QuoteFilter(.Item("COMPANY CODE").ToString), 1, 16)
+                        lsFinyearCode = Mid(QuoteFilter(.Item("CONTACT COMP FINYEAR CODE").ToString), 1, 32)
+                        lsAccno = Mid(QuoteFilter(.Item("CONTACT COMP ACC NO").ToString), 1, 32)
+                        lsFolioDpid = Mid(QuoteFilter(.Item("CONTACT COMP FOLIO DPID").ToString), 1, 32)
+                        lsShareHolder = Mid(QuoteFilter(.Item("CONTACT COMP SHARE HOLDER").ToString), 1, 128)
+                        lsShareCount = Mid(QuoteFilter(.Item("CONTACT COMP SHARE COUNT").ToString), 1, 10)
+                        lsDividendRate = Mid(QuoteFilter(.Item("CONTACT COMP DIVIDEND RATE").ToString), 1, 16)
+                        lsDividendAmt = Mid(QuoteFilter(.Item("CONTACT COMP DIVIDEND AMOUNT").ToString), 1, 16)
+                        lsTdsPercent = Mid(QuoteFilter(.Item("CONTACT COMP TDS PERCENTAGE").ToString), 1, 16)
+                        lsTdsAmt = Mid(QuoteFilter(.Item("CONTACT COMP TDS AMOUNT").ToString), 1, 16)
+                        lsNetAmt = Mid(QuoteFilter(.Item("CONTACT COMP NET AMOUNT").ToString), 1, 16)
+                        lsForeignCurr = Mid(QuoteFilter(.Item("CONTACT COMP FOREGIN CURRENCY").ToString), 1, 16)
+                        lsDividendDate = QuoteFilter(.Item("CONTACT COMP DIVIDEND DATE").ToString)
+                        If IsDate(lsDividendDate) = False Then
+                            lsDividendDate = "0001-01-01"
+                        Else
+                            lsDividendDate = Format(CDate(lsDividendDate), "yyyy-MM-dd")
+                        End If
+                        lsWarrantNo = Mid(QuoteFilter(.Item("CONTACT COMP WARRANT NO").ToString), 1, 32)
+                        lsDividendPayMode = Mid(QuoteFilter(.Item("CONTACT COMP DIVIDEND PAY MODE").ToString), 1, 32)
+                        lsDividendPayRefno = Mid(QuoteFilter(.Item("CONTACT COMP DIVIDEND PAY REF NO").ToString), 1, 32)
+                        lsJoint1 = Mid(QuoteFilter(.Item("CONTACT COMP JOINT1").ToString), 1, 128)
+                        lsJoint2 = Mid(QuoteFilter(.Item("CONTACT COMP JOINT2").ToString), 1, 128)
+                        lsPanNo = Mid(QuoteFilter(.Item("CONTACT COMP PAN NO").ToString), 1, 128)
+                        lsEmailId = Mid(QuoteFilter(.Item("CONTACT COMP EMAIL ID").ToString), 1, 128)
+                        lsAddress1 = Mid(QuoteFilter(.Item("CONTACT COMP ADDR1").ToString), 1, 128)
+                        lsAddress2 = Mid(QuoteFilter(.Item("CONTACT COMP ADDR2").ToString), 1, 128)
+                        lsAddress3 = Mid(QuoteFilter(.Item("CONTACT COMP ADDR3").ToString), 1, 128)
+                        lsCity = Mid(QuoteFilter(.Item("CONTACT COMP CITY").ToString), 1, 128)
+                        lsState = Mid(QuoteFilter(.Item("CONTACT COMP STATE").ToString), 1, 128)
+                        lsCountry = Mid(QuoteFilter(.Item("CONTACT COMP COUNTRY").ToString), 1, 128)
+                        lsPincode = Mid(QuoteFilter(.Item("CONTACT COMP PINCODE").ToString), 1, 128)
+                        lsBankName = Mid(QuoteFilter(.Item("CONTACT COMP BANK NAME").ToString), 1, 128)
+                        lsBankBranch = Mid(QuoteFilter(.Item("CONTACT COMP BANK BRANCH").ToString), 1, 128)
+                        lsBankAccNo = Mid(QuoteFilter(.Item("CONTACT COMP BANK ACC NO").ToString), 1, 32)
+                        lsBankAccType = Mid(QuoteFilter(.Item("CONTACT COMP BANK ACC TYPE").ToString), 1, 128)
+                        lsMicrCode = Mid(QuoteFilter(.Item("CONTACT COMP BANK MICR CODE").ToString), 1, 128)
+                        lsIFSCcode = Mid(QuoteFilter(.Item("CONTACT COMP BANK IFSC CODE").ToString), 1, 128)
+                        lsCategory = Mid(QuoteFilter(.Item("CONTACT COMP CATEGORY").ToString), 1, 128)
+                        lsRemarks = Mid(QuoteFilter(.Item("CONTACT COMP REMARKS").ToString), 1, 128)
+
+                        Using cmd As New MySqlCommand("pr_sta_ins_tdividend_contactcomp", gOdbcConn)
+                            cmd.CommandType = CommandType.StoredProcedure
+                            cmd.Parameters.AddWithValue("?In_file_gid", lnFileId)
+                            cmd.Parameters.AddWithValue("?In_comp_code", lsCompanyCode)
+                            cmd.Parameters.AddWithValue("?In_finyear_code", lsFinyearCode)
+                            cmd.Parameters.AddWithValue("?In_accno", lsAccno)
+                            cmd.Parameters.AddWithValue("?In_folio_dpid", lsFolioDpid)
+                            cmd.Parameters.AddWithValue("?In_share_holder", lsShareHolder)
+                            cmd.Parameters.AddWithValue("?In_share_count", lsShareCount)
+                            cmd.Parameters.AddWithValue("?In_div_rate", lsDividendRate)
+                            cmd.Parameters.AddWithValue("?In_div_amount", lsDividendAmt)
+                            cmd.Parameters.AddWithValue("?In_tds_percent", lsTdsPercent)
+                            cmd.Parameters.AddWithValue("?In_tds_amount", lsTdsAmt)
+                            cmd.Parameters.AddWithValue("?In_net_amount", lsNetAmt)
+                            cmd.Parameters.AddWithValue("?In_curr_amount", lsForeignCurr)
+                            cmd.Parameters.AddWithValue("?In_div_date", lsDividendDate)
+                            cmd.Parameters.AddWithValue("?In_warrant_no", lsWarrantNo)
+                            cmd.Parameters.AddWithValue("?In_div_paymode", lsDividendPayMode)
+                            cmd.Parameters.AddWithValue("?In_div_payrefno", lsDividendPayRefno)
+                            cmd.Parameters.AddWithValue("?In_joint1", lsJoint1)
+                            cmd.Parameters.AddWithValue("?In_joint2", lsJoint2)
+                            cmd.Parameters.AddWithValue("?In_holder1_pan", lsPanNo)
+                            cmd.Parameters.AddWithValue("?In_holder1_email", lsEmailId)
+                            cmd.Parameters.AddWithValue("?In_holder1_addr1", lsAddress1)
+                            cmd.Parameters.AddWithValue("?In_holder1_addr2", lsAddress2)
+                            cmd.Parameters.AddWithValue("?In_holder1_addr3", lsAddress3)
+                            cmd.Parameters.AddWithValue("?In_holder1_city", lsCity)
+                            cmd.Parameters.AddWithValue("?In_holder1_state", lsState)
+                            cmd.Parameters.AddWithValue("?In_holder1_country", lsCountry)
+                            cmd.Parameters.AddWithValue("?In_holder1_pincode", lsPincode)
+                            cmd.Parameters.AddWithValue("?In_holder1_bank_name", lsBankName)
+                            cmd.Parameters.AddWithValue("?In_holder1_bank_branch", lsBankBranch)
+                            cmd.Parameters.AddWithValue("?In_holder1_acc_no", lsBankAccNo)
+                            cmd.Parameters.AddWithValue("?In_holder1_acc_type", lsBankAccType)
+                            cmd.Parameters.AddWithValue("?In_holder1_micr_code", lsMicrCode)
+                            cmd.Parameters.AddWithValue("?In_holder1_ifsc_code", lsIFSCcode)
+                            cmd.Parameters.AddWithValue("?In_holder1_category", lsCategory)
+                            cmd.Parameters.AddWithValue("?In_div_remark", lsRemarks)
+
+                            cmd.Parameters.AddWithValue("?In_loginuser", gsLoginUserCode)
+                            cmd.Parameters.AddWithValue("?In_line_no", i + 1)
+                            cmd.Parameters.AddWithValue("?In_errline_flag", True)
+
+                            'output Para
+                            cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                            cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                            cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                            cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+
+                            cmd.CommandTimeout = 0
+
+                            cmd.ExecuteNonQuery()
+
+                            lnResult = Val(cmd.Parameters("?out_result").Value.ToString())
+                            lsMsg = cmd.Parameters("?out_msg").Value.ToString()
+
+                            If lnResult = 1 Then c += 1
+                        End Using
+                    End With
+
+                    i += 1
+                    J += 1
+                    If lnResult = 0 Then
+                        Using sw As New StreamWriter(lsTxtFile)
+                            message += "Line: " + J + " ErrorMsg: " + lsMsg + Environment.NewLine
+                            sw.WriteLine(message)
+                            sw.Close()
+                        End Using
+                    End If
+                End While
+            End With
+
+            Call FileClose(1)
+            frmMain.lblStatus.Text = ""
+
+            lsTxt = "Out of " & i & " record(s) " & c & " record(s) imported successfully !"
+            Call gpUpdateFileRemark(lnFileId, lsTxt)
+
+            If i <> c Then
+                Process.Start(lsTxtFile)
+            End If
+
+            If ShowFlag Then MsgBox(lsTxt, MsgBoxStyle.Information, gsProjectName)
+
+            lobjFileReturn.Result = 1
+            lobjFileReturn.Msg = lsTxt
+
+            Return lobjFileReturn
+
+
+        Catch ex As Exception
+            If ShowFlag Then MsgBox(ex.Message.ToString, MsgBoxStyle.Critical, gsProjectName)
+
+            lobjFileReturn.Result = 0
+            lobjFileReturn.Msg = ex.Message.ToString
+
+            Return lobjFileReturn
+        End Try
+    End Function
+
     Public Function DividendPayStatusUpdate(ByVal FileName As String, ByVal SheetName As String, Optional ShowFlag As Boolean = True, Optional LsvItem As ListViewItem = Nothing)
         Dim i As Integer
         Dim J As String
@@ -9088,7 +9663,28 @@ Public Class clsImport
                             lsMsg = cmd.Parameters("?out_msg").Value.ToString()
                             lnInwardGid = Val(cmd.Parameters("?in_inward_gid").Value.ToString())
 
-                            If lnResult = 1 Then c += 1
+                            If lnResult = 1 Then
+                                c += 1
+                                Dim mnInwardno As Long
+                                Dim mnCompInwardno As String
+
+                                'Get Inward no & comp inward no
+                                mnInwardno = Val(gfExecuteScalar("SELECT inward_no FROM sta_trn_tinward WHERE inward_gid = " & lnInwardGid & " AND delete_flag = 'N'", gOdbcConn))
+                                mnCompInwardno = gfExecuteScalar("SELECT inward_comp_no FROM sta_trn_tinward WHERE inward_gid = " & lnInwardGid & " AND delete_flag = 'N'", gOdbcConn)
+                                mnInwardGID = lnInwardGid
+                                'Trigger Email
+                                Call SendEmailToShareholder(lsMailId, lsShareholderName, mnInwardno, mnCompInwardno)
+
+                                'Send SMS to Shareholder
+                                If Not String.IsNullOrEmpty(lsContactNo) Then
+                                    Dim SmsContent As String
+                                    SmsContent = gsInwardSmsContent
+                                    SmsContent = SmsContent.Replace("#recived_date", lsReceivedDate)
+                                    SendSms(lnInwardGid, lsContactNo, SmsContent, gsSenderCode, gsTemplateid)
+                                End If
+
+                            End If
+
                         End Using
 
                         'Add Attachment against Inward
@@ -9112,7 +9708,7 @@ Public Class clsImport
                             If lsAttachmentPath5 <> "" Then
                                 Call AddAttachment(lsAttachmentPath5, lnInwardGid)
                             End If
-                              
+
                         End If
 
                     End With
@@ -9155,6 +9751,213 @@ Public Class clsImport
             Return lobjFileReturn
         End Try
     End Function
+
+    Private Sub SendEmailToShareholder(ByVal emailTo As String, ByVal shareholdername As String, ByVal inwardNo As Integer, ByVal compInwardNo As String)
+        Dim errorMessage As String = ""
+        Dim deliveryStatus As String = "Not Delivered"
+        Dim lsMailmessageBody As String = ""
+        Dim mnInwardGID As Long
+
+        Try
+            ' Validate email format before proceeding
+            If Not IsValidEmail(emailTo) Then
+                Throw New Exception("Invalid email format.")
+            End If
+
+            ' SMTP Configuration
+            Dim smtpClient As New SmtpClient(gssmtpClient)
+            smtpClient.Port = 587
+            smtpClient.Credentials = New NetworkCredential(gssmtpClientUsername, gssmtpClientpswd)
+            smtpClient.EnableSsl = True
+
+            Dim mailMessage As New MailMessage()
+            mailMessage.From = New MailAddress(gssmtpClientUsername)
+            mailMessage.To.Add(emailTo)
+            mailMessage.Subject = "Acknowledgement"
+            mailMessage.IsBodyHtml = True
+
+            ' Request delivery notification & read receipt
+            mailMessage.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure Or DeliveryNotificationOptions.Delay
+            mailMessage.Headers.Add("Disposition-Notification-To", gssmtpClientUsername)
+
+            If shareholdername.Trim() = "" Then
+                shareholdername = " Sir/Madam "
+            End If
+
+            ' Compose Email Body
+            lsMailmessageBody = "<p>Dear " & shareholdername & ",</p>" & _
+                                 "<p><b>Inward No:</b> " & compInwardNo & "</p>" & _
+                                 "<p>We are in receipt of your communication on the captioned subject.</p>" & _
+                                 "<p>We shall review the information & revert to you in due course.</p>" & _
+                                 "<p><i><span style='color:red;'>This is a system-generated email. Please do not reply to this message.</i></p>" & _
+                                 "<p><br>Thank you. </p> " & _
+                                 "<p>Yours sincerely,</p>" & _
+                                 "<p><b>STA DEPARTMENT," & _
+                                 "<br><b>GNSA Infotech P Ltd" & _
+                                 "<br><b>Nelson Chambers," & _
+                                 "<br><b>F - Block, 4th & 5th Floor," & _
+                                 "<br><b>No.115, Nelson Manickam Road," & _
+                                 "<br><b>Aminjikarai, Chennai - 600 030.</p>"
+
+            mailMessage.Body = lsMailmessageBody
+
+            ' Send the email
+            smtpClient.Send(mailMessage)
+
+            ' If successful, mark as delivered
+            deliveryStatus = "Delivered"
+            errorMessage = "Mail Sent Successfully"
+
+        Catch ex As SmtpFailedRecipientException
+            ' Specific failure related to recipient (invalid email, mailbox full, etc.)
+            errorMessage = "Recipient failed: " & ex.FailedRecipient & " - " & ex.StatusCode.ToString() & " - " & ex.Message
+            deliveryStatus = "Not Delivered"
+
+        Catch ex As SmtpException
+            ' General SMTP error (e.g., server issue, network error)
+            errorMessage = "SMTP Error: " & ex.StatusCode.ToString() & " - " & ex.Message
+            deliveryStatus = "Not Delivered"
+
+        Catch ex As Exception
+            ' Other unexpected errors
+            errorMessage = "Error: " & ex.Message
+            deliveryStatus = "Not Delivered"
+
+        Finally
+            ' Get Inward GID for tracking
+            mnInwardGID = Val(gfExecuteScalar("SELECT inward_gid FROM sta_trn_tinward WHERE inward_no = " & inwardNo & " AND delete_flag = 'N'", gOdbcConn))
+
+            ' Log the result in Mail History Table
+            InsertMailHistory(inwardNo, emailTo, lsMailmessageBody, errorMessage, deliveryStatus)
+
+            ' Show error message if failed
+            'If deliveryStatus = "Not Delivered" Then
+            '    MessageBox.Show("Failed to send email: " & errorMessage, "Email Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'End If
+        End Try
+    End Sub
+
+    Private Sub InsertMailHistory(inwardGID As Integer, email As String, mailContent As String, remarks As String, status As String)
+        Try
+            Using cmd As New MySqlCommand("pr_sta_trn_tmailhistory", gOdbcConn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("?in_inward_gid", inwardGID)
+                cmd.Parameters.AddWithValue("?in_mail_id", email)
+                cmd.Parameters.AddWithValue("?in_mail_content", mailContent)
+                cmd.Parameters.AddWithValue("?in_remarks", remarks)
+                cmd.Parameters.AddWithValue("?in_mail_status", status)
+                cmd.Parameters.AddWithValue("?in_action", "INSERT")
+                cmd.Parameters.AddWithValue("?in_action_by", gsLoginUserCode)
+
+                ' Output Parameters
+                cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+
+                cmd.CommandTimeout = 0
+                cmd.ExecuteNonQuery()
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error inserting mail history: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Function IsValidEmail(email As String) As Boolean
+        Try
+            Dim mail As New System.Net.Mail.MailAddress(email)
+            Return True
+        Catch
+            Return False
+        End Try
+    End Function
+
+    Private Function SendSms(ByVal TranId As Long, ByVal MobileNo As String, ByVal SmsTxt As String, ByVal SenderCode As String, ByVal SmsTemplateId As String) As Integer
+        Dim wb As New WebClient
+        'Dim url = "https://www.smsgatewayhub.com/api/mt/SendSMS?APIKey=heYy2TmZoEmWpIGRbusETw&senderid=GNSAIN&channel=2&DCS=0&flashsms=0&number=919600016921&text=Test SMS&route=1"
+        'Dim url = "https://www.smsgatewayhub.com/api/mt/SendSMS?APIKey=heYy2TmZoEmWpIGRbusETw&senderid=GNSAIN&channel=2&DCS=0&flashsms=0&number=916380611603&text=Test SMS&route=1"
+        'Dim url = msSmsUrl & "APIKey=" & msSmsApiKey & "&senderid=" & SenderCode & "&channel=2&DCS=0&flashsms=0&number=" & MobileNo & "&text=" & SmsTxt & "&route=" & msSmsRouteId
+        'Dim url = "http://push.smsc.co.in/api/mt/SendSMS?APIkey=PJA3OFO9pkqgQx8s44AqsA&senderid=GNSAIN&channel=Trans&DCS=0&flashsms=0&number=916380611603&text=smstxt&route=47&dlttemplateid=GNSAIN"
+
+        Dim url = gsApiUrl & "APIKey=" & gssmsApiKey & "&senderid=" & SenderCode & "&channel=Trans&DCS=0&flashsms=0&number=" & MobileNo & "&text=" & SmsTxt & "&route=" & gsRouteid & "&DLTTemplateId=" & SmsTemplateId
+
+        Dim lsErrCode As String
+        Dim lsErrmsg As String
+        Dim lsJobId As String
+        Dim lnDeliveredStatus As Integer
+        Dim sResponse As String
+        Dim parsejson As JObject
+
+        'ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 Or SecurityProtocolType.Tls Or SecurityProtocolType.Tls11 Or SecurityProtocolType.Tls12
+        ' Enable TLS 1.2 and TLS 1.3 (if supported)
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 Or CType(12288, SecurityProtocolType)
+
+        ' Attach the certificate validation callback
+        ServicePointManager.ServerCertificateValidationCallback = AddressOf ValidateRemoteCertificate
+
+        sResponse = GetResponse(url)
+        parsejson = JObject.Parse(sResponse)
+
+        lsErrCode = parsejson.SelectToken("ErrorCode").ToString()
+        lsErrmsg = parsejson.SelectToken("ErrorMessage").ToString()
+        lsJobId = parsejson.SelectToken("JobId").ToString()
+
+        If lsErrCode = "000" Then
+            InsertSMSHistory(mnInwardGID, MobileNo, SmsTxt, "SMS Sent Successfully", "Delivered")
+        Else
+            InsertSMSHistory(mnInwardGID, MobileNo, SmsTxt, lsErrmsg, "Not Delivered")
+        End If
+
+        Return lnDeliveredStatus
+    End Function
+
+    Public Shared Function GetResponse(ByVal sURL As String) As String
+        Dim request As HttpWebRequest = CType(WebRequest.Create(sURL), HttpWebRequest)
+        request.MaximumAutomaticRedirections = 4
+        request.Credentials = CredentialCache.DefaultCredentials
+
+        Try
+            Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+            Dim receiveStream As Stream = response.GetResponseStream()
+            Dim readStream As StreamReader = New StreamReader(receiveStream, Encoding.UTF8)
+            Dim sResponse As String = readStream.ReadToEnd()
+            response.Close()
+            readStream.Close()
+            Return sResponse
+        Catch ex As Exception
+            Return ex.ToString()
+        End Try
+    End Function
+
+    Public Shared Function ValidateRemoteCertificate(ByVal sender As Object, ByVal certificate As X509Certificate, ByVal chain As X509Chain, ByVal sslPolicyErrors As SslPolicyErrors) As Boolean
+        Return True
+    End Function
+
+    Private Sub InsertSMSHistory(inwardGID As Integer, phoneno As String, smsContent As String, remarks As String, status As String)
+        Try
+            Using cmd As New MySqlCommand("pr_sta_trn_tsmshistory", gOdbcConn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("?in_inward_gid", inwardGID)
+                cmd.Parameters.AddWithValue("?in_phone_no", phoneno)
+                cmd.Parameters.AddWithValue("?in_sms_content", smsContent)
+                cmd.Parameters.AddWithValue("?in_remarks", remarks)
+                cmd.Parameters.AddWithValue("?in_sms_status", status)
+                cmd.Parameters.AddWithValue("?in_action", "INSERT")
+                cmd.Parameters.AddWithValue("?in_action_by", gsLoginUserCode)
+
+                ' Output Parameters
+                cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+
+                cmd.CommandTimeout = 0
+                cmd.ExecuteNonQuery()
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error inserting sms history: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
 
     Public Function Outward(ByVal FileName As String, ByVal SheetName As String, Optional ShowFlag As Boolean = True, Optional LsvItem As ListViewItem = Nothing)
         Dim i As Integer

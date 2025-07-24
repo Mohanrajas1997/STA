@@ -184,6 +184,7 @@ Partial Class frmInwardEntry
         Me.txtInwardShareCount.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtInwardShareCount.MaxLength = 128
         Me.txtInwardShareCount.Name = "txtInwardShareCount"
+        Me.txtInwardShareCount.ReadOnly = True
         Me.txtInwardShareCount.Size = New System.Drawing.Size(272, 27)
         Me.txtInwardShareCount.TabIndex = 10
         '
@@ -215,6 +216,7 @@ Partial Class frmInwardEntry
         Me.txtPanNo.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtPanNo.MaxLength = 16
         Me.txtPanNo.Name = "txtPanNo"
+        Me.txtPanNo.ReadOnly = True
         Me.txtPanNo.Size = New System.Drawing.Size(272, 27)
         Me.txtPanNo.TabIndex = 15
         '
@@ -319,6 +321,7 @@ Partial Class frmInwardEntry
         Me.txtShareHolderName.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtShareHolderName.MaxLength = 64
         Me.txtShareHolderName.Name = "txtShareHolderName"
+        Me.txtShareHolderName.ReadOnly = True
         Me.txtShareHolderName.Size = New System.Drawing.Size(272, 27)
         Me.txtShareHolderName.TabIndex = 9
         '
@@ -328,6 +331,7 @@ Partial Class frmInwardEntry
         Me.txtFolioNo.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtFolioNo.MaxLength = 32
         Me.txtFolioNo.Name = "txtFolioNo"
+        Me.txtFolioNo.ReadOnly = True
         Me.txtFolioNo.Size = New System.Drawing.Size(272, 27)
         Me.txtFolioNo.TabIndex = 8
         '

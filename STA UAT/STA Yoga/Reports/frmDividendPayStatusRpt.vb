@@ -125,7 +125,6 @@
         'lsSql &= " a.issue_date as 'Issue Date',"
         'lsSql &= " a.issue_pay_mode as 'Issue Pay Mode',"
         'lsSql &= " a.issue_ref_no as 'Issue Ref No',"
-
         'lsSql &= " a.div_gid as 'Dividend Gid'"
         lsSql &= " from div_trn_tdividend as a "
         lsSql &= " inner join sta_mst_tcompany as b on a.comp_gid = b.comp_gid  and b.delete_flag = 'N' "
@@ -135,7 +134,7 @@
         lsSql &= " where true "
         lsSql &= lsCond
         lsSql &= " and a.delete_flag = 'N' "
-        'lsSql &= " order by a.div_gid asc"
+        lsSql &= " order by c.finyear_code asc"
 
         gpPopGridView(dgvList, lsSql, gOdbcConn)
 

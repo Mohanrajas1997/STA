@@ -23,6 +23,8 @@ Partial Class frmBenpostIdentification_Rpt
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.pnlMain = New System.Windows.Forms.Panel()
+        Me.cboDeposit = New System.Windows.Forms.ComboBox()
+        Me.lblDepository = New System.Windows.Forms.Label()
         Me.dtpBenpostTo = New System.Windows.Forms.DateTimePicker()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.dtpBenpostFrom = New System.Windows.Forms.DateTimePicker()
@@ -36,8 +38,6 @@ Partial Class frmBenpostIdentification_Rpt
         Me.txtRecCount = New System.Windows.Forms.TextBox()
         Me.btnExport = New System.Windows.Forms.Button()
         Me.dgvReport = New System.Windows.Forms.DataGridView()
-        Me.cboDeposit = New System.Windows.Forms.ComboBox()
-        Me.lblDepository = New System.Windows.Forms.Label()
         Me.pnlMain.SuspendLayout()
         Me.pnlExport.SuspendLayout()
         CType(Me.dgvReport, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -57,27 +57,46 @@ Partial Class frmBenpostIdentification_Rpt
         Me.pnlMain.Controls.Add(Me.btnClear)
         Me.pnlMain.Controls.Add(Me.btnRefresh)
         Me.pnlMain.Controls.Add(Me.Label1)
-        Me.pnlMain.Location = New System.Drawing.Point(6, 7)
+        Me.pnlMain.Location = New System.Drawing.Point(9, 10)
         Me.pnlMain.Name = "pnlMain"
-        Me.pnlMain.Size = New System.Drawing.Size(768, 67)
+        Me.pnlMain.Size = New System.Drawing.Size(1152, 96)
         Me.pnlMain.TabIndex = 0
+        '
+        'cboDeposit
+        '
+        Me.cboDeposit.FormattingEnabled = True
+        Me.cboDeposit.Location = New System.Drawing.Point(146, 59)
+        Me.cboDeposit.Name = "cboDeposit"
+        Me.cboDeposit.Size = New System.Drawing.Size(157, 29)
+        Me.cboDeposit.TabIndex = 142
+        Me.cboDeposit.Visible = False
+        '
+        'lblDepository
+        '
+        Me.lblDepository.Location = New System.Drawing.Point(-2, 60)
+        Me.lblDepository.Name = "lblDepository"
+        Me.lblDepository.Size = New System.Drawing.Size(137, 24)
+        Me.lblDepository.TabIndex = 141
+        Me.lblDepository.Text = "Depository"
+        Me.lblDepository.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblDepository.Visible = False
         '
         'dtpBenpostTo
         '
         Me.dtpBenpostTo.CustomFormat = "dd-MM-yyyy"
         Me.dtpBenpostTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpBenpostTo.Location = New System.Drawing.Point(290, 12)
+        Me.dtpBenpostTo.Location = New System.Drawing.Point(435, 17)
         Me.dtpBenpostTo.Name = "dtpBenpostTo"
         Me.dtpBenpostTo.ShowCheckBox = True
-        Me.dtpBenpostTo.Size = New System.Drawing.Size(105, 21)
+        Me.dtpBenpostTo.Size = New System.Drawing.Size(157, 27)
         Me.dtpBenpostTo.TabIndex = 4
         Me.dtpBenpostTo.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
         'Label3
         '
-        Me.Label3.Location = New System.Drawing.Point(235, 14)
+        Me.Label3.Location = New System.Drawing.Point(352, 20)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(49, 17)
+        Me.Label3.Size = New System.Drawing.Size(74, 24)
         Me.Label3.TabIndex = 135
         Me.Label3.Text = "To"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -86,18 +105,18 @@ Partial Class frmBenpostIdentification_Rpt
         '
         Me.dtpBenpostFrom.CustomFormat = "dd-MM-yyyy"
         Me.dtpBenpostFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpBenpostFrom.Location = New System.Drawing.Point(97, 12)
+        Me.dtpBenpostFrom.Location = New System.Drawing.Point(146, 17)
         Me.dtpBenpostFrom.Name = "dtpBenpostFrom"
         Me.dtpBenpostFrom.ShowCheckBox = True
-        Me.dtpBenpostFrom.Size = New System.Drawing.Size(105, 21)
+        Me.dtpBenpostFrom.Size = New System.Drawing.Size(157, 27)
         Me.dtpBenpostFrom.TabIndex = 3
         Me.dtpBenpostFrom.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
         'Label4
         '
-        Me.Label4.Location = New System.Drawing.Point(-1, 14)
+        Me.Label4.Location = New System.Drawing.Point(-2, 20)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(91, 17)
+        Me.Label4.Size = New System.Drawing.Size(137, 24)
         Me.Label4.TabIndex = 136
         Me.Label4.Text = "Benpost From"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -105,41 +124,41 @@ Partial Class frmBenpostIdentification_Rpt
         'cboFileName
         '
         Me.cboFileName.FormattingEnabled = True
-        Me.cboFileName.Location = New System.Drawing.Point(470, 12)
+        Me.cboFileName.Location = New System.Drawing.Point(705, 17)
         Me.cboFileName.Name = "cboFileName"
-        Me.cboFileName.Size = New System.Drawing.Size(283, 21)
+        Me.cboFileName.Size = New System.Drawing.Size(425, 29)
         Me.cboFileName.TabIndex = 2
         '
         'btnClose
         '
-        Me.btnClose.Location = New System.Drawing.Point(681, 38)
+        Me.btnClose.Location = New System.Drawing.Point(1022, 54)
         Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(72, 24)
+        Me.btnClose.Size = New System.Drawing.Size(108, 35)
         Me.btnClose.TabIndex = 25
         Me.btnClose.Text = "&Close"
         '
         'btnClear
         '
-        Me.btnClear.Location = New System.Drawing.Point(603, 38)
+        Me.btnClear.Location = New System.Drawing.Point(904, 54)
         Me.btnClear.Name = "btnClear"
-        Me.btnClear.Size = New System.Drawing.Size(72, 24)
+        Me.btnClear.Size = New System.Drawing.Size(108, 35)
         Me.btnClear.TabIndex = 24
         Me.btnClear.Text = "C&lear"
         '
         'btnRefresh
         '
-        Me.btnRefresh.Location = New System.Drawing.Point(525, 38)
+        Me.btnRefresh.Location = New System.Drawing.Point(788, 54)
         Me.btnRefresh.Name = "btnRefresh"
-        Me.btnRefresh.Size = New System.Drawing.Size(72, 24)
+        Me.btnRefresh.Size = New System.Drawing.Size(108, 35)
         Me.btnRefresh.TabIndex = 23
         Me.btnRefresh.Text = "&Refresh"
         '
         'Label1
         '
         Me.Label1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label1.Location = New System.Drawing.Point(385, 14)
+        Me.Label1.Location = New System.Drawing.Point(578, 20)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(79, 13)
+        Me.Label1.Size = New System.Drawing.Size(118, 19)
         Me.Label1.TabIndex = 131
         Me.Label1.Text = "File Name"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -148,9 +167,9 @@ Partial Class frmBenpostIdentification_Rpt
         '
         Me.pnlExport.Controls.Add(Me.txtRecCount)
         Me.pnlExport.Controls.Add(Me.btnExport)
-        Me.pnlExport.Location = New System.Drawing.Point(12, 457)
+        Me.pnlExport.Location = New System.Drawing.Point(18, 653)
         Me.pnlExport.Name = "pnlExport"
-        Me.pnlExport.Size = New System.Drawing.Size(634, 33)
+        Me.pnlExport.Size = New System.Drawing.Size(951, 47)
         Me.pnlExport.TabIndex = 2
         '
         'txtRecCount
@@ -158,20 +177,20 @@ Partial Class frmBenpostIdentification_Rpt
         Me.txtRecCount.BackColor = System.Drawing.SystemColors.Control
         Me.txtRecCount.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtRecCount.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.txtRecCount.Location = New System.Drawing.Point(6, 8)
+        Me.txtRecCount.Location = New System.Drawing.Point(9, 11)
         Me.txtRecCount.MaxLength = 100
         Me.txtRecCount.Name = "txtRecCount"
         Me.txtRecCount.ReadOnly = True
-        Me.txtRecCount.Size = New System.Drawing.Size(433, 14)
+        Me.txtRecCount.Size = New System.Drawing.Size(649, 20)
         Me.txtRecCount.TabIndex = 0
         Me.txtRecCount.TabStop = False
         Me.txtRecCount.Text = "Record Count : "
         '
         'btnExport
         '
-        Me.btnExport.Location = New System.Drawing.Point(558, 5)
+        Me.btnExport.Location = New System.Drawing.Point(837, 7)
         Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(72, 24)
+        Me.btnExport.Size = New System.Drawing.Size(108, 34)
         Me.btnExport.TabIndex = 1
         Me.btnExport.Text = "&Export"
         '
@@ -180,32 +199,15 @@ Partial Class frmBenpostIdentification_Rpt
         Me.dgvReport.AllowUserToAddRows = False
         Me.dgvReport.AllowUserToDeleteRows = False
         Me.dgvReport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvReport.Location = New System.Drawing.Point(6, 76)
+        Me.dgvReport.Location = New System.Drawing.Point(9, 109)
         Me.dgvReport.Name = "dgvReport"
         Me.dgvReport.ReadOnly = True
-        Me.dgvReport.Size = New System.Drawing.Size(768, 375)
+        Me.dgvReport.Size = New System.Drawing.Size(1152, 535)
         Me.dgvReport.TabIndex = 1
-        '
-        'cboDeposit
-        '
-        Me.cboDeposit.FormattingEnabled = True
-        Me.cboDeposit.Location = New System.Drawing.Point(97, 41)
-        Me.cboDeposit.Name = "cboDeposit"
-        Me.cboDeposit.Size = New System.Drawing.Size(105, 21)
-        Me.cboDeposit.TabIndex = 142
-        '
-        'lblDepository
-        '
-        Me.lblDepository.Location = New System.Drawing.Point(-1, 42)
-        Me.lblDepository.Name = "lblDepository"
-        Me.lblDepository.Size = New System.Drawing.Size(91, 17)
-        Me.lblDepository.TabIndex = 141
-        Me.lblDepository.Text = "Depository"
-        Me.lblDepository.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'frmBenpostIdentification_Rpt
         '
-        Me.AutoScaleBaseSize = New System.Drawing.Size(6, 14)
+        Me.AutoScaleBaseSize = New System.Drawing.Size(9, 20)
         Me.ClientSize = New System.Drawing.Size(854, 502)
         Me.Controls.Add(Me.dgvReport)
         Me.Controls.Add(Me.pnlExport)

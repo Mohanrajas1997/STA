@@ -663,11 +663,11 @@ Public Class frmCertificateTransfer
     End Sub
 
     Private Sub btnCreateNewFolio_Click(sender As Object, e As EventArgs) Handles btnCreateNewFolio.Click
-        Dim frm As frmFolioCreate
+        Dim frm As frmFolioCreate_new
 
         gnSearchId = 0
 
-        frm = New frmFolioCreate(mnCompId, msCompName)
+        frm = New frmFolioCreate_new(mnCompId, msCompName)
         frm.ShowDialog()
 
         If gnSearchId <> 0 Then

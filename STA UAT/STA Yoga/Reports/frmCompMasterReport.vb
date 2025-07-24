@@ -85,6 +85,8 @@
         lsSql &= " select distinct "
         lsSql &= " a.comp_code as 'Company Code',"
         lsSql &= " a.comp_name as 'Company Name',"
+        lsSql &= " c.compgrp_name as 'Company Group Name',"
+        lsSql &= " d.compsubgrp_name as 'Company Sub Group Name',"
         lsSql &= " a.isin_id as 'ISIN',"
         lsSql &= " a.comp_listed as 'Comp Listed',"
         lsSql &= " a.active_flag as 'Active Flag',"
@@ -132,6 +134,8 @@
         lsSql &= " a.compsubgrp_gid "
         lsSql &= " from sta_mst_tcompany as a "
         lsSql &= " left join sta_trn_tcompanyattachment as b on a.comp_gid = b.comp_gid and b.delete_flag = 'N' "
+        lsSql &= " left join sta_mst_tcompanygroup as c on a.compgrp_gid = c.compgrp_gid and c.delete_flag = 'N' "
+        lsSql &= " left join sta_mst_tcompanysubgroup as d on a.compsubgrp_gid = d.compsubgrp_gid and c.compgrp_gid = d.compgrp_gid and d.delete_flag = 'N' "
         lsSql &= " where true "
         lsSql &= lsCond
         lsSql &= " and a.delete_flag = 'N' "

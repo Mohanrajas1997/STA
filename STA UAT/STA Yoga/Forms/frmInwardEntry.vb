@@ -1,9 +1,18 @@
 Imports MySql.Data.MySqlClient
+Imports System.Net.Mail
+Imports System.Net
+Imports System.IO
+Imports System.Text
+Imports System.Net.Security
+Imports System.Security.Cryptography.X509Certificates
+Imports Newtonsoft.Json.Linq
 
 Public Class frmInwardEntry
     Dim msMode As String
     Dim mnInwardId As Long
     Dim mbGenerateInwardNo As Boolean = True
+    Dim lsMailmessageBody As String
+    Dim mnInwardGID As Long
 
     Public Sub New(Mode As String, Optional InwardId As Long = 0, Optional GenerateInwardNoFlag As Boolean = True)
 
@@ -348,6 +357,22 @@ Public Class frmInwardEntry
                         Else
                             lnkAddAttachment.Enabled = False
                         End If
+
+                        ' Send Email to Shareholder
+                        If Not String.IsNullOrEmpty(lsShareHolderEmailId) Then
+                            SendEmailToShareholder(lsShareHolderEmailId, lsShareHolderName, lnInwardNo, lnCompInwardNo)
+                        End If
+
+                        'Send SMS to Shareholder
+                        If Not String.IsNullOrEmpty(lsShareHolderContactNo) Then
+                            Dim SmsContent As String
+                            SmsContent = gsInwardSmsContent
+                            SmsContent = SmsContent.Replace("#recived_date", ldRcvdDate.ToString("yyyy-MM-dd"))
+                            ' Get Inward GID for tracking
+                            mnInwardGID = Val(gfExecuteScalar("SELECT inward_gid FROM sta_trn_tinward WHERE inward_no = " & lnInwardNo & " AND delete_flag = 'N'", gOdbcConn))
+                            SendSms(mnInwardGID, lsShareHolderContactNo, SmsContent, gsSenderCode, gsTemplateid)
+                        End If
+
                     Else
                         MessageBox.Show(lsTxt, gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Information)
                         lnkAddAttachment.Enabled = False
@@ -372,6 +397,281 @@ Public Class frmInwardEntry
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Information, gsProjectName)
+        End Try
+    End Sub
+
+    Private Sub SendEmailToShareholder(ByVal emailTo As String, ByVal shareholdername As String, ByVal inwardNo As Integer, ByVal compInwardNo As String)
+        Dim errorMessage As String = ""
+        Dim deliveryStatus As String = "Not Delivered"
+        Dim lsMailmessageBody As String = ""
+
+        Try
+            ' Validate email format before proceeding
+            If Not IsValidEmail(emailTo) Then
+                Throw New Exception("Invalid email format.")
+            End If
+
+            ' SMTP Configuration
+            Dim smtpClient As New SmtpClient(gssmtpClient)
+            smtpClient.Port = 587
+            smtpClient.Credentials = New NetworkCredential(gssmtpClientUsername, gssmtpClientpswd)
+            smtpClient.EnableSsl = True
+
+            Dim mailMessage As New MailMessage()
+            mailMessage.From = New MailAddress(gssmtpClientUsername)
+            mailMessage.To.Add(emailTo)
+            mailMessage.Subject = "Acknowledgement"
+            mailMessage.IsBodyHtml = True
+
+            ' Request delivery notification & read receipt
+            mailMessage.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure Or DeliveryNotificationOptions.Delay
+            mailMessage.Headers.Add("Disposition-Notification-To", gssmtpClientUsername)
+
+            If shareholdername.Trim() = "" Then
+                shareholdername = " Sir/Madam "
+            End If
+
+            ' Compose Email Body
+            'lsMailmessageBody = "<p>Dear " & shareholdername & ",</p>" & _
+            '                    "<p><b>Inward No:</b> " & compInwardNo & "</p>" & _
+            '                    "<p>We are in receipt of your communication on the captioned subject.</p>" & _
+            '                    "<p>We shall review the information & revert to you in due course.</p>" & _
+            '                    "<p><i><span style='color:red;'>This is a system-generated email. Please do not reply to this message.</i></p>" & _
+            '                    "<p><br>Thank you. </p> " & _
+            '                    "<p>Yours sincerely,</p>" & _
+            '                    "<p><b>GNSA Infotech P Ltd</b> " & _
+            '                    "<br>Nelson Chambers," & _
+            '                    "<br>F - Block, 4th & 5th Floor," & _
+            '                    "<br>No.115, Nelson Manickam Road," & _
+            '                    "<br>Aminjikarai, Chennai - 600 030.</p>"
+
+            lsMailmessageBody = "<p>Dear " & shareholdername & ",</p>" & _
+                               "<p><b>Inward No:</b> " & compInwardNo & "</p>" & _
+                               "<p>We are in receipt of your communication on the captioned subject.</p>" & _
+                               "<p>We shall review the information & revert to you in due course.</p>" & _
+                               "<p><i><span style='color:red;'>This is a system-generated email. Please do not reply to this message.</i></p>" & _
+                               "<p><br>Thank you. </p> " & _
+                               "<p>Yours sincerely,</p>" & _
+                               "<p><b>STA DEPARTMENT," & _
+                               "<br><b>GNSA Infotech P Ltd" & _
+                               "<br><b>Nelson Chambers," & _
+                               "<br><b>F - Block, 4th & 5th Floor," & _
+                               "<br><b>No.115, Nelson Manickam Road," & _
+                               "<br><b>Aminjikarai, Chennai - 600 030.</p>"
+
+            mailMessage.Body = lsMailmessageBody
+
+            ' Send the email
+            smtpClient.Send(mailMessage)
+
+            ' If successful, mark as delivered
+            deliveryStatus = "Delivered"
+            errorMessage = "Mail Sent Successfully"
+
+        Catch ex As SmtpFailedRecipientException
+            ' Specific failure related to recipient (invalid email, mailbox full, etc.)
+            errorMessage = "Recipient failed: " & ex.FailedRecipient & " - " & ex.StatusCode.ToString() & " - " & ex.Message
+            deliveryStatus = "Not Delivered"
+
+        Catch ex As SmtpException
+            ' General SMTP error (e.g., server issue, network error)
+            errorMessage = "SMTP Error: " & ex.StatusCode.ToString() & " - " & ex.Message
+            deliveryStatus = "Not Delivered"
+
+        Catch ex As Exception
+            ' Other unexpected errors
+            errorMessage = "Error: " & ex.Message
+            deliveryStatus = "Not Delivered"
+
+        Finally
+            ' Get Inward GID for tracking
+            mnInwardGID = Val(gfExecuteScalar("SELECT inward_gid FROM sta_trn_tinward WHERE inward_no = " & inwardNo & " AND delete_flag = 'N'", gOdbcConn))
+
+            ' Log the result in Mail History Table
+            InsertMailHistory(mnInwardGID, emailTo, lsMailmessageBody, errorMessage, deliveryStatus)
+
+            ' Show error message if failed
+            If deliveryStatus = "Not Delivered" Then
+                MessageBox.Show("Failed to send email: " & errorMessage, "Email Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
+    End Sub
+
+    Private Sub InsertMailHistory(inwardGID As Integer, email As String, mailContent As String, remarks As String, status As String)
+        Try
+            Using cmd As New MySqlCommand("pr_sta_trn_tmailhistory", gOdbcConn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("?in_inward_gid", inwardGID)
+                cmd.Parameters.AddWithValue("?in_mail_id", email)
+                cmd.Parameters.AddWithValue("?in_mail_content", mailContent)
+                cmd.Parameters.AddWithValue("?in_remarks", remarks)
+                cmd.Parameters.AddWithValue("?in_mail_status", status)
+                cmd.Parameters.AddWithValue("?in_action", "INSERT")
+                cmd.Parameters.AddWithValue("?in_action_by", gsLoginUserCode)
+
+                ' Output Parameters
+                cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+
+                cmd.CommandTimeout = 0
+                cmd.ExecuteNonQuery()
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error inserting mail history: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Function IsValidEmail(email As String) As Boolean
+        Try
+            Dim mail As New System.Net.Mail.MailAddress(email)
+            Return True
+        Catch
+            Return False
+        End Try
+    End Function
+
+    Private Sub SendEmailToShareholderDynamic(ByVal emailTo As String, ByVal shareholdername As String, ByVal inwardNo As Integer, ByVal compInwardNo As String)
+        Try
+            Dim cmd As MySqlCommand
+            Dim da As MySqlDataAdapter
+            Dim ds As System.Data.DataSet
+            Dim dt As System.Data.DataTable
+            Dim lsMailBody As String
+
+            ' SMTP Configuration
+            Dim smtpClient As New SmtpClient("smtp.gmail.com") ' Replace with your SMTP server
+            smtpClient.Port = 587 ' Use the appropriate port (e.g., 465 for SSL, 587 for TLS)
+            smtpClient.Credentials = New NetworkCredential("noreplysta@gnsaindia.com", "Gnsa@123456789")
+            smtpClient.EnableSsl = True
+
+            Dim mailMessage As New MailMessage()
+            mailMessage.From = New MailAddress("mohanraja.s@flexicodeindia.com") ' Replace with sender email
+            mailMessage.To.Add(emailTo)
+            mailMessage.Subject = "Acknowledgement "
+
+            ' Fetch email content from database
+            cmd = New MySqlCommand("pr_sta_get_mailcontent", gOdbcConn)
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.Parameters.AddWithValue("?in_content_name", "inward_acknowledge")
+
+            cmd.CommandTimeout = 0
+
+            dt = New System.Data.DataTable
+            ds = New System.Data.DataSet
+            da = New MySqlDataAdapter(cmd)
+            da.Fill(ds)
+            dt = ds.Tables(0)
+
+            ' Retrieve email content and replace variable
+            If dt.Rows.Count > 0 Then
+                lsMailBody = dt.Rows(0)("content_text").ToString() ' Get content from first row
+                lsMailBody = lsMailBody.Replace("#inward_no", inwardNo)
+                lsMailBody = lsMailBody.Replace("#comp_inward_no", compInwardNo)
+                lsMailBody = lsMailBody.Replace("#share_holder_name", shareholdername)
+            Else
+                lsMailBody = "Dear Shareholder, Your inward request has been received successfully."
+            End If
+
+            ' Set email body
+            mailMessage.Body = lsMailBody
+            mailMessage.IsBodyHtml = True ' Set to True if your content has HTML formatting
+
+            smtpClient.Send(mailMessage)
+
+            MessageBox.Show("Email sent successfully to " & emailTo, "Email Sent", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        Catch ex As Exception
+            MessageBox.Show("Failed to send email: " & ex.Message, "Email Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Function SendSms(ByVal TranId As Long, ByVal MobileNo As String, ByVal SmsTxt As String, ByVal SenderCode As String, ByVal SmsTemplateId As String) As Integer
+        Dim wb As New WebClient
+        'Dim url = "https://www.smsgatewayhub.com/api/mt/SendSMS?APIKey=heYy2TmZoEmWpIGRbusETw&senderid=GNSAIN&channel=2&DCS=0&flashsms=0&number=919600016921&text=Test SMS&route=1"
+        'Dim url = "https://www.smsgatewayhub.com/api/mt/SendSMS?APIKey=heYy2TmZoEmWpIGRbusETw&senderid=GNSAIN&channel=2&DCS=0&flashsms=0&number=916380611603&text=Test SMS&route=1"
+        'Dim url = msSmsUrl & "APIKey=" & msSmsApiKey & "&senderid=" & SenderCode & "&channel=2&DCS=0&flashsms=0&number=" & MobileNo & "&text=" & SmsTxt & "&route=" & msSmsRouteId
+        'Dim url = "http://push.smsc.co.in/api/mt/SendSMS?APIkey=PJA3OFO9pkqgQx8s44AqsA&senderid=GNSAIN&channel=Trans&DCS=0&flashsms=0&number=916380611603&text=smstxt&route=47&dlttemplateid=GNSAIN"
+
+        Dim url = gsApiUrl & "APIKey=" & gssmsApiKey & "&senderid=" & SenderCode & "&channel=Trans&DCS=0&flashsms=0&number=" & MobileNo & "&text=" & SmsTxt & "&route=" & gsRouteid & "&DLTTemplateId=" & SmsTemplateId
+
+        Dim lsErrCode As String
+        Dim lsErrmsg As String
+        Dim lsJobId As String
+        Dim lnDeliveredStatus As Integer
+        Dim sResponse As String
+        Dim parsejson As JObject
+
+        'ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 Or SecurityProtocolType.Tls Or SecurityProtocolType.Tls11 Or SecurityProtocolType.Tls12
+        ' Enable TLS 1.2 and TLS 1.3 (if supported)
+        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 Or CType(12288, SecurityProtocolType)
+
+        ' Attach the certificate validation callback
+        ServicePointManager.ServerCertificateValidationCallback = AddressOf ValidateRemoteCertificate
+
+
+        sResponse = GetResponse(url)
+        parsejson = JObject.Parse(sResponse)
+
+        lsErrCode = parsejson.SelectToken("ErrorCode").ToString()
+        lsErrmsg = parsejson.SelectToken("ErrorMessage").ToString()
+        lsJobId = parsejson.SelectToken("JobId").ToString()
+
+        If lsErrCode = "000" Then
+            InsertSMSHistory(mnInwardGID, MobileNo, SmsTxt, "SMS Sent Successfully", "Delivered")
+        Else
+            InsertSMSHistory(mnInwardGID, MobileNo, SmsTxt, lsErrmsg, "Not Delivered")
+        End If
+
+        Return lnDeliveredStatus
+    End Function
+
+    Public Shared Function GetResponse(ByVal sURL As String) As String
+        Dim request As HttpWebRequest = CType(WebRequest.Create(sURL), HttpWebRequest)
+        request.MaximumAutomaticRedirections = 4
+        request.Credentials = CredentialCache.DefaultCredentials
+
+        Try
+            Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+            Dim receiveStream As Stream = response.GetResponseStream()
+            Dim readStream As StreamReader = New StreamReader(receiveStream, Encoding.UTF8)
+            Dim sResponse As String = readStream.ReadToEnd()
+            response.Close()
+            readStream.Close()
+            Return sResponse
+        Catch ex As Exception
+            Return ex.ToString()
+        End Try
+    End Function
+
+    Public Shared Function ValidateRemoteCertificate(ByVal sender As Object, ByVal certificate As X509Certificate, ByVal chain As X509Chain, ByVal sslPolicyErrors As SslPolicyErrors) As Boolean
+        Return True
+    End Function
+
+    Private Sub InsertSMSHistory(inwardGID As Integer, phoneno As String, smsContent As String, remarks As String, status As String)
+        Try
+            Using cmd As New MySqlCommand("pr_sta_trn_tsmshistory", gOdbcConn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("?in_inward_gid", inwardGID)
+                cmd.Parameters.AddWithValue("?in_phone_no", phoneno)
+                cmd.Parameters.AddWithValue("?in_sms_content", smsContent)
+                cmd.Parameters.AddWithValue("?in_remarks", remarks)
+                cmd.Parameters.AddWithValue("?in_sms_status", status)
+                cmd.Parameters.AddWithValue("?in_action", "INSERT")
+                cmd.Parameters.AddWithValue("?in_action_by", gsLoginUserCode)
+
+                ' Output Parameters
+                cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+
+                cmd.CommandTimeout = 0
+                cmd.ExecuteNonQuery()
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error inserting sms history: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -481,7 +781,6 @@ Public Class frmInwardEntry
             Call LoadFolio(gnSearchId)
         End If
     End Sub
-
 
     Private Sub cboDocType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboDocType.SelectedIndexChanged
         Dim lsSql As String

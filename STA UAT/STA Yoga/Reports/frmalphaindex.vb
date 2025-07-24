@@ -49,7 +49,7 @@ Public Class frmalphaindex
 
         lsdatephy = Format(dtp_alphaindex.Value, "yyyy-MM-dd")
         ls_Sql = ""
-        ls_Sql &= "SELECT * FROM sta_trn_tbenpost where true"
+        ls_Sql &= "SELECT distinct benpost_date FROM sta_trn_tbenpost where true"
         ls_Sql &= lsCondben
         ls_Sql &= lsdate
         ls_Sql &= " and delete_flag = 'N' "
