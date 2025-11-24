@@ -1,0 +1,107 @@
+﻿------ Build started: Project: sta, Configuration: Debug Any CPU ------
+vbc : warning BC40059: A reference was created to embedded interop assembly 'Interop.MSFlexGridLib' because of an indirect reference to that assembly from assembly 'AxInterop.MSFlexGridLib'. Consider changing the 'Embed Interop Types' property on either assembly.
+vbc : warning BC40059: A reference was created to embedded interop assembly 'Interop.MSHierarchicalFlexGridLib' because of an indirect reference to that assembly from assembly 'AxInterop.MSHierarchicalFlexGridLib'. Consider changing the 'Embed Interop Types' property on either assembly.
+vbc : warning BC42206: Maximum number of warnings has been exceeded.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmAMLResult.vb(166) : warning BC42104: Variable 'PermuteString' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmAMLResult.vb(179) : warning BC42105: Function 'PermuteString' doesn't return a value on all code paths. A null reference exception could occur at run time when the result is used.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmAMLResult.vb(189) : warning BC42104: Variable 'ReturnAllBut' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmAmlApplyRule.vb(34) : warning BC42024: Unused local variable: 'lnChkLstValid'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmAmlApplyRule.vb(35) : warning BC42024: Unused local variable: 'lnChkLstDisc'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCAAllotment.vb(298) : warning BC42024: Unused local variable: 'i'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCAAllotment.vb(299) : warning BC42024: Unused local variable: 'n'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCertificateDemat.vb(95) : warning BC42024: Unused local variable: 'r'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCertificateDemat.vb(958) : warning BC42104: Variable 'lsFileName' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCertificatePPCancel.vb(143) : warning BC42024: Unused local variable: 'd'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCertificatePPCancel.vb(186) : warning BC42105: Function 'ImportPPCancelFile' doesn't return a value on all code paths. A null reference exception could occur at run time when the result is used.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCertificatePPSplitofShares.vb(140) : warning BC42024: Unused local variable: 'd'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCertificatePPSplitofShares.vb(189) : warning BC42105: Function 'ImportPPSplitofsharesFile' doesn't return a value on all code paths. A null reference exception could occur at run time when the result is used.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCertificatePrePrintUtilized.vb(141) : warning BC42024: Unused local variable: 'd'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCertificatePrePrintUtilized.vb(188) : warning BC42105: Function 'ImportPPUtilizedFile' doesn't return a value on all code paths. A null reference exception could occur at run time when the result is used.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMaster.vb(310) : warning BC42104: Variable 'lsFolioPrefixFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMaster.vb(311) : warning BC42104: Variable 'lsElectronicsFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMaster.vb(312) : warning BC42104: Variable 'lsFolioPrefixSnoFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMaster.vb(321) : warning BC42104: Variable 'lsCompListed' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMaster.vb(322) : warning BC42104: Variable 'lsActiveFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMaster.vb(492) : warning BC42104: Variable 'lsFolioPrefixFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMaster.vb(493) : warning BC42104: Variable 'lsElectronicsFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMaster.vb(494) : warning BC42104: Variable 'lsFolioPrefixSnoFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMaster.vb(503) : warning BC42104: Variable 'lsCompListed' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMaster.vb(504) : warning BC42104: Variable 'lsActiveFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMasterNew.vb(377) : warning BC42104: Variable 'lsFolioPrefixFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMasterNew.vb(378) : warning BC42104: Variable 'lsElectronicsFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMasterNew.vb(379) : warning BC42104: Variable 'lsFolioPrefixSnoFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMasterNew.vb(388) : warning BC42104: Variable 'lsCompListed' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMasterNew.vb(389) : warning BC42104: Variable 'lsActiveFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMasterNew.vb(579) : warning BC42104: Variable 'lsFolioPrefixFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMasterNew.vb(580) : warning BC42104: Variable 'lsElectronicsFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMasterNew.vb(581) : warning BC42104: Variable 'lsFolioPrefixSnoFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMasterNew.vb(582) : warning BC42104: Variable 'lsFolioPrefix' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMasterNew.vb(583) : warning BC42104: Variable 'lsFolioPrefixField' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMasterNew.vb(590) : warning BC42104: Variable 'lsCompListed' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmCompanyMasterNew.vb(591) : warning BC42104: Variable 'lsActiveFlag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmDebarrtEntry.vb(82) : warning BC42024: Unused local variable: 'lobjDataReader'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmDebarrtEntry.vb(200) : warning BC42024: Unused local variable: 'objfrm'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmDebarrtEntry.vb(201) : warning BC42024: Unused local variable: 'i'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmEvotingCdsl.vb(27) : warning BC42024: Unused local variable: 'lnBatchno'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmEvotingCdsl.vb(28) : warning BC42024: Unused local variable: 'lnShrid'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmEvotingCdsl.vb(29) : warning BC42024: Unused local variable: 'ldCutoffDate'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmEvotingCdsl.vb(66) : warning BC42024: Unused local variable: 'lsDob'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmEvotingCdsl.vb(408) : warning BC42024: Unused local variable: 'test'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmGenerateCoveringLetter2.vb(1041) : warning BC42104: Variable 'holdername' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmGenerateCoveringLetter2.vb(1043) : warning BC42104: Variable 'faddr1' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmGenerateCoveringLetter2.vb(1045) : warning BC42104: Variable 'faddr2' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmGenerateCoveringLetter2.vb(1047) : warning BC42104: Variable 'faddr3' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmGenerateCoveringLetter2.vb(1049) : warning BC42104: Variable 'fcity' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmGenerateCoveringLetter2.vb(1051) : warning BC42104: Variable 'fstate' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmGenerateCoveringLetter2.vb(1053) : warning BC42104: Variable 'fpincode' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmISR1.vb(545) : warning BC42104: Variable 'lsnmassignflag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmImportAll.vb(362) : warning BC42104: Variable 'lsTxt' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmPostDispatchResponse.vb(20) : warning BC42024: Unused local variable: 'lnResult'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmpaymentinfo.vb(358) : warning BC42104: Variable 'lnpaymentinfotype' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmpaymentinfo.vb(362) : warning BC42104: Variable 'lnactiveflag' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmpaymentinfo.vb(401) : warning BC42024: Unused local variable: 'Paymentinfotype'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmpaymentinfo.vb(452) : warning BC42104: Variable 'paymentmode' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmpaymentinfo.vb(456) : warning BC42104: Variable 'currencycode' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmshp.vb(719) : warning BC42024: Unused local variable: 'TotCol5'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmshp.vb(1108) : warning BC42024: Unused local variable: 'TotCol1'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmshp.vb(1108) : warning BC42024: Unused local variable: 'TotCol2'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmshp.vb(1108) : warning BC42024: Unused local variable: 'TotCol3'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmshp.vb(1108) : warning BC42024: Unused local variable: 'TotCol4'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmshp.vb(1219) : warning BC42024: Unused local variable: 'TotCol1'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmshp.vb(1219) : warning BC42024: Unused local variable: 'TotCol2'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmshp.vb(1219) : warning BC42024: Unused local variable: 'TotCol3'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Forms\frmshp.vb(1219) : warning BC42024: Unused local variable: 'TotCol4'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsImport.vb(159) : warning BC42104: Variable 'lsCompCode' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsImport.vb(1233) : warning BC42105: Function 'ECSValidationFile' doesn't return a value on all code paths. A null reference exception could occur at run time when the result is used.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsImport.vb(3583) : warning BC42024: Unused local variable: 'lsSlno'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsImport.vb(3584) : warning BC42024: Unused local variable: 'lsCompanyName'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsImport.vb(7760) : warning BC42024: Unused local variable: 'lsSlno'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsImport.vb(7936) : warning BC42024: Unused local variable: 'lsSlno'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsImport.vb(8249) : warning BC42024: Unused local variable: 'lsSlno'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsImport.vb(8509) : warning BC42024: Unused local variable: 'lsSlno'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsImport.vb(8704) : warning BC42024: Unused local variable: 'lsSlno'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsImport.vb(8907) : warning BC42024: Unused local variable: 'lsSlno'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsImport.vb(9171) : warning BC42024: Unused local variable: 'lsSlno'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsPrint.vb(111) : warning BC40000: 'Public Sub New(handle As System.IntPtr, access As System.IO.FileAccess, ownsHandle As Boolean)' is obsolete: 'This constructor has been deprecated.  Please use new FileStream(SafeFileHandle handle, FileAccess access) instead, and optionally make a new SafeFileHandle with ownsHandle=false if needed.  http://go.microsoft.com/fwlink/?linkid=14202'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsUpload.vb(559) : warning BC42024: Unused local variable: 'lsCompListedFlag'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsUpload.vb(748) : warning BC42024: Unused local variable: 'i'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsUpload.vb(933) : warning BC42024: Unused local variable: 'i'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsUpload.vb(1610) : warning BC42104: Variable 'lsTransferFooterdate' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsUpload.vb(2112) : warning BC42104: Variable 'lsMeetingDate' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Module\clsUpload.vb(2487) : warning BC42104: Variable 'lsMeetingdate' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Reports\Frm_eVoting.vb(151) : warning BC42104: Variable 'ls_Sql' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Reports\frmAMLReport.vb(4) : warning BC42024: Unused local variable: 'lsSql'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Reports\frmBenpostComparisonReport.vb(223) : warning BC42104: Variable 'cmd' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Reports\frmBenpostIdentification_Rpt.vb(57) : warning BC42024: Unused local variable: 'lsFld'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Reports\frmIEPFRpt.vb(129) : warning BC42104: Variable 'lsSql' is used before it has been assigned a value. A null reference exception could result at runtime.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Reports\frmPendingBenpostReport.vb(45) : warning BC42024: Unused local variable: 'j'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Reports\frmPrevandCurrwkbenpostComparsionReport.vb(41) : warning BC42024: Unused local variable: 'lsSql'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Reports\frmPrevandCurrwkbenpostComparsionReport.vb(119) : warning BC42024: Unused local variable: 'lnFileId'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Reports\frm_dmat_remat_conf_new.vb(152) : warning BC42024: Unused local variable: 'lsTxt'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Reports\frm_dmat_remat_conf_new.vb(329) : warning BC42024: Unused local variable: 'lsTxt'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Reports\frm_dmat_remat_conf_new1.vb(151) : warning BC42024: Unused local variable: 'lsTxt'.
+D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\Reports\frm_dmat_remat_conf_new1.vb(334) : warning BC42024: Unused local variable: 'lsTxt'.
+  Consider app.config remapping of assembly "DocumentFormat.OpenXml, Culture=neutral, PublicKeyToken=31bf3856ad364e35" from Version "2.0.5022.0" [] to Version "2.5.5631.0" [C:\Program Files (x86)\Open XML SDK\V2.5\lib\DocumentFormat.OpenXml.dll] to solve conflict and get rid of warning.
+C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets(1635,5): warning MSB3276: Found conflicts between different versions of the same dependent assembly. Please set the "AutoGenerateBindingRedirects" property to true in the project file. For more information, see http://go.microsoft.com/fwlink/?LinkId=294190.
+  sta -> D:\Mohan\GITHUB SOURCES\STA\STA UAT\STA Yoga\bin\Debug\sta.exe
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========

@@ -1,0 +1,491 @@
+split -l900000 oct2025_agreement_stock.csv oct2025_agreement_stock
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sta enhancement (07-03-2025)
+Transmission changes - Production moved (on 17-03-2025)
+1) pr_sta_set_folioregister_new new sp
+2) frm_foliocreate_new new screen refered screen change the new screen name
+3) frmCertificateTransmission_new new screen refered screen change the new screen name
+4) existing sp pr_sta_get_folio bank_acctype field added
+5) New sp pr_sta_get_foliotm
+
+Dp Master (Cdsl & Nsdl) - Production moved (on 18-03-2025)
+1) New table sta_mst_tdepositoryparticipant
+2) New screen frmDpMaster
+3) New screen pr_sta_mst_tdepositoryparticipant
+
+Inward Acknowledge mail Send
+1) New table sta_mst_tmailcontent
+2) New sp pr_sta_get_mailcontent
+
+-----------------------------------------------
+1) pr_sta_set_folioentryTm new sp
+2) New screen frmCertificateTransmission_new
+3) pr_sta_get_foliotm new sp
+4) pr_sta_set_queuemove existing sp extra if condition added
+	if v_tran_code = 'TM' then
+        call pr_sta_set_folioisr(in_inward_gid,@result,@msg);
+      end if;
+	  
+	  
+---------------------------------------------
+benpost Import NSDL & CDSL Changes 15-04-2025
+
+1) In clsimport file this 2(BenpostNSDL,BenpostCDSL) method got changes.
+2) sta_trn_tbenpost 30 new fields added
+3) sta_trn_tcurrentbenpost 30 new fields added
+4) New store procedure pr_sta_ins_benpost_15042025
+5) frmbenpostreport screen new fields added for reporting purpous.
+
+-- NSDL
+bene_tax_deduction_status  varchar(20)
+bene_status  char(2)
+bene_free_positions  decimal(15,2)
+bene_block_positions decimal(15,2)
+bene_pledge_with_lockin_position decimal(15,2)
+bene_pledged_unconfirmed_position decimal(15,2)
+bene_uncnfrm_Pledged_with_Lockin_position decimal(15,2)
+bene_cm_idd_positions decimal(15,2)
+holder1_pan_flag char(1)
+holder2_pan_flag char(1)
+holder3_pan_flag char(1)
+
+ALTER TABLE `sta_live`.`sta_trn_tbenpost` 
+ADD COLUMN `bene_tax_deduction_status` VARCHAR(20) NULL AFTER `pledge`,
+ADD COLUMN `bene_status` CHAR(2) NULL AFTER `bene_tax_deduction_status`,
+ADD COLUMN `bene_free_positions` DECIMAL(15,2) NULL AFTER `bene_status`,
+ADD COLUMN `bene_block_positions` DECIMAL(15,2) NULL AFTER `bene_free_positions`,
+ADD COLUMN `bene_pledge_with_lockin_position` DECIMAL(15,2) NULL AFTER `bene_block_positions`,
+ADD COLUMN `bene_pledged_unconfirmed_Position` DECIMAL(15,2) NULL AFTER `bene_pledge_with_lockin_position`,
+ADD COLUMN `bene_uncnfrm_Pledged_with_Lockin_position` DECIMAL(15,2) NULL AFTER `bene_pledged_unconfirmed_Position`,
+ADD COLUMN `bene_cm_idd_positions` DECIMAL(15,2) NULL AFTER `bene_uncnfrm_Pledged_with_Lockin_position`,
+ADD COLUMN `holder1_pan_flag` CHAR(1) NULL AFTER `bene_cm_idd_positions`,
+ADD COLUMN `holder2_pan_flag` CHAR(1) NULL AFTER `holder1_pan_flag`,
+ADD COLUMN `holder3_pan_flag` CHAR(1) NULL AFTER `holder2_pan_flag`;
+
+-- CDSL
+guardian_name  varchar(142)
+birth_date   date
+account_status char(1)
+bo_freeze_flag char(1)
+freeze_reason_code int(2)
+isin_status char(1)
+acc_opening_date date
+tax_deduction_status int(2)
+nationality char(3)
+secondary_phone_no varchar(17)
+ecs_mandate_flag char(1)
+divident_bank_currency int(11)
+free_bal int(22)
+pending_demat_verification int(22)
+pending_demat_confirmation int(22)
+pledge_setup_bal int(22)
+uid_of_holder1 varchar(15)
+uid_of_holder2 varchar(15)
+uid_of_holder3 varchar(15)
+
+
+ALTER TABLE `sta_live`.`sta_trn_tbenpost` 
+ADD COLUMN `guardian_name` VARCHAR(142) NULL AFTER `holder3_pan_flag`,
+ADD COLUMN `birth_date` DATE NULL AFTER `guardian_name`,
+ADD COLUMN `account_status` CHAR(1) NULL AFTER `birth_date`,
+ADD COLUMN `bo_freeze_flag` CHAR(1) NULL AFTER `account_status`,
+ADD COLUMN `freeze_reason_code` INT(2) NULL AFTER `bo_freeze_flag`,
+ADD COLUMN `isin_status` CHAR(1) NULL AFTER `freeze_reason_code`,
+ADD COLUMN `acc_opening_date` DATE NULL AFTER `isin_status`,
+ADD COLUMN `tax_deduction_status` INT(2) NULL AFTER `acc_opening_date`,
+ADD COLUMN `nationality` CHAR(3) NULL AFTER `tax_deduction_status`,
+ADD COLUMN `secondary_phone_no` VARCHAR(17) NULL AFTER `nationality`,
+ADD COLUMN `ecs_mandate_flag` CHAR(1) NULL AFTER `secondary_phone_no`,
+ADD COLUMN `divident_bank_currency` INT(11) NULL AFTER `ecs_mandate_flag`,
+ADD COLUMN `free_bal` INT(22) NULL AFTER `divident_bank_currency`,
+ADD COLUMN `pending_demat_verification` INT(22) NULL AFTER `free_bal`,
+ADD COLUMN `pending_demat_confirmation` INT(22) NULL AFTER `pending_demat_verification`,
+ADD COLUMN `pledge_setup_bal` INT(22) NULL AFTER `pending_demat_confirmation`,
+ADD COLUMN `uid_of_holder1` VARCHAR(15) NULL AFTER `pledge_setup_bal`,
+ADD COLUMN `uid_of_holder2` VARCHAR(15) NULL AFTER `uid_of_holder1`,
+ADD COLUMN `uid_of_holder3` VARCHAR(15) NULL AFTER `uid_of_holder2`;
+
+
+ALTER TABLE `sta`.`sta_trn_tbenpost` 
+DROP COLUMN `free_bal`,
+DROP COLUMN `tax_deduction_status`,
+ADD COLUMN `safe_keep_bal` INT(22) NULL AFTER `uid_of_holder3`,
+ADD COLUMN `earmark_bal` INT(22) NULL AFTER `safe_keep_bal`;
+
+ALTER TABLE `sta`.`sta_trn_tcurrentbenpost` 
+DROP COLUMN `free_bal`,
+DROP COLUMN `tax_deduction_status`,
+ADD COLUMN `safe_keep_bal` INT(22) NULL AFTER `uid_of_holder3`,
+ADD COLUMN `earmark_bal` INT(22) NULL AFTER `safe_keep_bal`;
+
+in_bene_tax_deduction_status,
+in_bene_status,
+in_bene_free_positions,
+in_bene_block_positions,
+in_bene_pledge_with_lockin_position,
+in_bene_pledged_unconfirmed_Position,
+in_bene_uncnfrm_Pledged_with_Lockin_position,
+in_bene_cm_idd_positions,
+in_holder1_pan_flag,
+in_holder2_pan_flag,
+in_holder3_pan_flag,
+in_guardian_name,
+in_birth_date,
+in_account_status,
+in_bo_freeze_flag,
+in_freeze_reason_code,
+in_isin_status,
+in_acc_opening_date,
+in_tax_deduction_status,
+in_nationality,
+in_secondary_phone_no,
+in_ecs_mandate_flag,
+in_divident_bank_currency,
+in_free_bal,
+in_pending_demat_verification,
+in_pending_demat_confirmation,
+in_pledge_setup_bal,
+in_uid_of_holder1,
+in_uid_of_holder2,
+in_uid_of_holder3
+----------------------------------------------------------------
+insert into sta.sta_trn_tbenpost (benpost_gid
+,file_gid
+,comp_gid
+,folio_gid
+,depository_code
+,isin_id
+,client_id
+,dp_id
+,sebi_reg_no
+,benpost_date
+,share_count
+,holder1_name
+,holder1_fh_name
+,holder2_name
+,holder2_fh_name
+,holder3_name
+,holder3_fh_name
+,holder1_addr1
+,holder1_addr2
+,holder1_addr3
+,holder1_city
+,holder1_state
+,holder1_country
+,holder1_pin
+,holder1_pan
+,holder2_pan
+,holder3_pan
+,holder1_contact_no
+,holder1_fax_no
+,holder1_email_id
+,holder2_email_id
+,holder3_email_id
+,holder1_per_addr1
+,holder1_per_addr2
+,holder1_per_addr3
+,holder1_per_city
+,holder1_per_state
+,holder1_per_country
+,holder1_per_pin
+,nominee_name
+,nominee_part1
+,nominee_part2
+,nominee_part3
+,nominee_part4
+,nominee_part5
+,bank_name
+,bank_addr1
+,bank_addr2
+,bank_addr3
+,bank_city
+,bank_state
+,bank_country
+,bank_pin
+,bank_acc_no
+,bank_acc_type
+,bank_micr_code
+,bank_ifsc_code
+,rbi_ref_no
+,rbi_app_date
+,bene_type
+,bene_subtype
+,bene_acccat
+,bene_occupation
+,delete_flag
+,erom_date
+,lockin
+,pledge)
+select * from sta_live.sta_trn_tbenpostold limit 0,10000000;
+
+
+select count(*) from sta.sta_trn_tcurrentbenpost; -- 104315
+select count(*) from sta_trn_tcurrentbenpost_old; -- 104315
+
+select count(*) from sta.sta_trn_tbenpost; -- 27376032
+select count(*) from sta_trn_tbenpost_old; -- 27376032
+
+password for STA mail (ddzv dotn ckty zwoa)
+------------------------------------
+Date : 12-05-2025  (LOC Reminder) 
+new table sta_trn_tlocreminder
+1) ALTER TABLE `sta`.`sta_trn_tinward` 
+ADD COLUMN `reminder_flag` CHAR(1) NOT NULL DEFAULT 'N' AFTER `threshold_level`,
+ADD COLUMN `reminder_status` VARCHAR(16) NULL AFTER `reminder_flag`; (Completed)
+
+2) pr_sta_trn_tinwardnew sp changes done reminder_flag value passed on insert  (Completed)
+3) pr_sta_set_uploadstatus sp changes done locreminder table insert added (Completed)
+4) pr_sta_set_queuemove sp changes done
+	-- Added by Mohan on 20-05-2025 After demated Loc reminder No need to send
+    call pr_sta_set_locreminderdemated(in_inward_gid,@result,@msg); (Completed)
+	
+5) pr_sta_set_locreminderdemated New sp added (Completed)
+6) pr_sta_ins_tinward_tmescrow new sp added (Completed)
+7) fn_sta_get_escrowfoliono new function (NA)
+8) new event locescrowinward_event (Completed)
+9) pr_sta_run_escrowinward new sp (Completed)
+10) ALTER TABLE `sta`.`sta_mst_tcompany` 
+ADD COLUMN `depository_name` VARCHAR(128) NULL AFTER `depository_code`,
+ADD COLUMN `dp_id` VARCHAR(16) NULL AFTER `depository_name`,
+ADD COLUMN `client_id` VARCHAR(16) NULL AFTER `dp_id`; (Completed)
+
+11) UPDATE `sta`.`sta_mst_tcompany` SET `depository_name` = 'Stock Holding Corporation Of India Limited', `dp_id` = 'IN301330', `client_id` = '41286777' WHERE (`comp_gid` = '1');
+UPDATE `sta`.`sta_mst_tcompany` SET `depository_name` = 'Integrated Enterprises (India) Private Limited', `dp_id` = 'IN301313', `client_id` = '22401354' WHERE (`comp_gid` = '2');
+UPDATE `sta`.`sta_mst_tcompany` SET `depository_name` = 'Paterson Securities Private Limited', `dp_id` = '12040100', `client_id` = '00089661' WHERE (`comp_gid` = '3');
+UPDATE `sta`.`sta_mst_tcompany` SET `depository_name` = 'Progressive Share Brokers Private Limited', `dp_id` = '12033900', `client_id` = '00256174' WHERE (`comp_gid` = '6');
+UPDATE `sta`.`sta_mst_tcompany` SET `depository_name` = 'Stock Holding Corporation Of India Limited', `dp_id` = 'IN301330', `client_id` = '41303129' WHERE (`comp_gid` = '9');
+UPDATE `sta`.`sta_mst_tcompany` SET `depository_name` = 'Cholamandalam Securities Limited', `dp_id` = '12048800', `client_id` = '00502670' WHERE (`comp_gid` = '11'); (Completed)`
+
+
+----------------------------------------------
+Date : 13-06-2025 (CA-Physical to IEPF)
+1) New table sta_trn_tcaiepfheader
+2) New table sta_trn_tcaiepffolio
+3) New Sp pr_sta_ins_caiepfheader
+4) New sp pr_sta_ins_caiepffolio
+5) New Sp pr_sta_get_caiepfentry
+INSERT INTO `sta`.`sta_mst_ttrantype` (`trantype_code`, `trantype_desc`, `others_flag`, `auth_queue_code`, `update_queue_code`, `complete_queue_code`, `transfer_flag`, `cert_flag`, `demat_flag`, `objx_flag`, `delete_flag`) VALUES ('PI', 'CA Physical To IEPF', 'N', 'U', 'U', 'U', 'N', 'N', 'Y', 'N', 'N');
+
+INSERT INTO `sta`.`sta_mst_tchecklist` (`chklst_gid`, `tran_code`, `chklst_value`, `chklst_desc`, `auto_flag`, `disp_order`, `delete_flag`) VALUES ('318', 'PI', '1', 'Checklist 1', 'N', '1', 'N');
+INSERT INTO `sta`.`sta_mst_tchecklist` (`chklst_gid`, `tran_code`, `chklst_value`, `chklst_desc`, `auto_flag`, `disp_order`, `delete_flag`) VALUES ('319', 'PI', '2', 'Checklist 2', 'N', '2', 'N');
+INSERT INTO `sta`.`sta_mst_tchecklist` (`chklst_gid`, `tran_code`, `chklst_value`, `chklst_desc`, `auto_flag`, `disp_order`, `delete_flag`) VALUES ('320', 'PI', '4', 'Checklist 3', 'N', '3', 'N');
+
+6) New sp pr_sta_dlt_caiepffolio
+ALTER TABLE `sta`.`sta_mst_tupload` 
+CHANGE COLUMN `upload_type` `upload_type` INT(11) UNSIGNED NULL DEFAULT NULL ;
+
+INSERT INTO `sta`.`sta_mst_tupload` (`upload_type`, `upload_desc`) VALUES ('128', 'PhyToIEPF NSDL');
+INSERT INTO `sta`.`sta_mst_tupload` (`upload_type`, `upload_desc`) VALUES ('256', 'PhyToIEPF CDSL');
+7) Global.odbc file Changes
+Public gnPhyToiepfNSDL As Integer = 128
+Public gnPhyToiepfCDSL As Integer = 256
+8) Upload Queue.vb
+LoadGrid() method
+9) frmupload
+	Case gnPhyToiepfCDSL
+	Call lobjUpload.CDSLPhysToIEPF(lnUploadId)
+	Case gnPhyToiepfNSDL
+	Call lobjUpload.NSDLPhysToIEPF(lnUploadId)
+10) clsupload
+	New method CDSLPhysToIEPF
+	New Methid NSDLPhysToIEPF
+11) pr_sta_generate_upload sp changes
+12) new sp pr_sta_generate_cacdslphystoiepf
+
+ALTER TABLE `sta`.`sta_trn_tupload` 
+CHANGE COLUMN `upload_type` `upload_type` BIGINT NOT NULL DEFAULT '0' ;
+
+INSERT INTO `sta`.`sta_mst_tcatype` (`ca_code`, `ca_type`, `delete_flag`) VALUES ('0034', 'Physical to Nsdl IEPF', 'N');
+INSERT INTO `sta`.`sta_mst_tcatype` (`ca_code`, `ca_type`, `delete_flag`) VALUES ('0068', 'Physical to Cdsl IEPF', 'N');
+
+___________________________________________________________________
+Date 11-08-2025 (Doc Sub type multi select)
+
+CREATE TABLE `sta_trn_tinwarddocsubtype` (
+  `inward_docsubtype_gid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `inward_gid` int(10),
+  `trantype_code` varchar(32) NOT NULL,
+  `docsubtype_code` varchar(64) DEFAULT NULL,
+  `docsubtype_desc` varchar(64) DEFAULT NULL,
+  `delete_flag` char(1) NOT NULL DEFAULT 'N',
+  PRIMARY KEY (`inward_docsubtype_gid`),
+  KEY `idx_docsubtype_desc` (`docsubtype_desc`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+INSERT INTO `sta`.`sta_mst_ttrantype` (`trantype_gid`, `trantype_code`, `trantype_desc`, `others_flag`, `auth_queue_code`, `complete_queue_code`, `transfer_flag`, `cert_flag`, `demat_flag`, `objx_flag`, `delete_flag`) VALUES ('33', 'CD', 'Correspondence', 'Y', 'I', 'D', 'N', 'N', 'N', 'N', 'N');
+
+
+INSERT INTO `sta`.`sta_mst_tdocsubtype` (`docsubtype_gid`, `trantype_code`, `docsubtype_code`, `docsubtype_desc`, `delete_flag`) VALUES ('', 'CD', 'CD_CDSL', 'CDSL', 'N');
+INSERT INTO `sta`.`sta_mst_tdocsubtype` (`docsubtype_gid`, `trantype_code`, `docsubtype_code`, `docsubtype_desc`, `delete_flag`) VALUES ('', 'CD', 'CD_CT', 'Certificate Transfer', 'N');
+INSERT INTO `sta`.`sta_mst_tdocsubtype` (`docsubtype_gid`, `trantype_code`, `docsubtype_code`, `docsubtype_desc`, `delete_flag`) VALUES ('', 'CD', 'CD_DP', 'Depository Participant [DP]', 'N');
+INSERT INTO `sta`.`sta_mst_tdocsubtype` (`docsubtype_gid`, `trantype_code`, `docsubtype_code`, `docsubtype_desc`, `delete_flag`) VALUES ('', 'CD', 'CD_DV', 'Dividend', 'N');
+INSERT INTO `sta`.`sta_mst_tdocsubtype` (`trantype_code`, `docsubtype_code`, `docsubtype_desc`, `delete_flag`) VALUES ('CD', 'CD_DUP_TM', 'Duplicate / Transmission', 'N');
+INSERT INTO `sta`.`sta_mst_tdocsubtype` (`trantype_code`, `docsubtype_code`, `docsubtype_desc`, `delete_flag`) VALUES ('CD', 'CD_DUPS', 'Duplicate Shares', 'N');
+INSERT INTO `sta`.`sta_mst_tdocsubtype` (`trantype_code`, `docsubtype_code`, `docsubtype_desc`, `delete_flag`) VALUES ('CD', 'CD_IEPF', 'IEPF', 'N');
+INSERT INTO `sta`.`sta_mst_tdocsubtype` (`trantype_code`, `docsubtype_code`, `docsubtype_desc`, `delete_flag`) VALUES ('CD', 'CD_INTI', 'Intimation', 'N');
+INSERT INTO `sta`.`sta_mst_tdocsubtype` (`trantype_code`, `docsubtype_code`, `docsubtype_desc`, `delete_flag`) VALUES ('CD', 'CD_ISR', 'ISR', 'N');
+INSERT INTO `sta`.`sta_mst_tdocsubtype` (`trantype_code`, `docsubtype_code`, `docsubtype_desc`, `delete_flag`) VALUES ('CD', 'CD_NSDL', 'NSDL', 'N');
+INSERT INTO `sta`.`sta_mst_tdocsubtype` (`trantype_code`, `docsubtype_code`, `docsubtype_desc`, `delete_flag`) VALUES ('CD', 'CD_SEBI', 'SEBI', 'N');
+INSERT INTO `sta`.`sta_mst_tdocsubtype` (`trantype_code`, `docsubtype_code`, `docsubtype_desc`, `delete_flag`) VALUES ('CD', 'CD_TM', 'Transmission', 'N');
+INSERT INTO `sta`.`sta_mst_tdocsubtype` (`trantype_code`, `docsubtype_code`, `docsubtype_desc`, `delete_flag`) VALUES ('CD', 'CD_MISC', 'Misc', 'N');
+
+
+new sp pr_sta_ins_tinwarddocsubtype
+
+existing sp changes done pr_sta_trn_tinwardnew
+
+step 1: 
+-- Added by mohan impleted on 12-08-2025
+select length(in_docsubtype_code) into v_docsub_type_len;
+if v_docsub_type_len > 2 then
+set in_docsubtype_code = '';
+else 
+set in_docsubtype_code = in_docsubtype_code;
+end if;
+-- cmd line End
+
+step 2: (Insert)
+-- Added by mohan impleted on 12-08-2025
+  call pr_sta_ins_tinwarddocsubtype(v_inward_gid,in_tran_code,in_docsubtype_code,in_docsubtype_desc);
+-- cmd line End
+
+step 3: (Update)
+-- Added by mohan impleted on 12-08-2025
+  call pr_sta_ins_tinwarddocsubtype(in_inward_gid,in_tran_code,in_docsubtype_code,in_docsubtype_desc);
+-- cmd line End
+
+frmdochistory.vb page changes occured
+ Private Sub btnInward_Click(sender As Object, e As EventArgs) Handles btnInward.Click
+        Dim objFrm As New frmInwardEntryNew("VIEW", mnInwardId)
+        objFrm.ShowDialog()
+    End Sub
+
+new function added fn_get_docsubtypedesc
+
+new screen for docsubtype search frmInwardDocSubtypeReport
+
+select c.comp_name,a.inward_no,b.* from sta_trn_tinward as a
+inner join sta_trn_tcaentry as b on a.inward_gid = b.inward_gid
+and b.delete_flag = 'N'
+inner join sta_mst_tcompany as c on a.comp_gid = c.comp_gid and c.delete_flag = 'N'
+where a.delete_flag = 'N'
+order by a.inward_gid,b.caentry_slno;
+
+------------------------------------------------------------------
+
+Date : 03-09-2025 (CA Allotment)cert and certdist table movement process
+1) New sp added pr_sta_run_caentry
+2) Existing sp new code added pr_sta_set_uploadstatus
+	#Added on 03-09-2025 implemented by Mohan <<Start>>
+	  #Move the shares to cert and certdist table
+	  select comp_gid into v_comp_gid
+	  from sta_trn_tinward where inward_gid = v_inward_gid
+	  and delete_flag = 'N';
+	  call pr_sta_run_caentry(v_inward_gid,v_comp_gid);
+	#Added on 03-09-2025 implemented by Mohan <<end>>
+3) New sp added pr_sta_validate_distseries
+
+----------------------------------------------
+Date : 22-09-2025 (Divident Account master import) New column added (Div_date,Div_rate)
+1) clsimport
+method changes DividendAccountMaster
+2) frmDividendAccountMasterRpt
+3) ALTER TABLE sta_live.div_mst_tacc 
+ADD COLUMN div_rate DOUBLE(15,2) NOT NULL DEFAULT 0 COMMENT '' AFTER acc_no,
+ADD COLUMN div_date DATE NULL COMMENT '' AFTER div_rate;
+4) pr_sta_ins_tdividend_acc_mst existing sp changes done
+
+Date : 23-09-2025 (Inward screen changes )New column added (dp_client_id)
+1) ALTER TABLE `sta`.`sta_trn_tinward` 
+ADD COLUMN `dp_client_id` VARCHAR(16) NULL AFTER `reminder_status`;
+2) pr_sta_trn_tinwardnew existing sp changes done parameter extra added in_dp_client_id
+
+-------------------------------------
+ALTER TABLE `sta`.`sta_trn_tupload` 
+CHANGE COLUMN `upload_type` `upload_type` INT(10) NOT NULL DEFAULT '0' ;
+
+------------------------
+Date : 31-10-2025
+1) ALTER TABLE `sta`.`sta_trn_tinward` 
+ADD COLUMN `folio_remark` VARCHAR(255) NULL AFTER `dp_client_id`;
+2) CREATE TABLE `sta_trn_tfoliofreeze` (
+  `foliofreeze_gid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `comp_gid` int(10) NOT NULL,
+  `folio_gid` int(10) NOT NULL,
+  `foliofreeze_date` date NOT NULL,
+  `foliofreeze_remark` text,
+  `foliofreeze_flag` char(1) NOT NULL,
+  `insert_date` datetime DEFAULT NULL,
+  `insert_by` varchar(16) DEFAULT NULL,
+  `update_date` datetime DEFAULT NULL,
+  `update_by` varchar(16) DEFAULT NULL,
+  `delete_flag` char(1) DEFAULT 'N',
+  PRIMARY KEY (`foliofreeze_gid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+3) CREATE TABLE `sta_trn_tfoliofreezeaudit` (
+  `foliofreezeaudit_gid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `foliofreeze_gid` int(10) ,
+  `comp_gid` int(10) NOT NULL,
+  `folio_gid` int(10) NOT NULL,
+  `foliofreeze_date` date NOT NULL,
+  `foliofreeze_remark` text,
+  `foliofreeze_flag` char(1) NOT NULL,
+  `insert_date` datetime DEFAULT NULL,
+  `insert_by` varchar(16) DEFAULT NULL,
+  `update_date` datetime DEFAULT NULL,
+  `update_by` varchar(16) DEFAULT NULL,
+  `delete_flag` char(1) DEFAULT 'N',
+  PRIMARY KEY (`foliofreezeaudit_gid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+3.1) New trigger added for this table sta_trn_tfoliofreeze trigger name trg_sta_trn_tfoliofreeze_before_update 
+4) ALTER TABLE `sta`.`sta_mst_ttrantype` 
+ADD COLUMN `foliofreeze_flag` CHAR(1) NOT NULL DEFAULT 'N' AFTER `objx_flag`;
+5) new procedure pr_sta_undo_foliofreeze
+6) Existing store procedure new line added (pr_sta_set_folioisr)
+      #START Added By Mohan on 03-11-2025 (Undo Foliofreeze)
+      if exists (select 1 from sta_trn_tqueue
+				  where inward_gid = in_inward_gid 
+				  and queue_from = 'C' 
+				  and queue_to = 'D' 
+				  and delete_flag = 'N') then
+		  select queue_from_user into v_action_by 
+		  from sta_trn_tqueue
+		  where inward_gid = in_inward_gid 
+		  and queue_from = 'C' 
+		  and queue_to = 'D' 
+		  and delete_flag = 'N'; 
+		  
+		  call pr_sta_undo_foliofreeze(in_inward_gid,v_comp_gid,v_folio_gid,v_action_by,'','');
+      end if;
+      #END Added By Mohan on 03-11-2025 (Undo Foliofreeze)
+7) Existing procedure new condition added (pr_sta_set_queuemove)
+     #START Added by Mohan 03-11-2025 (validate foliofreeze status and move from Maker to Inex)
+    if exists (select 1 from sta_mst_ttrantype 
+			   where trantype_code = v_tran_code
+			   and foliofreeze_flag = 'Y'
+			   and delete_flag = 'N') then 
+               
+		#Get comp_gid,folio_gid
+        select comp_gid, folio_gid 
+		into v_comp_gid, v_folio_gid
+        from sta_trn_tinward
+        where inward_gid = in_inward_gid
+        and delete_flag = 'N';
+        
+		call pr_sta_validate_foliofreeze(in_inward_gid,v_comp_gid,v_folio_gid,v_tran_code,
+		'',@out_result,@out_msg);
+        
+        if @out_result = 0 then
+			if v_queue_current = 'M' and v_queue_to = 'C' then
+				set v_queue_to = 'I';
+            end if;
+        end if;
+    end if;
+    #END Added by Mohan 03-11-2025 (validate foliofreeze status and move from Maker to Inex)
+8) INSERT INTO `sta`.`sta_mst_tstatus` (`status_type`, `status_value`, `status_desc`, `delete_flag`) VALUES ('Inward', '128', 'Foliofreeze', 'N');
+----------------------------------
+Date : 11-11-2025 (Company creation)
+1) comp code,comp short code,company name,isin id,cin no,security type,depost type
+
+ALTER TABLE `sta`.`sta_mst_tcompany` 
+ADD COLUMN `entry_mode` VARCHAR(16) NOT NULL DEFAULT 'New' AFTER `client_id`;

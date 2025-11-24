@@ -1,0 +1,137 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|d:\\mohan\\github sources\\sta\\sta live\\sta yoga\\forms\\frmqueue.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|solutionrelative:forms\\frmqueue.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|d:\\mohan\\github sources\\sta\\sta live\\sta yoga\\forms\\frmqueue.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|solutionrelative:forms\\frmqueue.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|d:\\mohan\\github sources\\sta\\sta live\\sta yoga\\forms\\frmimportall.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|solutionrelative:forms\\frmimportall.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\forms\\frmmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|solutionrelative:forms\\frmmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\forms\\frmmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|solutionrelative:forms\\frmmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\forms\\frmimportall.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|solutionrelative:forms\\frmimportall.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\forms\\frmgeneratecoveringletter2.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C21B7E65-076C-48E5-9372-834EE35D0FE4}|sta.vbproj|solutionrelative:forms\\frmgeneratecoveringletter2.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "frmQueue.vb",
+              "DocumentMoniker": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmQueue.vb",
+              "RelativeDocumentMoniker": "Forms\\frmQueue.vb",
+              "ToolTip": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmQueue.vb",
+              "RelativeToolTip": "Forms\\frmQueue.vb",
+              "ViewState": "AgIAAG8BAAAAAAAAAAAwwIEBAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-10-22T10:52:07.657Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "frmQueue.vb [Design]",
+              "DocumentMoniker": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmQueue.vb",
+              "RelativeDocumentMoniker": "Forms\\frmQueue.vb",
+              "ToolTip": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmQueue.vb [Design]",
+              "RelativeToolTip": "Forms\\frmQueue.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-10-22T10:52:28.768Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "frmImportAll.vb",
+              "DocumentMoniker": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmImportAll.vb",
+              "RelativeDocumentMoniker": "Forms\\frmImportAll.vb",
+              "ToolTip": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmImportAll.vb",
+              "RelativeToolTip": "Forms\\frmImportAll.vb",
+              "ViewState": "AgIAAEgBAAAAAAAAAAAYwFEBAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-09-27T05:29:31.534Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "frmImportAll.vb [Design]",
+              "DocumentMoniker": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmImportAll.vb",
+              "RelativeDocumentMoniker": "Forms\\frmImportAll.vb",
+              "ToolTip": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmImportAll.vb [Design]",
+              "RelativeToolTip": "Forms\\frmImportAll.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-09-27T05:29:34.728Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "frmMain.vb",
+              "DocumentMoniker": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmMain.vb",
+              "RelativeDocumentMoniker": "Forms\\frmMain.vb",
+              "ToolTip": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmMain.vb",
+              "RelativeToolTip": "Forms\\frmMain.vb",
+              "ViewState": "AgIAAI4DAAAAAAAAAAAkwJsDAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-09-27T05:29:34.782Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "frmMain.vb [Design]",
+              "DocumentMoniker": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmMain.vb",
+              "RelativeDocumentMoniker": "Forms\\frmMain.vb",
+              "ToolTip": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmMain.vb [Design]",
+              "RelativeToolTip": "Forms\\frmMain.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-09-27T05:29:34.797Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "frmGenerateCoveringLetter2.vb",
+              "DocumentMoniker": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmGenerateCoveringLetter2.vb",
+              "RelativeDocumentMoniker": "Forms\\frmGenerateCoveringLetter2.vb",
+              "ToolTip": "D:\\Mohan\\GITHUB SOURCES\\STA\\STA Live\\STA Yoga\\Forms\\frmGenerateCoveringLetter2.vb",
+              "RelativeToolTip": "Forms\\frmGenerateCoveringLetter2.vb",
+              "ViewState": "AgIAAO0GAAAAAAAAAAAAAEMHAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-09-27T05:29:34.814Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

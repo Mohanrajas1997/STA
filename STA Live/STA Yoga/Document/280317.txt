@@ -1,0 +1,46 @@
+Report
+
+1. Pan No NA
+2. Signature NA
+3. Email NA
+4. Contact NA
+
+Excel Update
+1. Address Updation
+2. Holder Updation
+
+Import
+1. Event Number and Password From NSDL/CDSL
+2. NSDL/CDSL Pending Dump to capture Holder1, Holder2
+3. NSDL/CDSL Ben Post
+4. NSDL/CDSL Upload Status Confirmation
+5. Promoters PAN No
+6. MGT 1
+
+Certificate Transfer
+1. Checker not able to scroll the grid
+
+Folio Creation
+1. Option to add category
+2. Add Micr Code in Bank Details
+
+NSDL/CDSL Pending Dump
+1. Physicals not received > 30 days
+2. Check Holder1, Holder2 details to be verified by STA team
+
+NSDL/CDSL Upload Status Confirmation
+1. Based on soft copy data to be analyzed
+
+BenPost
+1. NSDL/CDSL - File given every friday
+
+Report
+1. Ben Post Certificate Share Holders > 1000 
+2. Alpha Index
+3. Benpost Comparison Report
+4. Distribution of Holding
+5. Entity 9
+6. Inward Report
+7. Print Address Label With Password
+8. Top 50 Share Holder List
+9. SDD Report (System Driven)

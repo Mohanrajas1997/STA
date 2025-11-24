@@ -1,0 +1,2570 @@
+C:\Users\Mohan\source\repos\Connectorsampleapp-New\Connectorsampleapp
+
+
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `lei_no` VARCHAR(32) NULL AFTER `pledge`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `mode_of_operation` CHAR(1) NULL AFTER `lei_no`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `com_preference` CHAR(1) NULL AFTER `mode_of_operation`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `nominee_guardian_name` varchar(256) NULL AFTER `com_preference`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `nominee_relation_wbo` int(2) NULL AFTER `nominee_guardian_name`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `nominee_pos` decimal(5,2) NULL AFTER `nominee_relation_wbo`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `2nominee_name` varchar(256) NULL AFTER `nominee_pos`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `2nominee_guardian_name` varchar(256) NULL AFTER `2nominee_name`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `2nominee_relation_wbo` int(2) NULL AFTER `2nominee_guardian_name`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `2nominee_perc_of_shares` decimal(5,2) NULL AFTER `2nominee_relation_wbo`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `3nominee_name` varchar(256) NULL AFTER `2nominee_perc_of_shares`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `3nominee_guardian_name` varchar(256) NULL AFTER `3nominee_name`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `3nominee_relation_wbo` int(2) NULL AFTER `3nominee_guardian_name`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `3nominee_perc_of_shares` decimal(5,2) NULL AFTER `3nominee_relation_wbo`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `panflag_for_holder1` char(1) NULL AFTER `3nominee_perc_of_shares`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `panflag_for_holder2` char(1) NULL AFTER `panflag_for_holder1`;
+ALTER TABLE `sta_trn_tbenpost`  ADD COLUMN `panflag_for_holder3` char(1) NULL AFTER `panflag_for_holder2`;
+
+-------------------------------------
+DELIMITER $$
+CREATE DEFINER=`root`@`%` PROCEDURE `pr_sta_get_benpostcomparison_nsdlcdsl_new`(
+  in_comp_gid int,
+  in_benpost_date date,
+  in_depository_code char(1)
+)
+me:begin
+  declare v_nsdl_benpost_from date;
+  declare v_nsdl_benpost_to date;
+
+  declare v_cdsl_benpost_from date;
+  declare v_cdsl_benpost_to date;
+
+if in_depository_code = 'N' then 
+
+  select max(benpost_date)
+  into 	 v_nsdl_benpost_to
+  from 	 sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and 	 benpost_date <= in_benpost_date
+  and 	 depository_code = in_depository_code
+  and 	 delete_flag = 'N';
+
+  if v_nsdl_benpost_to is null then
+    select min(benpost_date)
+    into   v_nsdl_benpost_to
+    from   sta_trn_tbenpost
+    where  comp_gid = in_comp_gid
+    and    benpost_date > in_benpost_date
+    and    depository_code = in_depository_code
+    and    delete_flag = 'N';
+  end if;
+
+  set v_nsdl_benpost_to = ifnull(v_nsdl_benpost_to,in_benpost_date);
+
+  select max(benpost_date)
+  into   v_nsdl_benpost_from
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date < v_nsdl_benpost_to
+  and    depository_code = in_depository_code
+  and    delete_flag = 'N';
+
+  set v_nsdl_benpost_from = ifnull(v_nsdl_benpost_from,v_nsdl_benpost_to);
+end if;
+
+if in_depository_code = 'C' then
+  select max(benpost_date)
+  into   v_cdsl_benpost_to
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date <= in_benpost_date
+  and    depository_code = in_depository_code
+  and    delete_flag = 'N';
+
+  if v_cdsl_benpost_to is null then
+    select min(benpost_date)
+    into   v_cdsl_benpost_to
+    from   sta_trn_tbenpost
+    where  comp_gid = in_comp_gid
+    and    benpost_date > in_benpost_date
+    and    depository_code = in_depository_code
+    and    delete_flag = 'N';
+  end if;
+
+  set v_cdsl_benpost_to = ifnull(v_cdsl_benpost_to,in_benpost_date);
+
+  select max(benpost_date)
+  into   v_cdsl_benpost_from
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date < v_cdsl_benpost_to
+  and    depository_code = in_depository_code
+  and    delete_flag = 'N';
+
+  set v_cdsl_benpost_from = ifnull(v_cdsl_benpost_from,v_nsdl_benpost_to);
+end if;
+
+if in_depository_code = 'N' then
+  select
+      concat(c.dp_id,c.client_id) as 'Folio No',
+      c.depository_code as 'Depository Type',
+      c.holder1_name as 'Shareholder Name',
+	  c.holder1_addr1 as 'Address1',
+	  c.holder1_addr2 as 'Address2',
+      c.holder1_addr3 as 'Address3',
+      c.holder1_pin as 'Pin',
+      c.day1_closing as 'Open Bal',
+      if(c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null) as selling,
+      if(c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null) as buying,
+      c.day2_closing as 'Close Bal'
+      -- if(c.day1_closing = c.day2_closing,0,null) as nil
+  from
+  (
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_nsdl_benpost_from as day1,
+		v_nsdl_benpost_to as day2,
+		a.share_count as day1_closing,
+		ifnull(b.share_count,0) as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_nsdl_benpost_to
+        and depository_code = in_depository_code
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_nsdl_benpost_from
+      and depository_code = in_depository_code
+	  and a.delete_flag = 'N'
+      
+	  union
+
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+		a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_nsdl_benpost_from as day1,
+		v_nsdl_benpost_to as day2,
+		ifnull(b.share_count,0) as day1_closing,
+		a.share_count as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_nsdl_benpost_from
+        and depository_code = in_depository_code
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_nsdl_benpost_to
+      and depository_code = in_depository_code
+	  and b.comp_gid is null
+	  and a.delete_flag = 'N') as c
+      where (c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null)
+      <> (c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null);
+end if;
+
+if in_depository_code = 'C' then
+  select
+	  concat(c.dp_id,c.client_id) as 'Folio No',
+      c.depository_code as 'Depository Type',
+      c.holder1_name as 'Shareholder Name',
+	  c.holder1_addr1 as 'Address1',
+	  c.holder1_addr2 as 'Address2',
+      c.holder1_addr3 as 'Address3',
+      c.holder1_pin as 'Pin',
+      c.day1_closing as 'Open Bal',
+      if(c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null) as Buying,
+      if(c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null) as Selling,
+      (c.day2_closing) as 'Close Bal'
+      -- if(c.day1_closing = c.day2_closing,0,null) as nil
+  from
+  (  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_cdsl_benpost_from as day1,
+		v_cdsl_benpost_to as day2,
+		a.share_count as day1_closing,
+		ifnull(b.share_count,0) as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_cdsl_benpost_to
+        and depository_code = in_depository_code
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_cdsl_benpost_from
+      and depository_code = in_depository_code
+	  and a.delete_flag = 'N'
+
+	  union
+
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_cdsl_benpost_from as day1,
+		v_cdsl_benpost_to as day2,
+		ifnull(b.share_count,0) as day1_closing,
+		a.share_count as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_cdsl_benpost_from
+        and depository_code = in_depository_code
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_cdsl_benpost_to
+      and depository_code = in_depository_code
+	  and b.comp_gid is null
+	  and a.delete_flag = 'N') as c
+      where (c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null)
+      <> (c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null);
+end if;
+END$$
+DELIMITER ;
+
+
+-----------------------------------------------
+DELIMITER $$
+CREATE DEFINER=`root`@`%` PROCEDURE `pr_sta_get_benpostcomparisonfromto_new`(
+  in_comp_gid int,
+  in_benpost_from date,
+  in_benpost_to date,
+  in_depository_code char(1)
+)
+me:begin
+  declare v_nsdl_benpost_from date;
+  declare v_nsdl_benpost_to date;
+
+  declare v_cdsl_benpost_from date;
+  declare v_cdsl_benpost_to date;
+  
+if in_depository_code = 'N' then
+  select max(benpost_date)
+  into   v_nsdl_benpost_to
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date <= in_benpost_to
+  and    depository_code = in_depository_code
+  and    delete_flag = 'N';
+
+  if v_nsdl_benpost_to is null then
+    select min(benpost_date)
+    into   v_nsdl_benpost_to
+    from   sta_trn_tbenpost
+    where  comp_gid = in_comp_gid
+    and    benpost_date > in_benpost_to
+    and    depository_code = in_depository_code
+    and    delete_flag = 'N';
+  end if;
+
+  set v_nsdl_benpost_to = ifnull(v_nsdl_benpost_to,in_benpost_to);
+
+  select max(benpost_date)
+  into   v_nsdl_benpost_from
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date <= in_benpost_from
+  and    depository_code = in_depository_code
+  and    delete_flag = 'N';
+
+  set v_nsdl_benpost_from = ifnull(v_nsdl_benpost_from,v_nsdl_benpost_to);
+end if;
+
+if in_depository_code = 'C' then   
+  select max(benpost_date)
+  into   v_cdsl_benpost_to
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date <= in_benpost_to
+  and    depository_code = in_depository_code
+  and    delete_flag = 'N';
+
+  if v_cdsl_benpost_to is null then
+    select min(benpost_date)
+    into   v_cdsl_benpost_to
+    from   sta_trn_tbenpost
+    where  comp_gid = in_comp_gid
+    and    benpost_date > in_benpost_to
+    and    depository_code = in_depository_code
+    and    delete_flag = 'N';
+  end if;
+
+  set v_cdsl_benpost_to = ifnull(v_cdsl_benpost_to,in_benpost_to);
+
+  select max(benpost_date)
+  into   v_cdsl_benpost_from
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date <= in_benpost_from
+  and    depository_code = in_depository_code
+  and    delete_flag = 'N';
+
+  set v_cdsl_benpost_from = ifnull(v_cdsl_benpost_from,v_nsdl_benpost_to);
+end if;
+
+if in_depository_code = 'N' then
+  select
+      concat(c.dp_id,c.client_id) as 'Folio No',
+      c.depository_code as 'Depository Type',
+      c.holder1_name as 'Shareholder Name',
+	  c.holder1_addr1 as 'Address1',
+	  c.holder1_addr2 as 'Address2',
+      c.holder1_addr3 as 'Address3',
+      c.holder1_pin as 'Pin',
+      c.day1_closing as 'Open Bal',
+      if(c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null) as selling,
+      if(c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null) as buying,
+      c.day2_closing as 'Close Bal'
+      -- if(c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null) as selling,
+      -- if(c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null) as buying,
+      -- if(c.day1_closing = c.day2_closing,0,null) as nil
+  from
+  (
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_nsdl_benpost_from as day1,
+		v_nsdl_benpost_to as day2,
+		a.share_count as day1_closing,
+		ifnull(b.share_count,0) as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_nsdl_benpost_to
+        and depository_code = in_depository_code
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_nsdl_benpost_from
+      and depository_code = in_depository_code
+	  and a.delete_flag = 'N'
+
+	  union
+
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_nsdl_benpost_from as day1,
+		v_nsdl_benpost_to as day2,
+		ifnull(b.share_count,0) as day1_closing,
+		a.share_count as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_nsdl_benpost_from
+        and depository_code = in_depository_code
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_nsdl_benpost_to
+      and depository_code = in_depository_code
+	  and b.comp_gid is null
+	  and a.delete_flag = 'N'  ) as c
+      where (c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null)
+      <> (c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null);
+end if ;
+
+if in_depository_code = 'C' then
+  select
+	  concat(c.dp_id,c.client_id) as 'Folio No',
+      c.depository_code as 'Depository Type',
+      c.holder1_name as 'Shareholder Name',
+	  c.holder1_addr1 as 'Address1',
+	  c.holder1_addr2 as 'Address2',
+      c.holder1_addr3 as 'Address3',
+      c.holder1_pin as 'Pin',
+      c.day1_closing as 'Open Bal',
+      if(c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null) as Buying,
+      if(c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null) as Selling,
+      (c.day2_closing) as 'Close Bal'
+      -- c.*,
+      -- if(c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null) as selling,
+      -- if(c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null) as buying,
+      -- if(c.day1_closing = c.day2_closing,0,null) as nil
+  from
+  (
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_cdsl_benpost_from as day1,
+		v_cdsl_benpost_to as day2,
+		a.share_count as day1_closing,
+		ifnull(b.share_count,0) as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_cdsl_benpost_to
+        and depository_code = in_depository_code
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_cdsl_benpost_from
+      and depository_code = in_depository_code
+	  and a.delete_flag = 'N'
+
+	  union
+
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_cdsl_benpost_from as day1,
+		v_cdsl_benpost_to as day2,
+		ifnull(b.share_count,0) as day1_closing,
+		a.share_count as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_cdsl_benpost_from
+        and depository_code = in_depository_code
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_cdsl_benpost_to
+      and depository_code = in_depository_code
+	  and b.comp_gid is null
+	  and a.delete_flag = 'N') as c
+      where (c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null)
+      <> (c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null);
+end if;
+END$$
+DELIMITER ;
+
+-------------------------------------
+DELIMITER $$
+CREATE DEFINER=`root`@`%` PROCEDURE `pr_sta_get_benpostcomparison_nsdlcdsl_all`(
+  in_comp_gid int,
+  in_benpost_date date
+)
+me:begin
+  declare v_nsdl_benpost_from date;
+  declare v_nsdl_benpost_to date;
+
+  declare v_cdsl_benpost_from date;
+  declare v_cdsl_benpost_to date;
+
+  select max(benpost_date)
+  into 	 v_nsdl_benpost_to
+  from 	 sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and 	 benpost_date <= in_benpost_date
+  and 	 depository_code = 'N'
+  and 	 delete_flag = 'N';
+
+  if v_nsdl_benpost_to is null then
+    select min(benpost_date)
+    into   v_nsdl_benpost_to
+    from   sta_trn_tbenpost
+    where  comp_gid = in_comp_gid
+    and    benpost_date > in_benpost_date
+    and    depository_code = 'N'
+    and    delete_flag = 'N';
+  end if;
+
+  set v_nsdl_benpost_to = ifnull(v_nsdl_benpost_to,in_benpost_date);
+
+  select max(benpost_date)
+  into   v_nsdl_benpost_from
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date < v_nsdl_benpost_to
+  and    depository_code = 'N'
+  and    delete_flag = 'N';
+
+  set v_nsdl_benpost_from = ifnull(v_nsdl_benpost_from,v_nsdl_benpost_to);
+
+  select max(benpost_date)
+  into   v_cdsl_benpost_to
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date <= in_benpost_date
+  and    depository_code = 'C'
+  and    delete_flag = 'N';
+
+  if v_cdsl_benpost_to is null then
+    select min(benpost_date)
+    into   v_cdsl_benpost_to
+    from   sta_trn_tbenpost
+    where  comp_gid = in_comp_gid
+    and    benpost_date > in_benpost_date
+    and    depository_code = 'C'
+    and    delete_flag = 'N';
+  end if;
+
+  set v_cdsl_benpost_to = ifnull(v_cdsl_benpost_to,in_benpost_date);
+
+  select max(benpost_date)
+  into   v_cdsl_benpost_from
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date < v_cdsl_benpost_to
+  and    depository_code = 'C'
+  and    delete_flag = 'N';
+
+  set v_cdsl_benpost_from = ifnull(v_cdsl_benpost_from,v_nsdl_benpost_to);
+
+  select
+      concat(c.dp_id,c.client_id) as 'Folio No',
+      c.depository_code as 'Depository Type',
+      c.holder1_name as 'Shareholder Name',
+	  c.holder1_addr1 as 'Address1',
+	  c.holder1_addr2 as 'Address2',
+      c.holder1_addr3 as 'Address3',
+      c.holder1_pin as 'Pin',
+      c.day1_closing as 'Open Bal',
+      if(c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null) as selling,
+      if(c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null) as buying,
+      c.day2_closing as 'Close Bal'
+      -- if(c.day1_closing = c.day2_closing,0,null) as nil
+  from
+  (
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_nsdl_benpost_from as day1,
+		v_nsdl_benpost_to as day2,
+		a.share_count as day1_closing,
+		ifnull(b.share_count,0) as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_nsdl_benpost_to
+        and depository_code = 'N'
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_nsdl_benpost_from
+      and depository_code = 'N'
+	  and a.delete_flag = 'N'
+      
+	  union
+
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+		a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_nsdl_benpost_from as day1,
+		v_nsdl_benpost_to as day2,
+		ifnull(b.share_count,0) as day1_closing,
+		a.share_count as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_nsdl_benpost_from
+        and depository_code = 'N'
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_nsdl_benpost_to
+      and depository_code = 'N'
+	  and b.comp_gid is null
+	  and a.delete_flag = 'N'
+union
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_cdsl_benpost_from as day1,
+		v_cdsl_benpost_to as day2,
+		a.share_count as day1_closing,
+		ifnull(b.share_count,0) as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_cdsl_benpost_to
+        and depository_code = 'C'
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_cdsl_benpost_from
+      and depository_code = 'C'
+	  and a.delete_flag = 'N'
+union
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_cdsl_benpost_from as day1,
+		v_cdsl_benpost_to as day2,
+		ifnull(b.share_count,0) as day1_closing,
+		a.share_count as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_cdsl_benpost_from
+        and depository_code = 'C'
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_cdsl_benpost_to
+	  and depository_code = 'C'
+	  and b.comp_gid is null
+	  and a.delete_flag = 'N') as c
+      where (c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null)
+      <> (c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null);
+END$$
+DELIMITER ;
+------------------
+DELIMITER $$
+CREATE DEFINER=`root`@`%` PROCEDURE `pr_sta_get_benpostcomparisonfromto_all`(
+  in_comp_gid int,
+  in_benpost_from date,
+  in_benpost_to date
+)
+me:begin
+  declare v_nsdl_benpost_from date;
+  declare v_nsdl_benpost_to date;
+
+  declare v_cdsl_benpost_from date;
+  declare v_cdsl_benpost_to date;
+  
+  select max(benpost_date)
+  into   v_nsdl_benpost_to
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date <= in_benpost_to
+  and    depository_code = 'N'
+  and    delete_flag = 'N';
+
+  if v_nsdl_benpost_to is null then
+    select min(benpost_date)
+    into   v_nsdl_benpost_to
+    from   sta_trn_tbenpost
+    where  comp_gid = in_comp_gid
+    and    benpost_date > in_benpost_to
+    and    depository_code = 'N'
+    and    delete_flag = 'N';
+  end if;
+
+  set v_nsdl_benpost_to = ifnull(v_nsdl_benpost_to,in_benpost_to);
+
+  select max(benpost_date)
+  into   v_nsdl_benpost_from
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date <= in_benpost_from
+  and    depository_code = 'N'
+  and    delete_flag = 'N';
+
+  set v_nsdl_benpost_from = ifnull(v_nsdl_benpost_from,v_nsdl_benpost_to);
+
+  select max(benpost_date)
+  into   v_cdsl_benpost_to
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date <= in_benpost_to
+  and    depository_code = 'C'
+  and    delete_flag = 'N';
+
+  if v_cdsl_benpost_to is null then
+    select min(benpost_date)
+    into   v_cdsl_benpost_to
+    from   sta_trn_tbenpost
+    where  comp_gid = in_comp_gid
+    and    benpost_date > in_benpost_to
+    and    depository_code = 'C'
+    and    delete_flag = 'N';
+  end if;
+
+  set v_cdsl_benpost_to = ifnull(v_cdsl_benpost_to,in_benpost_to);
+
+  select max(benpost_date)
+  into   v_cdsl_benpost_from
+  from   sta_trn_tbenpost
+  where  comp_gid = in_comp_gid
+  and    benpost_date <= in_benpost_from
+  and    depository_code = 'C'
+  and    delete_flag = 'N';
+
+  set v_cdsl_benpost_from = ifnull(v_cdsl_benpost_from,v_nsdl_benpost_to);
+
+  select
+      concat(c.dp_id,c.client_id) as 'Folio No',
+      c.depository_code as 'Depository Type',
+      c.holder1_name as 'Shareholder Name',
+	  c.holder1_addr1 as 'Address1',
+	  c.holder1_addr2 as 'Address2',
+      c.holder1_addr3 as 'Address3',
+      c.holder1_pin as 'Pin',
+      c.day1_closing as 'Open Bal',
+      if(c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null) as selling,
+      if(c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null) as buying,
+      c.day2_closing as 'Close Bal'
+      -- if(c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null) as selling,
+      -- if(c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null) as buying,
+      -- if(c.day1_closing = c.day2_closing,0,null) as nil
+  from
+  (
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_nsdl_benpost_from as day1,
+		v_nsdl_benpost_to as day2,
+		a.share_count as day1_closing,
+		ifnull(b.share_count,0) as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_nsdl_benpost_to
+        and depository_code = 'N'
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_nsdl_benpost_from
+      and depository_code = 'N'
+	  and a.delete_flag = 'N'
+union
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_nsdl_benpost_from as day1,
+		v_nsdl_benpost_to as day2,
+		ifnull(b.share_count,0) as day1_closing,
+		a.share_count as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_nsdl_benpost_from
+        and depository_code = 'N'
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_nsdl_benpost_to
+      and depository_code = 'N'
+	  and b.comp_gid is null
+	  and a.delete_flag = 'N' union
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_cdsl_benpost_from as day1,
+		v_cdsl_benpost_to as day2,
+		a.share_count as day1_closing,
+		ifnull(b.share_count,0) as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_cdsl_benpost_to
+        and depository_code = 'C'
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_cdsl_benpost_from
+      and depository_code = 'C'
+	  and a.delete_flag = 'N'
+union
+	  select
+		a.isin_id,
+		a.dp_id,
+		a.client_id,
+        a.depository_code,
+		a.holder1_name,
+		a.holder1_addr1,
+		a.holder1_addr2,
+		a.holder1_addr3,
+		a.holder1_city,
+		a.holder1_pin,
+		v_cdsl_benpost_from as day1,
+		v_cdsl_benpost_to as day2,
+		ifnull(b.share_count,0) as day1_closing,
+		a.share_count as day2_closing
+	  from sta_trn_tbenpost as a
+	  left join
+	  (
+		select
+		  comp_gid,
+		  isin_id,
+		  dp_id,
+		  client_id,
+		  share_count
+		from sta_trn_tbenpost
+		where comp_gid = in_comp_gid
+		and benpost_date = v_cdsl_benpost_from
+        and depository_code = 'C'
+		and delete_flag = 'N'
+	  ) as b on a.comp_gid = b.comp_gid
+	  and a.client_id = b.client_id
+	  and a.dp_id = b.dp_id
+	  and a.isin_id = b.isin_id
+	  where a.comp_gid = in_comp_gid
+	  and a.benpost_date = v_cdsl_benpost_to
+	  and depository_code = 'C'
+	  and b.comp_gid is null
+	  and a.delete_flag = 'N') as c
+      where (c.day1_closing > c.day2_closing,c.day1_closing - c.day2_closing,null)
+      <> (c.day1_closing < c.day2_closing,c.day2_closing - c.day1_closing,null);
+END$$
+DELIMITER ;
+
+--------------------------------------------
+DELIMITER $$
+CREATE DEFINER=`root`@`%` PROCEDURE `pr_sta_mst_tcompany`(
+  in in_comp_gid int,
+  in in_entity_gid int,
+  in in_comp_code varchar(16),
+  in in_comp_short_code varchar(8),
+  in in_comp_name varchar(64),
+  in in_isin_id varchar(16),
+  in in_folio_no_format varchar(16),
+  in in_folio_prefix_flag char(1),
+  in in_folio_prefix_sno_flag char(1),
+  in in_folio_prefix varchar(8),
+  in in_folio_prefix_field varchar(16),
+  in in_upload_sno int(11),
+  in in_folio_sno int(11),
+  in in_transfer_sno int(11),
+  in in_cert_sno int(11),
+  in in_objx_sno int(11),
+  in in_inward_sno int(11),
+  in in_comp_listed char(1),
+  in in_active_flag char(1),
+  in in_share_captial double(15,2),
+  in in_action varchar(16),
+  in in_action_by varchar(16),
+  out out_result int,
+  out out_msg text
+)
+me:BEGIN
+  declare err_msg text default '';
+  declare err_flag boolean default false;
+  declare v_folio_prefix_length int(11) default 0;
+
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+    ROLLBACK;
+
+    set out_result = 0;
+    set out_msg = 'SQLEXCEPTION';
+  END;
+
+  IF in_action = "SELECT" THEN
+    set in_comp_gid := if(in_comp_gid = 0,null,in_comp_gid);
+    set in_comp_name := if(in_comp_name = '',null,in_comp_name);
+
+    SELECT * FROM sta_mst_tcompany
+    WHERE comp_gid = ifnull(in_comp_gid,comp_gid)
+    and  comp_name = ifnull(in_comp_name,comp_name)
+    and delete_flag = 'N';
+  END IF;
+
+  if in_comp_code = '' then
+    set err_msg := concat(err_msg,'Blank Company Code,');
+    set err_flag := true;
+  end if;
+
+  if in_comp_name = '' then
+    set err_msg := concat(err_msg,'Blank Company Name,');
+    set err_flag := true;
+  end if;
+  
+  if in_comp_short_code = '' then
+    set err_msg := concat(err_msg,'Blank Company Short Code,');
+    set err_flag := true;
+  end if;
+  
+  if in_isin_id = '' then
+    set err_msg := concat(err_msg,'Blank Isin Id,');
+    set err_flag := true;
+  end if;
+  
+  if in_folio_no_format = '' then
+    set err_msg := concat(err_msg,'Blank Folio No Format,');
+    set err_flag := true;
+  end if;
+  
+  if in_folio_prefix_flag = '' then
+    set err_msg := concat(err_msg,'Blank Folio Prefix Flag,');
+    set err_flag := true;
+  end if;
+  
+  if in_folio_prefix_sno_flag = '' then
+    set err_msg := concat(err_msg,'Blank Folio Prefix Sno Flag,');
+    set err_flag := true;
+  end if;
+  
+  if in_folio_prefix_flag = 'Y' and in_folio_prefix = '' then
+    set err_msg := concat(err_msg,'Blank Folio Prefix,');
+    set err_flag := true;
+  end if;
+  
+  if in_folio_prefix <> '' then
+	select length(in_folio_prefix) into v_folio_prefix_length;
+  end if;
+  
+  if in_folio_prefix_sno_flag = 'Y' and in_folio_prefix_field = '' then
+    set err_msg := concat(err_msg,'Blank Folio Prefix field,');
+    set err_flag := true;
+  end if;
+  
+  if in_folio_prefix_sno_flag = 'Y' and in_folio_prefix_field = '' then
+    set err_msg := concat(err_msg,'Blank Folio Prefix field,');
+    set err_flag := true;
+  end if;
+  
+  if in_upload_sno <= 0 then
+    set err_msg := concat(err_msg,'Upload Sno should be greater than Zero,');
+    set err_flag := true;
+  end if;
+
+  if in_folio_sno <= 0 then
+    set err_msg := concat(err_msg,'Folio Sno should be greater than Zero,');
+    set err_flag := true;
+  end if;
+  
+  if in_transfer_sno <= 0 then
+    set err_msg := concat(err_msg,'Transfer Sno should be greater than Zero,');
+    set err_flag := true;
+  end if;
+  
+  if in_cert_sno <= 0 then
+    set err_msg := concat(err_msg,'Certificate Sno should be greater than Zero,');
+    set err_flag := true;
+  end if;
+  
+  if in_objx_sno <= 0 then
+    set err_msg := concat(err_msg,'Objx Sno should be greater than Zero,');
+    set err_flag := true;
+  end if;
+  
+  if in_inward_sno <= 0 then
+    set err_msg := concat(err_msg,'Inward Sno should be greater than Zero,');
+    set err_flag := true;
+  end if;
+  
+  if in_comp_listed = '' then
+    set err_msg := concat(err_msg,'Blank Company listed,');
+    set err_flag := true;
+  end if;
+  
+  if in_active_flag = '' then
+    set err_msg := concat(err_msg,'Blank Active Flag,');
+    set err_flag := true;
+  end if;
+
+  IF in_action = "INSERT" THEN
+		#Duplicate Company Code
+	   if exists(select comp_gid from sta_mst_tcompany where comp_code = in_comp_code and delete_flag = 'N') then
+		  set err_msg := concat(err_msg,'Duplicate Company Code,');
+		  set err_flag := true;
+	   end if;
+        #Duplicate Company Short Code
+       if exists(select comp_gid from sta_mst_tcompany where comp_short_code = in_comp_short_code and delete_flag = 'N') then
+		  set err_msg := concat(err_msg,'Duplicate Company Short Code,');
+		  set err_flag := true;
+	   end if;
+        #Duplicate Isin Id
+	   if exists(select comp_gid from sta_mst_tcompany where isin_id = in_isin_id and delete_flag = 'N') then
+		  set err_msg := concat(err_msg,'Duplicate Isin Id,');
+		  set err_flag := true;
+	   end if;
+
+    if err_flag = false then
+	    START TRANSACTION;
+		  INSERT INTO sta_mst_tcompany 
+				 (entity_gid,comp_code,comp_short_code,comp_name,isin_id,folio_no_format,folio_prefix_flag,
+                 folio_prefix_sno_flag,folio_prefix,folio_prefix_field,folio_prefix_length,upload_sno,
+                 folio_sno,transfer_sno,cert_sno,objx_sno,cdsl_sno,nsdl_sno,inward_sno,comp_listed,active_flag,
+                 share_captial,delete_flag)
+		  VALUES (1,in_comp_code,in_comp_short_code,in_comp_name,in_isin_id,in_folio_no_format,in_folio_prefix_flag,
+          in_folio_prefix_sno_flag,in_folio_prefix,in_folio_prefix_field,v_folio_prefix_length,in_upload_sno,
+          in_folio_sno,in_transfer_sno,in_cert_sno,in_objx_sno,1,1,in_inward_sno,in_comp_listed,in_active_flag,
+          in_share_captial,'N');
+		COMMIT;
+      set out_msg = "Record inserted successfully";
+    else
+      set out_result = 0;
+      set out_msg = err_msg;
+      leave me;
+    end if;
+  END IF;
+
+  IF in_action = "UPDATE" THEN
+	  if in_comp_gid = 0 then
+		  set err_msg := concat(err_msg,'Blank Company gid,');
+		  set err_flag := true;
+	  end if;
+
+	  if exists(select comp_gid from sta_mst_tcompany
+              where comp_code = in_comp_code
+              and comp_gid <> in_comp_gid
+              and delete_flag = 'N') and in_comp_gid > 0 then
+		  set err_msg := concat(err_msg,'Duplicate Company Code,');
+		  set err_flag := true;
+	  end if;
+      
+	 if exists(select comp_gid from sta_mst_tcompany
+              where comp_short_code = in_comp_short_code
+              and comp_gid <> in_comp_gid
+              and delete_flag = 'N') and in_comp_gid > 0 then
+		  set err_msg := concat(err_msg,'Duplicate Company Short Code,');
+		  set err_flag := true;
+	  end if;
+      
+	 if exists(select comp_gid from sta_mst_tcompany
+              where comp_name = in_comp_name
+              and comp_gid <> in_comp_gid
+              and delete_flag = 'N') and in_comp_gid > 0 then
+		  set err_msg := concat(err_msg,'Duplicate Company Name Code,');
+		  set err_flag := true;
+	  end if;
+      
+	 if exists(select comp_gid from sta_mst_tcompany
+              where isin_id = in_isin_id
+              and comp_gid <> in_comp_gid
+              and delete_flag = 'N') and in_comp_gid > 0 then
+		  set err_msg := concat(err_msg,'Duplicate Isin Id,');
+		  set err_flag := true;
+	  end if;
+
+	  if err_flag = false then
+      START TRANSACTION;
+		  UPDATE sta_mst_tcompany set
+			comp_code = in_comp_code,
+			comp_short_code = in_comp_short_code,
+			comp_name = in_comp_name,
+			isin_id = in_isin_id,
+			folio_no_format = in_folio_no_format,
+			folio_prefix_flag = in_folio_prefix_flag,
+			folio_prefix_sno_flag = in_folio_prefix_sno_flag,
+			folio_prefix = in_folio_prefix,
+			folio_prefix_field = in_folio_prefix_field,
+			folio_prefix_length = v_folio_prefix_length,
+			upload_sno = in_upload_sno,
+			folio_sno = in_folio_sno,
+			transfer_sno = in_transfer_sno,
+			cert_sno = in_cert_sno,
+			objx_sno = in_objx_sno,
+			inward_sno = in_inward_sno,
+			comp_listed  = in_comp_listed,
+			active_flag = in_active_flag,
+			share_captial = in_share_captial
+		  WHERE comp_gid = in_comp_gid
+		  and delete_flag = 'N';
+      COMMIT;
+      set out_msg = "Record updated successfully";
+    else
+      set out_result = 0;
+      set out_msg = err_msg;
+      leave me;
+    end if;
+  END IF;
+
+  IF in_action = "DELETE" THEN
+    START TRANSACTION;
+		UPDATE sta_mst_tcompany set
+		  delete_flag = 'Y'
+		WHERE comp_gid = in_comp_gid
+		and delete_flag = 'N';
+    COMMIT;
+    set out_msg = "Record deleted successfully";
+  END IF;
+
+  set out_result = 1;
+  END$$
+DELIMITER ;
+
+-----------------------------------
+CREATE DEFINER=`root`@`%` PROCEDURE `pr_sta_get_topshareholderlist`(in_comp_gid int,
+in_share_limit int)
+BEGIN
+declare v_cdsl_date date;
+declare v_nsdl_date date;
+
+drop temporary table if exists sta_tmp_tbenpost;
+
+select max(benpost_date) into v_cdsl_date from sta_trn_tbenpost where comp_gid = in_comp_gid and depository_code='C';
+select max(benpost_date) into v_nsdl_date from sta_trn_tbenpost where comp_gid = in_comp_gid and depository_code='N';
+
+set v_cdsl_date = ifnull(v_cdsl_date,curdate());
+set v_nsdl_date = ifnull(v_nsdl_date,curdate());
+
+create temporary table sta_tmp_tbenpost
+( `Name` varchar(128) DEFAULT NULL,
+  `folio` varchar(32) DEFAULT NULL,
+  `dp_id` varchar(32) DEFAULT NULL,
+  `Shares` int(10),
+  `Date` date,
+  `percentage` decimal(15,2) DEFAULT 0.00,
+  KEY `idx_dp_id` (dp_id),
+  KEY `idx_folio` (folio)
+);
+
+#Physical Record insert in Temporary table
+insert into sta_tmp_tbenpost (Name,folio,dp_id,Shares,Date,percentage) 
+	SELECT  a.holder1_name,
+			a.folio_no,
+			null,
+			a.folio_shares,
+			b.tran_date,
+			round(a.folio_shares*100/(SELECT sum(share_count) as sharecapital FROM sta_trn_tcert 
+									  where true  and comp_gid = 3  and cert_status !='2' ),2) 
+	FROM sta_trn_tfolio a 
+    left join sta_trn_tfoliotran b on b.folio_gid = a.folio_gid 
+    where true and a.folio_no NOT IN ('00777777','00888888','00999999')  
+    and comp_gid = 3  
+    and a.delete_flag = 'N' 
+    and a.folio_shares > 0
+    group by a.holder1_name;
+
+#CDSL Record insert in Temporary table
+insert into sta_tmp_tbenpost (Name,folio,dp_id,Shares,Date,percentage) 
+	SELECT 	holder1_name,
+			client_id,
+            dp_id,
+            share_count,
+            benpost_date,
+            round(share_count*100/(SELECT sum(share_count) as sharecapital FROM sta_trn_tcert
+								   where true and comp_gid = in_comp_gid  and cert_status !='2' ),2)
+	FROM sta_trn_tbenpost 
+    where true
+    and comp_gid = in_comp_gid
+    and benpost_date = v_cdsl_date
+    and share_count > 0
+    and depository_code = 'C'
+    and delete_flag = 'N';
+
+#NSDL Record insert in Temporary table
+insert into sta_tmp_tbenpost (Name,folio,dp_id,Shares,Date,percentage) 
+	SELECT 	holder1_name,
+			client_id,
+            dp_id,
+            share_count,
+            benpost_date,
+            round(share_count*100/(SELECT sum(share_count) as sharecapital FROM sta_trn_tcert
+								   where true and comp_gid = in_comp_gid  and cert_status !='2' ),2)
+	FROM sta_trn_tbenpost 
+    where true
+    and comp_gid = in_comp_gid
+    and benpost_date = v_nsdl_date
+    and share_count > 0
+    and depository_code = 'N' 
+    and delete_flag = 'N';
+    
+    select * from sta_tmp_tbenpost 
+		order by shares desc 
+    limit 0, in_share_limit ;
+END
+
+---------------------------------------------------------
+CREATE DEFINER=`root`@`%` PROCEDURE `pr_sta_ins_benpostnew`(
+  in in_file_gid int,
+  in in_depository_code char(1),
+  in in_isin_id varchar(16),
+  in in_dp_id varchar(16),
+  in in_client_id varchar(32),
+  in in_sebi_reg_no varchar(32),
+  in in_benpost_date varchar(16),
+  in in_share_count int,
+  in in_lockin int,
+  in in_holder1_name varchar(128),
+  in in_holder1_fh_name varchar(128),
+  in in_holder2_name varchar(128),
+  in in_holder2_fh_name varchar(128),
+  in in_holder3_name varchar(128),
+  in in_holder3_fh_name varchar(128),
+  in in_holder1_addr1 varchar(128),
+  in in_holder1_addr2 varchar(128),
+  in in_holder1_addr3 varchar(128),
+  in in_holder1_city varchar(128),
+  in in_holder1_state varchar(128),
+  in in_holder1_country varchar(128),
+  in in_holder1_pin varchar(16),
+  in in_holder1_pan varchar(16),
+  in in_holder2_pan varchar(16),
+  in in_holder3_pan varchar(16),
+  in in_holder1_contact_no varchar(128),
+  in in_holder1_fax_no varchar(128),
+  in in_holder1_email_id varchar(128),
+  in in_holder2_email_id varchar(128),
+  in in_holder3_email_id varchar(128),
+  in in_holder1_per_addr1 varchar(128),
+  in in_holder1_per_addr2 varchar(128),
+  in in_holder1_per_addr3 varchar(128),
+  in in_holder1_per_city varchar(128),
+  in in_holder1_per_state varchar(128),
+  in in_holder1_per_country varchar(128),
+  in in_holder1_per_pin varchar(16),
+  in in_nominee_name varchar(128),
+  in in_nominee_part1 varchar(128),
+  in in_nominee_part2 varchar(128),
+  in in_nominee_part3 varchar(128),
+  in in_nominee_part4 varchar(128),
+  in in_nominee_part5 varchar(128),
+  in in_bank_name varchar(128),
+  in in_bank_addr1 varchar(128),
+  in in_bank_addr2 varchar(128),
+  in in_bank_addr3 varchar(128),
+  in in_bank_city varchar(128),
+  in in_bank_state varchar(128),
+  in in_bank_country varchar(128),
+  in in_bank_pin varchar(16),
+  in in_bank_acc_no varchar(32),
+  in in_bank_acc_type varchar(32),
+  in in_bank_micr_code varchar(16),
+  in in_bank_ifsc_code varchar(32),
+  in in_rbi_ref_no varchar(32),
+  in in_rbi_app_date varchar(16),
+  in in_bene_type varchar(16),
+  in in_bene_subtype varchar(16),
+  in in_bene_acccat varchar(16),
+  in in_bene_occupation varchar(16),
+  in in_lei_no varchar(32),
+  in in_mode_of_operation char(1),
+  in in_com_preference char(1),
+  in in_nominee_guardian_name varchar(256),
+  in in_nominee_relation_wbo int(2),
+  in in_nominee_pos decimal(5,2),
+  in in_2nominee_name varchar(256),
+  in in_2nominee_guardian_name varchar(256),
+  in in_2nominee_relation_wbo int(2),
+  in in_2nominee_perc_of_shares decimal(5,2),
+  in in_3nominee_name varchar(256),
+  in in_3nominee_guardian_name varchar(256),
+  in in_3nominee_relation_wbo int(2),
+  in in_3nominee_perc_of_shares decimal(5,2),
+  in in_panflag_for_holder1 char(1),
+  in in_panflag_for_holder2 char(1),
+  in in_panflag_for_holder3 char(1),
+  in in_line_no int,
+  in in_errline_flag boolean,
+  out out_msg text,
+  out out_result int
+)
+me:BEGIN
+  declare err_msg text default '';
+  declare err_flag varchar(10) default false;
+  declare v_comp_gid int default 0;
+
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+    ROLLBACK;
+    set out_msg = 'SQLEXCEPTION';
+    set out_result = 0;
+
+    if in_errline_flag = true then
+      call pr_sta_ins_errline(in_file_gid,in_line_no,out_msg);
+    end if;
+  END;
+  
+  select comp_gid into v_comp_gid from sta_mst_tcompany
+  where isin_id = in_isin_id
+  and delete_flag = 'N';
+
+  set v_comp_gid = ifnull(v_comp_gid,0);
+
+  if v_comp_gid = 0 then
+    set err_msg := concat(err_msg,'Invalid company,');
+    set err_flag := true;
+  end if;
+
+  
+ /* if in_share_count <= 0 then
+    set err_msg := concat(err_msg,'Discrepancy in share count,');
+    set err_flag := true;
+  end if;*/
+
+  
+  if in_rbi_app_date = '0001-01-01' then
+    set in_rbi_app_date := null;
+  end if;
+
+  
+  if in_benpost_date = '0001-01-01' then
+    set err_msg := concat(err_msg,'Invalid benpost date,');
+    set err_flag := true;
+  end if;
+
+  
+  if err_flag = false then
+    if exists(select a.benpost_gid from sta_trn_tbenpost as a
+      where a.depository_code = in_depository_code
+      and a.client_id = in_client_id
+      and a.benpost_date = cast(in_benpost_date as date)
+      and a.dp_id = in_dp_id
+      and a.isin_id = in_isin_id
+      and a.delete_flag = 'N') then
+      set err_msg := concat(err_msg,'Duplicate record,');
+      set err_flag := true;
+    end if;
+  end if;
+
+  if err_flag = true then
+    set out_result = 0;
+    set out_msg = err_msg;
+
+    if in_errline_flag = true then
+      call pr_sta_ins_errline(in_file_gid,in_line_no,out_msg);
+    end if;
+
+    leave me;
+  end if;
+
+  START TRANSACTION;
+
+  INSERT INTO sta_trn_tbenpost
+  (
+    file_gid,
+    comp_gid,
+    folio_gid,
+    depository_code,
+    isin_id,
+    dp_id,
+    client_id,
+    sebi_reg_no,
+    benpost_date,
+    share_count,
+    holder1_name,
+    holder1_fh_name,
+    holder2_name,
+    holder2_fh_name,
+    holder3_name,
+    holder3_fh_name,
+    holder1_addr1,
+    holder1_addr2,
+    holder1_addr3,
+    holder1_city,
+    holder1_state,
+    holder1_country,
+    holder1_pin,
+    holder1_pan,
+    holder2_pan,
+    holder3_pan,
+    holder1_contact_no,
+    holder1_fax_no,
+    holder1_email_id,
+    holder2_email_id,
+    holder3_email_id,
+    holder1_per_addr1,
+    holder1_per_addr2,
+    holder1_per_addr3,
+    holder1_per_city,
+    holder1_per_state,
+    holder1_per_country,
+    holder1_per_pin,
+    nominee_name,
+    nominee_part1,
+    nominee_part2,
+    nominee_part3,
+    nominee_part4,
+    nominee_part5,
+    bank_name,
+    bank_addr1,
+    bank_addr2,
+    bank_addr3,
+    bank_city,
+    bank_state,
+    bank_country,
+    bank_pin,
+    bank_acc_no,
+    bank_acc_type,
+    bank_micr_code,
+    bank_ifsc_code,
+    rbi_ref_no,
+    rbi_app_date,
+    bene_type,
+    bene_subtype,
+    bene_acccat,
+    bene_occupation,
+    lockin,
+    lei_no,
+    mode_of_operation,
+    com_preference,
+    nominee_guardian_name,
+    nominee_relation_wbo,
+    nominee_pos,
+    2nominee_name,
+    2nominee_guardian_name,
+    2nominee_relation_wbo,
+    2nominee_perc_of_shares,
+    3nominee_name,
+    3nominee_guardian_name,
+    3nominee_relation_wbo,
+    3nominee_perc_of_shares,
+    panflag_for_holder1,
+    panflag_for_holder2,
+    panflag_for_holder3
+  )
+  VALUES
+  (
+    in_file_gid,
+    v_comp_gid,
+    0,
+    in_depository_code,
+    in_isin_id,
+    in_dp_id,
+    in_client_id,
+    in_sebi_reg_no,
+    cast(in_benpost_date as date),
+    in_share_count,
+    in_holder1_name,
+    in_holder1_fh_name,
+    in_holder2_name,
+    in_holder2_fh_name,
+    in_holder3_name,
+    in_holder3_fh_name,
+    in_holder1_addr1,
+    in_holder1_addr2,
+    in_holder1_addr3,
+    in_holder1_city,
+    in_holder1_state,
+    in_holder1_country,
+    in_holder1_pin,
+    in_holder1_pan,
+    in_holder2_pan,
+    in_holder3_pan,
+    in_holder1_contact_no,
+    in_holder1_fax_no,
+    in_holder1_email_id,
+    in_holder2_email_id,
+    in_holder3_email_id,
+    in_holder1_per_addr1,
+    in_holder1_per_addr2,
+    in_holder1_per_addr3,
+    in_holder1_per_city,
+    in_holder1_per_state,
+    in_holder1_per_country,
+    in_holder1_per_pin,
+    in_nominee_name,
+    in_nominee_part1,
+    in_nominee_part2,
+    in_nominee_part3,
+    in_nominee_part4,
+    in_nominee_part5,
+    in_bank_name,
+    in_bank_addr1,
+    in_bank_addr2,
+    in_bank_addr3,
+    in_bank_city,
+    in_bank_state,
+    in_bank_country,
+    in_bank_pin,
+    in_bank_acc_no,
+    in_bank_acc_type,
+    in_bank_micr_code,
+    in_bank_ifsc_code,
+    in_rbi_ref_no,
+    cast(in_rbi_app_date as date),
+    in_bene_type,
+    in_bene_subtype,
+    in_bene_acccat,
+    in_bene_occupation,
+    in_lockin,
+    in_lei_no,
+    in_mode_of_operation,
+    in_com_preference,
+    in_nominee_guardian_name,
+    in_nominee_relation_wbo,
+    in_nominee_pos,
+    in_2nominee_name,
+    in_2nominee_guardian_name,
+    in_2nominee_relation_wbo,
+    in_2nominee_perc_of_shares,
+    in_3nominee_name,
+    in_3nominee_guardian_name,
+    in_3nominee_relation_wbo,
+    in_3nominee_perc_of_shares,
+    in_panflag_for_holder1,
+    in_panflag_for_holder2,
+    in_panflag_for_holder3
+  );
+
+  COMMIT;
+
+  set out_result = 1;
+  set out_msg = 'Record updated successfully !';
+ END
+ ----------------------------------------------
+ CREATE DEFINER=`root`@`%` PROCEDURE `pr_sta_get_prevandcurrbenpostcomparison`(
+  in_comp_gid int,
+  in_benpost_date date,
+  in_depository_code char(1)
+)
+me:begin
+  declare v_prev_benpost_date date ;
+  
+  set v_prev_benpost_date = (select fn_get_prevbenpostdate(in_comp_gid,in_benpost_date,in_depository_code));
+  
+/*if exists (select '*' from sta_trn_tbenpost  
+		   where  benpost_date = v_prev_benpost_date
+		   and    comp_gid = in_comp_gid 
+		   and 	  depository_code = in_depository_code 
+		   and    delete_flag = 'N') then
+	if  exists (select '*' from sta_trn_tbenpost  
+			   where  benpost_date = in_benpost_date
+			   and    comp_gid = in_comp_gid 
+			   and 	  depository_code = in_depository_code 
+			   and    delete_flag = 'N') then */
+	select a.* from (select file_gid,depository_code,isin_id,dp_id,client_id,sebi_reg_no, v_prev_benpost_date as benpost_date,share_count,lockin,pledge,holder1_name,holder1_fh_name,
+  holder1_pan,holder2_name,holder2_fh_name,holder2_pan,holder3_name,holder3_fh_name,holder3_pan,holder1_addr1,holder1_addr2,holder1_addr3,
+  holder1_city,holder1_state,holder1_country,holder1_pin,holder1_contact_no,holder1_fax_no,
+  holder1_email_id,holder2_email_id,holder3_email_id,holder1_per_addr1,holder1_per_addr2,
+  holder1_per_addr3,holder1_per_city,holder1_per_state,holder1_per_country,holder1_per_pin,
+  nominee_name,nominee_part1,nominee_part2,nominee_part3,nominee_part4,nominee_part5,
+  bank_acc_no,bank_acc_type,bank_micr_code,bank_ifsc_code,bank_name,bank_addr1,bank_addr2,
+  bank_addr3,bank_city,bank_state,bank_country,bank_pin,rbi_ref_no,rbi_app_date,bene_type,bene_subtype,bene_acccat,bene_occupation,comp_gid,benpost_gid
+  from 	sta_trn_tbenpost
+  where comp_gid = in_comp_gid
+  and 	depository_code = in_depository_code
+  and 	benpost_date = v_prev_benpost_date
+  and 	share_count > 0
+  and 	delete_flag = 'N') as a
+  left join
+  (select file_gid,depository_code,isin_id,dp_id,client_id,sebi_reg_no,benpost_date,share_count,lockin,pledge,holder1_name,holder1_fh_name,
+  holder1_pan,holder2_name,holder2_fh_name,holder2_pan,holder3_name,holder3_fh_name,holder3_pan,holder1_addr1,holder1_addr2,holder1_addr3,
+  holder1_city,holder1_state,holder1_country,holder1_pin,holder1_contact_no,holder1_fax_no,
+  holder1_email_id,holder2_email_id,holder3_email_id,holder1_per_addr1,holder1_per_addr2,
+  holder1_per_addr3,holder1_per_city,holder1_per_state,holder1_per_country,holder1_per_pin,
+  nominee_name,nominee_part1,nominee_part2,nominee_part3,nominee_part4,nominee_part5,
+  bank_acc_no,bank_acc_type,bank_micr_code,bank_ifsc_code,bank_name,bank_addr1,bank_addr2,
+  bank_addr3,bank_city,bank_state,bank_country,bank_pin,rbi_ref_no,rbi_app_date,bene_type,bene_subtype,bene_acccat,bene_occupation,comp_gid,benpost_gid
+  from 	sta_trn_tbenpost
+  where comp_gid = in_comp_gid
+  and 	depository_code = in_depository_code
+  and 	benpost_date = in_benpost_date
+  and 	delete_flag = 'N')as b on a.comp_gid = b.comp_gid
+  and 	a.isin_id = b.isin_id and a.client_id = b.client_id
+  and 	a.dp_id = b.dp_id
+  where b.benpost_gid is null;
+	-- end if;
+-- end if;			
+END
+
+--------------------------------------------
+DELIMITER $$
+CREATE DEFINER=`root`@`%` PROCEDURE `pr_sta_trn_tinwardnew`(
+   in in_inward_gid int,
+  in in_entity_gid int,
+  in in_comp_gid int,
+  in in_inward_no int,
+  in in_received_date date,
+  in in_received_mode char(1),
+  in in_courier_gid int,
+  in in_awb_no varchar(32),
+  in in_tran_code char(2),
+  in in_docsubtype_code char(2),
+  in in_folio_no varchar(32),
+  in in_shareholder_name varchar(64),
+  in in_shareholder_addr varchar(255),
+  in in_shareholder_pan_no varchar(16),
+  in in_shareholder_contact_no varchar(128),
+  in in_shareholder_email_id varchar(128),
+  in in_share_count int,
+  in in_inward_remark varchar(255),
+  in in_action varchar(16),
+  in in_action_by varchar(16),
+  out out_comp_inward_no varchar(16),
+  out out_inward_no int,
+  out out_result int,
+  out out_msg text
+)
+me:BEGIN
+  declare err_msg text default '';
+  declare err_flag boolean default false;
+  declare v_tran_others_flag char(1) default '';
+  declare v_folio_gid int default 0;
+  declare v_tran_folio_gid int default 0;
+  declare v_inward_no int default 0;
+  declare v_inward_gid int default 0;
+  declare v_inward_received_status int default 0;
+  declare v_queue_maker_status int default 0;
+  
+  declare v_comp_short_code varchar(16);
+  declare v_inward_sno varchar(16);
+  declare v_inward_comp_no varchar(16);
+  declare v_inward_comp_sno varchar(16);
+
+  declare v_action_success_status tinyint default 0;
+  declare v_action_reject_status tinyint default 0;
+  declare v_ret int default 0;
+
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+    ROLLBACK;
+
+    set out_result = 0;
+    set out_msg = 'SQLEXCEPTION';
+  END;
+
+  set err_msg = concat('Error',char(13),char(10),'-----');
+
+  select status_value into v_action_success_status from sta_mst_tstatus
+  where status_type = 'Action'
+  and status_desc = 'Ok'
+  and delete_flag = 'N';
+
+  set v_action_success_status := ifnull(v_action_success_status,0);
+
+  if v_action_success_status = 0 then
+    set err_msg := concat(err_msg,'Action success status to be maintained,');
+    set err_flag := true;
+  end if;
+
+  select status_value into v_action_reject_status from sta_mst_tstatus
+  where status_type = 'Action'
+  and status_desc = 'Reject'
+  and delete_flag = 'N';
+
+  set v_action_reject_status := ifnull(v_action_reject_status,0);
+
+  if v_action_reject_status = 0 then
+    set err_msg := concat(err_msg,'Action failure status to be maintained,');
+    set err_flag := true;
+  end if;
+
+  select status_value into v_inward_received_status from sta_mst_tstatus
+  where status_type = 'Inward'
+  and status_desc = 'Received'
+  and delete_flag = 'N';
+
+  set v_inward_received_status = ifnull(v_inward_received_status,0);
+
+  if v_inward_received_status = 0 then
+    set err_msg := concat(err_msg,char(13),char(10),'Inward received status not maintained,');
+    set err_flag := true;
+  end if;
+
+  select status_value into v_queue_maker_status from sta_mst_tstatus
+  where status_type = 'Queue'
+  and status_desc = 'Maker'
+  and delete_flag = 'N';
+
+  set v_queue_maker_status = ifnull(v_queue_maker_status,0);
+
+  if v_queue_maker_status = 0 then
+    set err_msg := concat(err_msg,char(13),char(10),'Queue maker status not maintained,');
+    set err_flag := true;
+  end if;
+
+  if in_received_date is null then
+    set err_msg := concat(err_msg,char(13),char(10),'Received date cannot be blank,');
+    set err_flag := true;
+  end if;
+
+  if not exists(select receivedmode_gid from sta_mst_treceivedmode
+      where receivedmode_code = in_received_mode
+      and delete_flag = 'N') then
+    set err_msg := concat(err_msg,char(13),char(10),'Invalid received mode,');
+    set err_flag := true;
+  end if;
+  
+  if not exists(select courier_gid from sta_mst_tcourier
+      where courier_gid = in_courier_gid
+      and delete_flag = 'N') and in_tran_code <> 'DT' then
+    set err_msg := concat(err_msg,char(13),char(10),'Invalid courier,');
+    set err_flag := true;
+  end if;
+  
+  if in_awb_no = '' then
+    set err_msg := concat(err_msg,char(13),char(10),'Awb no cannot be blank,');
+    set err_flag := true;
+  end if;
+  
+  if in_folio_no = '' then
+    set err_msg := concat(err_msg,char(13),char(10),'Folio no cannot be blank,');
+    set err_flag := true;
+  end if;
+
+  if in_shareholder_pan_no <> '' then
+		select fn_sta_chk_panno(in_shareholder_pan_no) into v_ret;
+	if v_ret = 0 then
+		  set err_msg := concat(err_msg,char(13),char(10),'Invalid pan no,');
+		  set err_flag := true;
+	end if;
+  end if;
+  
+  if not exists(  select trantype_gid from sta_mst_ttrantype
+				  where trantype_code = in_tran_code
+				  and delete_flag = 'N') then
+    set err_msg := concat(err_msg,char(13),char(10),'Invalid tran code,');
+    set err_flag := true;
+  else
+    select others_flag into v_tran_others_flag from sta_mst_ttrantype
+    where trantype_code = in_tran_code
+    and delete_flag = 'N';
+  end if;
+  
+  if in_tran_code = 'OT' and  in_docsubtype_code = '' then
+		set err_msg := concat(err_msg,char(13),char(10),'Please select Document Subtype,');
+		set err_flag := true;
+  end if;
+  
+	if in_tran_code = 'OT' and  in_docsubtype_code <> '' then
+		if not exists(	select docsubtype_code from sta_mst_tdocsubtype
+						where docsubtype_code = in_docsubtype_code
+						and delete_flag = 'N') then
+			set err_msg := concat(err_msg,char(13),char(10),'Invalid Document Subtype,');
+			set err_flag := true;
+      end if;
+	end if;
+
+	select inward_sno,comp_short_code into  v_inward_sno,v_comp_short_code from sta_mst_tcompany where comp_gid=in_comp_gid and delete_flag='N';
+    set v_inward_comp_sno=(select LPAD(v_inward_sno,'4','0'));
+    set v_inward_comp_no=concat(v_comp_short_code,v_inward_comp_sno);
+    
+  if in_tran_code = 'DT' or in_tran_code = 'CS' or in_tran_code = 'DS' or in_tran_code = 'DC' then
+    if not exists (select folio_no from sta_mst_tdepository
+        where folio_no = in_folio_no
+        and delete_flag = 'N') then
+      set err_msg := concat(err_msg,char(13),char(10),'Depository folio no required,');
+      set err_flag := true;
+    else
+      if in_tran_code = 'DT' then
+        select b.folio_gid into v_tran_folio_gid from sta_mst_tdepository as a
+        inner join sta_trn_tfolio as b on a.folio_no = b.folio_no
+        and b.comp_gid = in_comp_gid
+        and b.delete_flag = 'N'
+        where a.folio_no <> in_folio_no
+        and a.delete_flag = 'N' limit 0,1;
+      end if;
+    end if;
+  end if;
+
+  if v_tran_others_flag = 'N' then
+    
+    if not exists(select comp_gid from sta_mst_tcompany
+        where comp_gid = in_comp_gid
+        and delete_flag = 'N') then
+      set err_msg := concat(err_msg,char(13),char(10),'Invalid company,');
+      set err_flag := true;
+    end if;
+
+    
+    if not exists(select folio_gid from sta_trn_tfolio
+        where comp_gid = in_comp_gid
+        and folio_no = in_folio_no
+        and delete_flag = 'N') then
+      set err_msg := concat(err_msg,char(13),char(10),'Invalid folion no,');
+      set err_flag := true;
+    else
+      select folio_gid into v_folio_gid from sta_trn_tfolio
+      where comp_gid = in_comp_gid
+      and folio_no = in_folio_no
+      and delete_flag = 'N';
+    end if;
+  end if;
+  
+  if in_shareholder_name = '' then
+    set err_msg := concat(err_msg,char(13),char(10),'Share holder name cannot be blank,');
+    set err_flag := true;
+  end if;
+
+  if in_action = 'INSERT' then
+    if err_flag = false then
+      set v_inward_no = ifnull(in_inward_no,0);
+
+      if v_inward_no = 0 then
+        select max(inward_no) into v_inward_no from sta_trn_tinward
+        where entity_gid = in_entity_gid
+        and delete_flag = 'N';
+
+        set v_inward_no = ifnull(v_inward_no,0);
+        set v_inward_no = v_inward_no + 1;
+      else
+        
+        if exists(select inward_gid from sta_trn_tinward
+          where entity_gid = in_entity_gid
+          and inward_no = v_inward_no
+          and delete_flag = 'N') then
+          set err_msg := concat(err_msg,char(13),char(10),'Duplicate inward no,');
+          set err_flag := true;
+        end if;
+      end if;
+    end if;
+
+    if err_flag = false then
+      START TRANSACTION;
+
+      INSERT INTO sta_trn_tinward
+      (
+        entity_gid,comp_gid,inward_no,inward_comp_no,inward_comp_sno,received_date,received_mode,courier_gid,awb_no,tran_code,docsubtype_code,
+        shareholder_name,inward_status,inward_all_status,queue_status,queue_all_status,
+        folio_gid,tran_folio_gid,folio_no,shareholder_addr,shareholder_pan_no,shareholder_contact_no,shareholder_email_id,
+        inward_remark,insert_date,insert_by,share_count
+      ) values
+      (
+        in_entity_gid,in_comp_gid,v_inward_no,v_inward_comp_no,v_inward_sno,in_received_date,in_received_mode,in_courier_gid,in_awb_no,in_tran_code,in_docsubtype_code,
+        in_shareholder_name,v_inward_received_status,v_inward_received_status,v_queue_maker_status,v_queue_maker_status,
+        v_folio_gid,v_tran_folio_gid,in_folio_no,in_shareholder_addr,in_shareholder_pan_no,in_shareholder_contact_no,in_shareholder_email_id,
+        in_inward_remark,sysdate(),in_action_by,in_share_count
+      );
+
+		UPDATE sta_mst_tcompany SET inward_sno=inward_sno+1 WHERE comp_gid=in_comp_gid and delete_flag='N';
+        
+      COMMIT;
+
+      select max(inward_gid) into v_inward_gid from sta_trn_tinward;
+      
+      if in_tran_code <> 'OT' then
+        call pr_sta_ins_queue(v_inward_gid,in_action_by,'N','M','',@queue_gid,@out,@msg);
+      else
+        call pr_sta_ins_queue(v_inward_gid,in_action_by,'N','D','',@queue_gid,@out,@msg);
+      end if;
+    else
+      set out_result = 0;
+      set out_msg = err_msg;
+      leave me;
+    end if;
+
+    set out_inward_no = v_inward_no;
+    set out_comp_inward_no=v_inward_comp_no;
+    set out_result = 1;
+    set out_msg = 'Record inserted successfully';
+    leave me;
+  end if;
+
+  if in_action = 'UPDATE' then
+    if not exists(select inward_gid from sta_trn_tinward
+      where inward_gid = in_inward_gid
+      and tran_folio_gid = 0
+      and tran_cert_gid = 0
+      and (select count(*) from sta_trn_tfolioentry where inward_gid = in_inward_gid and delete_flag = 'N') = 0
+      and (select count(*) from sta_trn_tcertentry where inward_gid = in_inward_gid and delete_flag = 'N') = 0
+      and (select count(*) from sta_trn_tcertsplitentry where inward_gid = in_inward_gid and delete_flag = 'N') = 0
+      and delete_flag = 'N') then
+
+      set err_msg := concat(err_msg,char(13),char(10),'Update not allowed,');
+      set err_flag := true;
+    end if;
+
+    if err_flag = false then
+      START TRANSACTION;
+
+      update sta_trn_tinward set
+        received_date = in_received_date,
+        received_mode = in_received_mode,
+        courier_gid = in_courier_gid,
+        awb_no = in_awb_no,
+        tran_code = in_tran_code,
+        docsubtype_code = in_docsubtype_code,
+        shareholder_name = in_shareholder_name,
+        queue_status = v_queue_maker_status,
+        folio_gid = v_folio_gid,
+        tran_folio_gid = v_tran_folio_gid,
+        folio_no = in_folio_no,
+        shareholder_addr = in_shareholder_addr,
+        shareholder_pan_no = in_shareholder_pan_no,
+        shareholder_contact_no = in_shareholder_contact_no,
+        shareholder_email_id = in_shareholder_email_id,
+        inward_remark = in_inward_remark,
+        update_date = sysdate(),
+        update_by = in_action_by
+      where inward_gid = in_inward_gid
+      and tran_folio_gid = 0
+      and tran_cert_gid = 0
+      and (select count(*) from sta_trn_tfolioentry where inward_gid = in_inward_gid and delete_flag = 'N') = 0
+      and (select count(*) from sta_trn_tcertentry where inward_gid = in_inward_gid and delete_flag = 'N') = 0
+      and (select count(*) from sta_trn_tcertsplitentry where inward_gid = in_inward_gid and delete_flag = 'N') = 0
+      and delete_flag = 'N';
+
+      COMMIT;
+      
+      call pr_sta_set_queuemove(in_inward_gid,in_inward_remark,v_action_success_status,in_action_by,@out,@msg);
+    else
+      set out_result = 0;
+      set out_msg = err_msg;
+      leave me;
+    end if;
+
+    set out_inward_no = 0;
+    set out_comp_inward_no=0;
+    set out_result = 1;
+    set out_msg = 'Record updated successfully';
+    leave me;
+  end if;
+END$$
+DELIMITER ;
+-----------------------------------------------
+
+
+
+ALTER TABLE `sta`.`sta_mst_tcompany` 
+ADD COLUMN `address1` VARCHAR(128) NULL AFTER `inward_sno`,
+ADD COLUMN `address2` VARCHAR(128) NULL AFTER `address1`,
+ADD COLUMN `address3` VARCHAR(128) NULL AFTER `address2`,
+ADD COLUMN `city` VARCHAR(64) NULL AFTER `address3`,
+ADD COLUMN `state` VARCHAR(64) NULL AFTER `city`,
+ADD COLUMN `country` VARCHAR(64) NULL AFTER `state`,
+ADD COLUMN `pincode` VARCHAR(64) NULL AFTER `country`;
+
+
+ALTER TABLE `sta`.`sta_mst_tcategory` 
+ADD COLUMN `category_alise_name` VARCHAR(32) NULL DEFAULT NULL AFTER `category_name`;
+
+
+----------------------------------------
+CREATE DEFINER=`root`@`%` PROCEDURE `pr_sta_mst_tcategory_new`(
+  in in_category_gid int,
+  in in_category_name varchar(32),
+  in in_category_alias_name varchar(32),
+  in in_action varchar(16),
+  in in_action_by varchar(16),
+  out out_result int,
+  out out_msg text
+)
+me:BEGIN
+  declare err_msg text default '';
+  declare err_flag boolean default false;
+
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+    ROLLBACK;
+
+    set out_result = 0;
+    set out_msg = 'SQLEXCEPTION';
+  END;
+
+  IF in_action = "SELECT" THEN
+    set in_category_gid := if(in_category_gid = 0,null,in_category_gid);
+    set in_category_name := if(in_category_name = '',null,in_category_name);
+
+    SELECT * FROM sta_mst_tcategory
+    WHERE category_gid = ifnull(in_category_gid,category_gid)
+    and  category_name = ifnull(in_category_name,category_name)
+    and delete_flag = 'N';
+  END IF;
+
+  if in_category_Name = '' then
+    set err_msg := concat(err_msg,'Blank category Name,');
+    set err_flag := true;
+  end if;
+  
+  if in_category_alias_name = '' then
+    set err_msg := concat(err_msg,'Blank category second Name,');
+    set err_flag := true;
+  end if;
+  
+  IF in_action = "INSERT" THEN
+	  if exists(select category_gid from sta_mst_tcategory where category_name = in_category_name and delete_flag = 'N') then
+		  set err_msg := concat(err_msg,'Duplicate category name,');
+		  set err_flag := true;
+    end if;
+
+    if err_flag = false then
+		  START TRANSACTION;
+
+		  INSERT INTO sta_mst_tcategory(category_name,category_alias_name,insert_date,insert_by)
+		  VALUES (in_category_name,in_category_alias_name,sysdate(),in_action_by);
+
+		  COMMIT;
+
+      set out_msg = 'Record inserted successfully';
+    else
+      set out_result = 0;
+      set out_msg = err_msg;
+      leave me;
+    end if;
+  END IF;
+
+  IF in_action = "UPDATE" THEN
+	  if in_category_gid = 0 then
+		  set err_msg := concat(err_msg,'Blank category gid,');
+		  set err_flag := true;
+	  end if;
+
+	  if exists(select category_gid from sta_mst_tcategory
+              where category_name = in_category_name
+              and category_gid <> in_category_gid
+              and delete_flag = 'N') and in_category_gid > 0 then
+		  set err_msg := concat(err_msg,'Duplicate category name,');
+		  set err_flag := true;
+	  end if;
+
+	  if err_flag = false then
+      START TRANSACTION;
+
+      UPDATE sta_mst_tcategory set
+        category_name = in_category_Name,
+        category_alias_name = in_category_alias_name,
+        update_date = sysdate(),
+        update_by = in_action_by
+      WHERE category_gid = in_category_gid
+      and delete_flag = 'N';
+
+      COMMIT;
+
+      set out_msg = 'Record updated successfully';
+    else
+      set out_result = 0;
+      set out_msg = err_msg;
+      leave me;
+    end if;
+  END IF;
+
+  IF in_action = "DELETE" THEN
+    START TRANSACTION;
+
+    UPDATE sta_mst_tcategory set
+      delete_flag = 'Y',
+      update_date = sysdate(),
+      update_by = in_action_by
+    WHERE category_gid = in_category_gid
+    and delete_flag = 'N';
+
+    COMMIT;
+
+    set out_msg = 'Record deleted successfully';
+  END IF;
+
+  set out_result = 1;
+  END
+
+
+--------------------------
+date :24-04-2023 
+
+1) chola_trn_tpacket - packet_status
+2) chola_trn_tpdcentry - chq_status
+3) chola_trn_tspdcchqentry - chqentry_status
+
+
+
+
+
+present,pullout,swap,
+
+
+select 
+	'['||
+		'{"month":"'||RTRIM(to_char(execution_status_date,'Month'))||'",'||
+		'"block":"'||fn_get_dbprngcompleteblockcount('TMNN01') ||'",'||
+		'"State":"'||fn_get_dbprngcompletestatecount('TMNN01') ||'",'||
+		'"National":"'||fn_get_dbprngcompletenationalcount('TMNN01') ||'"}'||
+	']'
+from   trng_trn_ttprogram
+where  status_code = 'A'
+and    execution_status_code = 'C'
+group by to_char(execution_status_date,'Month')
+
+-----------------------
+date 25-05-2023
+
+pr_sta_generate_upload
+
+
+DELIMITER $$
+CREATE DEFINER=`root`@`%` PROCEDURE `pr_sta_generate_cdsl_upload_new`(
+  in in_comp_gid int,
+  in in_upload_type int,
+  in in_action_by varchar(16),
+  out out_upload_gid int,
+  out out_result int,
+  out out_msg text
+)
+me:BEGIN
+  declare err_msg text default '';
+  declare err_flag boolean default false;
+
+  declare v_comp_gid int default 0;
+  declare v_entity_gid int default 0;
+  declare v_upload_sno int default 0;
+  declare v_tran_code char(2) default '';
+  declare v_file_name varchar(64) default '';
+  declare v_file_extension_no smallint default 0;
+  declare v_file_extension varchar(8);
+
+  declare v_entity_cdsl_dp_id varchar(8) default '';
+  declare v_cdsl_sno int default 0;
+  declare v_cdsl_count int default 0;
+
+  declare v_inward_inex_status tinyint default 0;
+  declare v_upload_done_status tinyint default 0;
+
+  declare v_count int default 0;
+  declare v_inward_gid int default 0;
+  declare v_upload_gid int default 0;
+
+  
+  declare done int default 0;
+
+  declare cdsl_csr cursor for
+    select distinct b.inward_gid from sta_trn_tqueue as a
+    inner join sta_trn_tinward as b on b.inward_gid = a.inward_gid and b.queue_gid = a.queue_gid and b.delete_flag = 'N'
+    inner join sta_mst_ttrantype as c on c.trantype_code = b.tran_code and c.delete_flag = 'N'
+    inner join sta_mst_tgroup as d on d.group_code = a.queue_from and c.delete_flag = 'N'
+    inner join sta_mst_tcompany as e on e.comp_gid = b.comp_gid and e.delete_flag = 'N'
+    inner join sta_trn_tdematpend as f on b.dematpend_gid = f.dematpend_gid and f.delete_flag = 'N'
+    where b.comp_gid = in_comp_gid
+    -- and a.queue_to = 'U'
+    and ((a.queue_to = 'U') 
+    or  (a.queue_to = 'D'
+	and b.inward_all_status & (64) > 0))
+    and c.demat_flag = 'Y'
+    and f.depository_code = 'C'
+    and a.action_status = 0
+    and b.upload_gid = 0
+    and a.delete_flag = 'N';
+
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done=1;
+
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+    ROLLBACK;
+
+    set out_upload_gid = v_upload_gid;
+    set out_result = 0;
+    set out_msg = 'SQLEXCEPTION';
+  END;
+
+  
+  select
+    b.entity_gid,a.comp_gid,a.upload_sno,b.cdsl_sno,b.cdsl_dp_id
+  into
+    v_entity_gid,v_comp_gid,v_upload_sno,v_cdsl_sno,v_entity_cdsl_dp_id
+  from sta_mst_tcompany as a
+  inner join sta_mst_tentity as b on a.entity_gid = b.entity_gid and b.delete_flag = 'N'
+  where a.comp_gid = in_comp_gid
+  and a.delete_flag = 'N';
+
+  set v_entity_gid = ifnull(v_entity_gid,0);
+  set v_comp_gid = ifnull(v_comp_gid,0);
+  set v_upload_sno = ifnull(v_upload_sno,1);
+  set v_cdsl_sno = ifnull(v_cdsl_sno,1);
+  set v_entity_cdsl_dp_id = ifnull(v_entity_cdsl_dp_id,'');
+
+  
+  if v_entity_gid = 0 then
+    set err_msg := concat(err_msg,'Invalid entity,');
+    set err_flag := true;
+  end if;
+
+  if v_comp_gid = 0 then
+    set err_msg := concat(err_msg,'Invalid company,');
+    set err_flag := true;
+  end if;
+
+  
+  if v_entity_cdsl_dp_id = '' then
+    set err_msg := concat(err_msg,'Entity cdsl dp id cannot be blank ,');
+    set err_flag := true;
+  end if;
+
+  
+  select status_value into v_inward_inex_status from sta_mst_tstatus
+  where status_type = 'Inward'
+  and status_desc = 'Inex'
+  and delete_flag = 'N';
+
+  set v_inward_inex_status := ifnull(v_inward_inex_status,0);
+
+  if v_inward_inex_status = 0 then
+    set err_msg := concat(err_msg,'Inward inex status to be maintained,');
+    set err_flag := true;
+  end if;
+
+
+  select status_value into v_upload_done_status from sta_mst_tstatus
+  where status_type = 'Upload'
+  and status_desc = 'Upload Done'
+  and delete_flag = 'N';
+
+  set v_upload_done_status := ifnull(v_upload_done_status,0);
+
+  if v_upload_done_status = 0 then
+    set err_msg := concat(err_msg,'Upload done status to be maintained,');
+    set err_flag := true;
+  end if;
+
+  
+  select count(*) into v_count from sta_trn_tqueue as a
+  inner join sta_trn_tinward as b on b.inward_gid = a.inward_gid and b.queue_gid = a.queue_gid and b.delete_flag = 'N'
+  inner join sta_mst_ttrantype as c on c.trantype_code = b.tran_code and c.delete_flag = 'N'
+  inner join sta_mst_tgroup as d on d.group_code = a.queue_from and c.delete_flag = 'N'
+  inner join sta_mst_tcompany as e on e.comp_gid = b.comp_gid and e.delete_flag = 'N'
+  inner join sta_trn_tdematpend as f on b.dematpend_gid = f.dematpend_gid and f.delete_flag = 'N'
+  where b.comp_gid = in_comp_gid
+  -- and a.queue_to = 'U'
+  and ((a.queue_to = 'U') 
+  or  (a.queue_to = 'D'
+  and b.inward_all_status & (64) > 0))
+  and c.demat_flag = 'Y'
+  and f.depository_code = 'C'
+  and a.action_status = 0
+  and b.upload_gid = 0
+  and a.delete_flag = 'N';
+
+  set v_count = ifnull(v_count,0);
+
+  if v_count = 0 then
+    set err_msg := concat(err_msg,'No record found,');
+    set err_flag := true;
+  end if;
+
+  if exists(select upload_gid from sta_trn_tupload
+      where comp_gid = in_comp_gid
+      and upload_type = in_upload_type
+      and upload_status = v_upload_done_status
+      and delete_flag = 'N') then
+    set err_msg := concat(err_msg,'Previous upload status not yet updated,');
+    set err_flag := true;
+  end if;
+
+
+  if err_flag = false then
+
+    select count(*) into v_file_extension_no from sta_trn_tupload
+    where upload_type = in_upload_type
+    and upload_date >= curdate()
+    and upload_date < adddate(curdate(),1)
+    and delete_flag = 'N';
+
+    set v_file_extension_no = ifnull(v_file_extension_no,0);
+    set v_file_extension_no = v_file_extension_no + 1;
+
+    set v_file_extension = cast(v_file_extension_no as char);
+
+    if length(v_file_extension) < 3 then
+      set v_file_extension = lpad(v_file_extension,3,'0');
+    end if;
+
+    set v_file_name = concat('18',v_entity_cdsl_dp_id);
+    set v_file_name = concat(v_file_name,'.',date_format(curdate(),'%d%m%Y'),'.',v_file_extension);
+  end if;
+
+  if err_flag = false then
+
+    insert into sta_trn_tupload
+    (
+      comp_gid,upload_type,upload_no,upload_date,upload_by,upload_status,
+      upload_filename,upload_filename_extension
+    )
+    values
+    (
+      in_comp_gid,in_upload_type,v_upload_sno,sysdate(),in_action_by,v_upload_done_status,
+      v_file_name,v_file_extension
+    );
+
+    
+    select max(upload_gid) into v_upload_gid from sta_trn_tupload;
+
+    
+    update sta_mst_tcompany
+    set upload_sno = upload_sno + 1
+    where comp_gid = in_comp_gid
+    and delete_flag = 'N';
+
+    
+    set done = 0;
+
+    open cdsl_csr;
+
+    cdsl_loop:loop
+      fetch cdsl_csr into v_inward_gid;
+
+      if done = 1 then
+        leave cdsl_loop;
+      end if;
+
+      
+      update sta_trn_tinward set
+        upload_gid = v_upload_gid
+      where inward_gid = v_inward_gid
+      and upload_gid = 0
+      and delete_flag = 'N';
+
+      set v_cdsl_count = v_cdsl_count + 1;
+    end loop cdsl_loop;
+
+    close cdsl_csr;
+
+    if v_cdsl_count > 0 then
+      
+      update sta_trn_tupload set
+        cdsl_sno = v_cdsl_sno
+      where upload_gid = v_upload_gid
+      and delete_flag = 'N';
+
+      
+      update sta_mst_tentity set
+        cdsl_sno = cdsl_sno + 1
+      where entity_gid = v_entity_gid
+      and delete_flag = 'N';
+    end if;
+  else
+    set out_upload_gid = v_upload_gid;
+    set out_result = 0;
+    set out_msg = err_msg;
+    leave me;
+  end if;
+
+  set out_upload_gid = v_upload_gid;
+  set out_msg = 'Upload generated successfully !';
+  set out_result = 1;
+END$$
+DELIMITER ;
