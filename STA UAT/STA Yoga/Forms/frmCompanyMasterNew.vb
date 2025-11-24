@@ -3,7 +3,7 @@
 Public Class frmCompanyMasterNew
 
     Private Sub frmCompany_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Height = 630
+        Me.Height = 640
         Dim lsSql As String
         lnkAddAttachment.Enabled = False
         ' Security type
