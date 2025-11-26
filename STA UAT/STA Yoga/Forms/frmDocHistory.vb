@@ -135,6 +135,9 @@ Public Class frmDocHistory
             Case "IE"
                 objFrm = New frmiepfmaker(mnInwardId, "V")
                 objFrm.ShowDialog()
+            Case "PI"
+                objFrm = New frmCAPhysicalToIEPF("V", mnInwardId, 0, msTranCode)
+                objFrm.ShowDialog()
         End Select
     End Sub
 
