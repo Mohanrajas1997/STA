@@ -725,7 +725,6 @@ Public Class frmCAPhysicalToIEPF
                                     investorCategory, boAddress1, boAddress2, boAddress3, boCity, boState, boCountry, boPincode,
                                     "Remove")
             Next
-            Next
 
             Dim ranges As New List(Of Tuple(Of Integer, Integer))()
 
