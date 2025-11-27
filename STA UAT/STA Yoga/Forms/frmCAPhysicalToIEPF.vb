@@ -503,6 +503,10 @@ Public Class frmCAPhysicalToIEPF
                         cmd.Parameters.AddWithValue("?in_credit_qty", row.Cells("credit_qty").Value.ToString())
                         cmd.Parameters.AddWithValue("?in_debit_qty", row.Cells("debit_qty").Value.ToString())
                         cmd.Parameters.AddWithValue("?in_holder1_name", row.Cells("holder1_name").Value.ToString())
+                        cmd.Parameters.AddWithValue("?in_holder2_name", row.Cells("holder2_name").Value.ToString())
+                        cmd.Parameters.AddWithValue("?in_holder3_name", row.Cells("holder3_name").Value.ToString())
+                        cmd.Parameters.AddWithValue("?in_holder4_name", row.Cells("holder4_name").Value.ToString())
+                        cmd.Parameters.AddWithValue("?in_holder1_fhname", row.Cells("holder1_fhname").Value.ToString())
                         cmd.Parameters.AddWithValue("?in_investor_category", row.Cells("investor_category").Value.ToString())
                         cmd.Parameters.AddWithValue("?in_creditqty_lockin_reasoncode", row.Cells("creditqty_lockin_reasoncode").Value.ToString())
                         cmd.Parameters.AddWithValue("?in_debitqty_lockin_reasoncode", row.Cells("debitqty_lockin_reasoncode").Value.ToString())
@@ -678,14 +682,18 @@ Public Class frmCAPhysicalToIEPF
                 Dim distFrom As Integer = If(excelRange.Cells(rowIndex, 4).Value, String.Empty).ToString()
                 Dim distTo As Integer = If(excelRange.Cells(rowIndex, 5).Value, String.Empty).ToString()
                 Dim holder1Name As String = If(excelRange.Cells(rowIndex, 6).Value, String.Empty).ToString()
-                Dim creditQty As Integer = If(excelRange.Cells(rowIndex, 7).Value, 0).ToString()
-                Dim debitQty As Integer = If(excelRange.Cells(rowIndex, 8).Value, 0).ToString()
+                Dim holder2Name As String = If(excelRange.Cells(rowIndex, 7).Value, String.Empty).ToString()
+                Dim holder3Name As String = If(excelRange.Cells(rowIndex, 8).Value, String.Empty).ToString()
+                Dim holder4Name As String = If(excelRange.Cells(rowIndex, 9).Value, String.Empty).ToString()
+                Dim holder1_fhName As String = If(excelRange.Cells(rowIndex, 10).Value, String.Empty).ToString()
+                Dim creditQty As Integer = If(excelRange.Cells(rowIndex, 11).Value, 0).ToString()
+                Dim debitQty As Integer = If(excelRange.Cells(rowIndex, 12).Value, 0).ToString()
                 lssumofShares += creditQty
                 lssumofDebitqty += debitQty
 
-                Dim creditlockinReasonCode As String = If(excelRange.Cells(rowIndex, 9).Value, String.Empty).ToString()
+                Dim creditlockinReasonCode As String = If(excelRange.Cells(rowIndex, 13).Value, String.Empty).ToString()
                 Dim creditlockinReleaseDate As Nullable(Of Date)
-                Dim cellValue As Object = excelRange.Cells(rowIndex, 10).Value
+                Dim cellValue As Object = excelRange.Cells(rowIndex, 14).Value
                 If Not IsDBNull(cellValue) AndAlso cellValue IsNot Nothing Then
                     creditlockinReleaseDate = Convert.ToDateTime(cellValue)
                 Else
@@ -693,9 +701,9 @@ Public Class frmCAPhysicalToIEPF
                 End If
                 Dim formattedDate As String = If(creditlockinReleaseDate.HasValue, creditlockinReleaseDate.Value.ToString("yyyy-MM-dd"), String.Empty)
 
-                Dim debitlockinReasonCode As String = If(excelRange.Cells(rowIndex, 11).Value, String.Empty).ToString()
+                Dim debitlockinReasonCode As String = If(excelRange.Cells(rowIndex, 15).Value, String.Empty).ToString()
                 Dim debitlockinReleaseDate As Nullable(Of Date)
-                Dim cellValue1 As Object = excelRange.Cells(rowIndex, 12).Value
+                Dim cellValue1 As Object = excelRange.Cells(rowIndex, 16).Value
                 If Not IsDBNull(cellValue) AndAlso cellValue1 IsNot Nothing Then
                     debitlockinReleaseDate = Convert.ToDateTime(cellValue1)
                 Else
@@ -703,16 +711,16 @@ Public Class frmCAPhysicalToIEPF
                 End If
                 Dim formattedDate1 As String = If(debitlockinReleaseDate.HasValue, debitlockinReleaseDate.Value.ToString("yyyy-MM-dd"), String.Empty)
 
-                Dim investorCategory As String = If(excelRange.Cells(rowIndex, 13).Value, String.Empty).ToString()
-                Dim boAddress1 As String = If(excelRange.Cells(rowIndex, 14).Value, String.Empty).ToString()
-                Dim boAddress2 As String = If(excelRange.Cells(rowIndex, 15).Value, String.Empty).ToString()
-                Dim boAddress3 As String = If(excelRange.Cells(rowIndex, 16).Value, String.Empty).ToString()
-                Dim boCity As String = If(excelRange.Cells(rowIndex, 17).Value, String.Empty).ToString()
-                Dim boState As String = If(excelRange.Cells(rowIndex, 18).Value, String.Empty).ToString()
-                Dim boCountry As String = If(excelRange.Cells(rowIndex, 19).Value, String.Empty).ToString()
-                Dim boPincode As String = If(excelRange.Cells(rowIndex, 20).Value, String.Empty).ToString()
+                Dim investorCategory As String = If(excelRange.Cells(rowIndex, 17).Value, String.Empty).ToString()
+                Dim boAddress1 As String = If(excelRange.Cells(rowIndex, 18).Value, String.Empty).ToString()
+                Dim boAddress2 As String = If(excelRange.Cells(rowIndex, 19).Value, String.Empty).ToString()
+                Dim boAddress3 As String = If(excelRange.Cells(rowIndex, 20).Value, String.Empty).ToString()
+                Dim boCity As String = If(excelRange.Cells(rowIndex, 21).Value, String.Empty).ToString()
+                Dim boState As String = If(excelRange.Cells(rowIndex, 22).Value, String.Empty).ToString()
+                Dim boCountry As String = If(excelRange.Cells(rowIndex, 23).Value, String.Empty).ToString()
+                Dim boPincode As String = If(excelRange.Cells(rowIndex, 24).Value, String.Empty).ToString()
 
-                dgvRecord2.Rows.Add(dpId, clientId, folioNo, distFrom, distTo, creditQty, debitQty, holder1Name,
+                dgvRecord2.Rows.Add(dpId, clientId, folioNo, distFrom, distTo, creditQty, debitQty, holder1Name, holder2Name, holder3Name, holder4Name, holder1_fhName,
                                     creditlockinReasonCode, creditlockinReleaseDate, debitlockinReasonCode, debitlockinReleaseDate,
                                     investorCategory, boAddress1, boAddress2, boAddress3, boCity, boState, boCountry, boPincode,
                                     "Remove")
