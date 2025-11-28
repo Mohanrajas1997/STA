@@ -37,8 +37,8 @@
 
         lsSql = ""
         lsSql &= " select "
-        lsSql &= "  b.trantype_code as DocType,"
-        lsSql &= "  '' as DocSubType,"
+        'lsSql &= "  b.trantype_code as DocType,"
+        'lsSql &= "  '' as DocSubType,"
         lsSql &= "  concat(b.trantype_code,' / ',b.trantype_desc) as Type,"
         lsSql &= " fn_get_inwardopeningbal(a.tran_code,'','" & Format(dtpFrom.Value, "yyyy-MM-dd") & "') as `Opening Bal` ,"
         lsSql &= " count(a.tran_code) as Received,"
@@ -54,58 +54,62 @@
         lsSql &= " inner join sta_mst_ttrantype as b on a.tran_code = b.trantype_code and b.delete_flag = 'N' "
         lsSql &= " inner join sta_mst_tcompany as c on a.comp_gid = c.comp_gid and c.delete_flag = 'N' "
         lsSql &= " left join sta_trn_tfolio as d on a.folio_gid = d.folio_gid and d.delete_flag = 'N' "
-        lsSql &= " where a.tran_code in ('DM','LS','IS') "
+        lsSql &= " where a.tran_code in ('DM','LS','IS','TM','OT','CD') "
         lsSql &= " and a.delete_flag = 'N' "
         'lsSql &= " and a.received_date >= " & Format(dtpFrom.Value, "yyyy-MM-dd") & " and a.received_date <= " & Format(dtpTo.Value, "yyyy-MM-dd") & ""
         lsSql &= lsCond
         lsSql &= " group by a.tran_code "
 
-        lsSql &= "Union All"
-        lsSql &= " select "
-        lsSql &= "  b.trantype_code as DocType,"
-        lsSql &= "  b.docsubtype_code as DocSubType,"
-        lsSql &= " concat(b.trantype_code,' / ',b.docsubtype_desc) as Type,"
-        lsSql &= " fn_get_inwardopeningbal(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "') as `Opening Bal` ,"
-        lsSql &= " count(a.tran_code) as Received,"
-        lsSql &= " fn_get_inwardcompleted(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "','" & Format(dtpTo.Value, "yyyy-MM-dd") & "') as Processed,"
-        lsSql &= " fn_get_inwardopeningbal(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "') + count(a.tran_code) - fn_get_inwardcompleted(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "','" & Format(dtpTo.Value, "yyyy-MM-dd") & "') as `Closing Bal`"
-        lsSql &= " from sta_trn_tinward as a "
-        lsSql &= " inner join sta_mst_tdocsubtype as b on a.tran_code = b.trantype_code "
-        lsSql &= " and a.docsubtype_code = b.docsubtype_code and b.delete_flag = 'N' "
-        lsSql &= " inner join sta_mst_tcompany as c on a.comp_gid = c.comp_gid and c.delete_flag = 'N' "
-        lsSql &= " left join sta_trn_tfolio as d on a.folio_gid = d.folio_gid and d.delete_flag = 'N' "
-        lsSql &= " where a.tran_code = 'TM' and a.docsubtype_code in('TM','ND','NC','IT','NA') "
-        'lsSql &= " and a.received_date >= " & Format(dtpFrom.Value, "yyyy-MM-dd") & " and a.received_date <= " & Format(dtpTo.Value, "yyyy-MM-dd") & ""
-        lsSql &= " and a.delete_flag = 'N' "
-        lsSql &= lsCond
-        lsSql &= " group by a.tran_code,a.docsubtype_code "
+        'lsSql &= "Union All"
+        'lsSql &= " select "
+        'lsSql &= "  b.trantype_code as DocType,"
+        'lsSql &= "  b.docsubtype_code as DocSubType,"
+        'lsSql &= " concat(b.trantype_code,' / ',b.docsubtype_desc) as Type,"
+        'lsSql &= " fn_get_inwardopeningbal(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "') as `Opening Bal` ,"
+        'lsSql &= " count(a.tran_code) as Received,"
+        'lsSql &= " fn_get_inwardcompleted(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "','" & Format(dtpTo.Value, "yyyy-MM-dd") & "') as Processed,"
+        'lsSql &= " fn_get_inwardopeningbal(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "') + count(a.tran_code) - fn_get_inwardcompleted(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "','" & Format(dtpTo.Value, "yyyy-MM-dd") & "') as `Closing Bal`"
+        'lsSql &= " from sta_trn_tinward as a "
+        'lsSql &= " inner join sta_mst_tdocsubtype as b on a.tran_code = b.trantype_code "
+        'lsSql &= " and a.docsubtype_code = b.docsubtype_code and b.delete_flag = 'N' "
+        'lsSql &= " inner join sta_mst_tcompany as c on a.comp_gid = c.comp_gid and c.delete_flag = 'N' "
+        'lsSql &= " left join sta_trn_tfolio as d on a.folio_gid = d.folio_gid and d.delete_flag = 'N' "
+        ''lsSql &= " left join sta_trn_tinwarddocsubtype as f on f.trantype_code = 'TM' and f.delete_flag = 'N' "
+        'lsSql &= " where a.tran_code = 'TM'  "
+        ''or a.docsubtype_code in('TM','ND','NC','IT','NA')
+        ''lsSql &= " and a.received_date >= " & Format(dtpFrom.Value, "yyyy-MM-dd") & " and a.received_date <= " & Format(dtpTo.Value, "yyyy-MM-dd") & ""
+        'lsSql &= " and a.delete_flag = 'N' "
+        'lsSql &= lsCond
+        'lsSql &= " group by a.tran_code,a.docsubtype_code "
 
-        lsSql &= "Union All"
-        lsSql &= " select "
-        lsSql &= "  b.trantype_code as DocType,"
-        lsSql &= "  b.docsubtype_code as DocSubType,"
-        lsSql &= " concat(b.trantype_code,' / ',b.docsubtype_desc) as Type,"
-        lsSql &= " fn_get_inwardopeningbal(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "') as `Opening Bal` ,"
-        lsSql &= " count(a.tran_code) as Received,"
-        lsSql &= " fn_get_inwardcompleted(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "','" & Format(dtpTo.Value, "yyyy-MM-dd") & "') as Processed,"
-        lsSql &= " fn_get_inwardopeningbal(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "') + count(a.tran_code) - fn_get_inwardcompleted(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "','" & Format(dtpTo.Value, "yyyy-MM-dd") & "') as `Closing Bal`"
-        lsSql &= " from sta_trn_tinward as a "
-        lsSql &= " inner join sta_mst_tdocsubtype as b on a.tran_code = b.trantype_code "
-        lsSql &= " and a.docsubtype_code = b.docsubtype_code and b.delete_flag = 'N' "
-        lsSql &= " inner join sta_mst_tcompany as c on a.comp_gid = c.comp_gid and c.delete_flag = 'N' "
-        lsSql &= " left join sta_trn_tfolio as d on a.folio_gid = d.folio_gid and d.delete_flag = 'N' "
-        lsSql &= " where a.tran_code = 'OT' and a.docsubtype_code in('DM','LS','IE','OT','NA') "
-        'lsSql &= " and a.received_date >= " & Format(dtpFrom.Value, "yyyy-MM-dd") & " and a.received_date <= " & Format(dtpTo.Value, "yyyy-MM-dd") & ""
-        lsSql &= " and a.delete_flag = 'N' "
-        lsSql &= lsCond
-        lsSql &= " group by a.tran_code,a.docsubtype_code "
+        'lsSql &= "Union All"
+        'lsSql &= " select "
+        'lsSql &= "  b.trantype_code as DocType,"
+        'lsSql &= "  b.docsubtype_code as DocSubType,"
+        'lsSql &= " concat(b.trantype_code,' / ',b.docsubtype_desc) as Type,"
+        'lsSql &= " fn_get_inwardopeningbal(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "') as `Opening Bal` ,"
+        'lsSql &= " count(a.tran_code) as Received,"
+        'lsSql &= " fn_get_inwardcompleted(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "','" & Format(dtpTo.Value, "yyyy-MM-dd") & "') as Processed,"
+        'lsSql &= " fn_get_inwardopeningbal(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "') + count(a.tran_code) - fn_get_inwardcompleted(a.tran_code,b.docsubtype_code,'" & Format(dtpFrom.Value, "yyyy-MM-dd") & "','" & Format(dtpTo.Value, "yyyy-MM-dd") & "') as `Closing Bal`"
+        'lsSql &= " from sta_trn_tinward as a "
+        'lsSql &= " inner join sta_mst_tdocsubtype as b on a.tran_code = b.trantype_code "
+        'lsSql &= " and a.docsubtype_code = b.docsubtype_code and b.delete_flag = 'N' "
+        'lsSql &= " inner join sta_mst_tcompany as c on a.comp_gid = c.comp_gid and c.delete_flag = 'N' "
+        'lsSql &= " left join sta_trn_tfolio as d on a.folio_gid = d.folio_gid and d.delete_flag = 'N' "
+        ''lsSql &= " left join sta_trn_tinwarddocsubtype as f on f.trantype_code = 'OT' and f.delete_flag = 'N' "
+        'lsSql &= " where a.tran_code = 'OT'  "
+        ''or a.docsubtype_code in('DM','LS','IE','OT','NA')
+        ''lsSql &= " and a.received_date >= " & Format(dtpFrom.Value, "yyyy-MM-dd") & " and a.received_date <= " & Format(dtpTo.Value, "yyyy-MM-dd") & ""
+        'lsSql &= " and a.delete_flag = 'N' "
+        'lsSql &= lsCond
+        'lsSql &= " group by a.tran_code,a.docsubtype_code "
 
         dgvList.Columns.Clear()
 
         gpPopGridView(dgvList, lsSql, gOdbcConn)
 
-        dgvList.Columns("DocType").Visible = False
-        dgvList.Columns("DocSubType").Visible = False
+        'dgvList.Columns("DocType").Visible = False
+        'dgvList.Columns("DocSubType").Visible = False
 
         With dgvList
             For i = 0 To .ColumnCount - 1

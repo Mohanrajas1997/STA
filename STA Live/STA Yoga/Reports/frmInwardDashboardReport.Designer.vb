@@ -41,7 +41,7 @@ Partial Class frmInwardDashboardReport
         '
         'btnExport
         '
-        Me.btnExport.Location = New System.Drawing.Point(737, 5)
+        Me.btnExport.Location = New System.Drawing.Point(703, 5)
         Me.btnExport.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(88, 25)
@@ -55,7 +55,7 @@ Partial Class frmInwardDashboardReport
         Me.pnlExport.Location = New System.Drawing.Point(17, 343)
         Me.pnlExport.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.pnlExport.Name = "pnlExport"
-        Me.pnlExport.Size = New System.Drawing.Size(844, 35)
+        Me.pnlExport.Size = New System.Drawing.Size(804, 35)
         Me.pnlExport.TabIndex = 5
         '
         'txtTotRec
@@ -75,7 +75,7 @@ Partial Class frmInwardDashboardReport
         '
         'btnClear
         '
-        Me.btnClear.Location = New System.Drawing.Point(641, 7)
+        Me.btnClear.Location = New System.Drawing.Point(575, 3)
         Me.btnClear.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(88, 25)
@@ -96,14 +96,14 @@ Partial Class frmInwardDashboardReport
         Me.pnlSearch.Location = New System.Drawing.Point(17, 13)
         Me.pnlSearch.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.pnlSearch.Name = "pnlSearch"
-        Me.pnlSearch.Size = New System.Drawing.Size(841, 54)
+        Me.pnlSearch.Size = New System.Drawing.Size(775, 43)
         Me.pnlSearch.TabIndex = 3
         '
         'dtpTo
         '
         Me.dtpTo.CustomFormat = "dd-MM-yyyy"
         Me.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpTo.Location = New System.Drawing.Point(369, 9)
+        Me.dtpTo.Location = New System.Drawing.Point(306, 4)
         Me.dtpTo.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.dtpTo.Name = "dtpTo"
         Me.dtpTo.ShowCheckBox = True
@@ -113,10 +113,10 @@ Partial Class frmInwardDashboardReport
         '
         'Label11
         '
-        Me.Label11.Location = New System.Drawing.Point(316, 14)
+        Me.Label11.Location = New System.Drawing.Point(266, 7)
         Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(43, 18)
+        Me.Label11.Size = New System.Drawing.Size(32, 18)
         Me.Label11.TabIndex = 118
         Me.Label11.Text = "To"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -125,7 +125,7 @@ Partial Class frmInwardDashboardReport
         '
         Me.dtpFrom.CustomFormat = "dd-MM-yyyy"
         Me.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpFrom.Location = New System.Drawing.Point(143, 9)
+        Me.dtpFrom.Location = New System.Drawing.Point(93, 4)
         Me.dtpFrom.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.dtpFrom.Name = "dtpFrom"
         Me.dtpFrom.ShowCheckBox = True
@@ -135,17 +135,17 @@ Partial Class frmInwardDashboardReport
         '
         'Label10
         '
-        Me.Label10.Location = New System.Drawing.Point(4, 14)
+        Me.Label10.Location = New System.Drawing.Point(4, 7)
         Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(131, 18)
+        Me.Label10.Size = New System.Drawing.Size(81, 18)
         Me.Label10.TabIndex = 119
         Me.Label10.Text = "Inward From"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'btnClose
         '
-        Me.btnClose.Location = New System.Drawing.Point(736, 7)
+        Me.btnClose.Location = New System.Drawing.Point(670, 3)
         Me.btnClose.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(88, 25)
@@ -155,7 +155,7 @@ Partial Class frmInwardDashboardReport
         '
         'btnRefresh
         '
-        Me.btnRefresh.Location = New System.Drawing.Point(545, 7)
+        Me.btnRefresh.Location = New System.Drawing.Point(479, 3)
         Me.btnRefresh.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.btnRefresh.Name = "btnRefresh"
         Me.btnRefresh.Size = New System.Drawing.Size(88, 25)
@@ -168,24 +168,25 @@ Partial Class frmInwardDashboardReport
         Me.dgvList.AllowUserToAddRows = False
         Me.dgvList.AllowUserToDeleteRows = False
         Me.dgvList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvList.Location = New System.Drawing.Point(17, 73)
+        Me.dgvList.Location = New System.Drawing.Point(17, 62)
         Me.dgvList.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.dgvList.Name = "dgvList"
         Me.dgvList.ReadOnly = True
-        Me.dgvList.Size = New System.Drawing.Size(841, 264)
+        Me.dgvList.Size = New System.Drawing.Size(804, 275)
         Me.dgvList.TabIndex = 4
         '
         'frmInwardDashboardReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(11.0!, 21.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(875, 397)
+        Me.ClientSize = New System.Drawing.Size(834, 397)
         Me.Controls.Add(Me.pnlExport)
         Me.Controls.Add(Me.pnlSearch)
         Me.Controls.Add(Me.dgvList)
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.Margin = New System.Windows.Forms.Padding(4, 3, 4, 3)
         Me.Name = "frmInwardDashboardReport"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Inward Dashboard Report"
         Me.pnlExport.ResumeLayout(False)
         Me.pnlExport.PerformLayout()
