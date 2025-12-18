@@ -186,10 +186,10 @@ Public Class frmLetterOfConfirmation
             shsql &= "i.folio_shares,"
             shsql &= "j.share_count as cert_shares,"
             shsql &= "i.folio_no,"
-            'shsql &= "fn_sta_get_certno(i.folio_gid," & mnInwardId & "," & mnComp_gid & ") as cert_no,"
-            shsql &= "j.cert_no,"
-            'shsql &= "group_concat(concat(k.dist_from," + "' TO '" + ",k.dist_to)) as dist_fromto ,"
-            shsql &= "concat(k.dist_from," + "' TO '" + ",k.dist_to) as dist_fromto ,"
+            shsql &= "fn_sta_get_certno(i.folio_gid," & mnInwardId & "," & mnComp_gid & ") as cert_no,"
+            'shsql &= "j.cert_no,"
+            shsql &= "group_concat(concat(k.dist_from," + "' TO '" + ",k.dist_to)) as dist_fromto ,"
+            'shsql &= "concat(k.dist_from," + "' TO '" + ",k.dist_to) as dist_fromto ,"
             shsql &= "b.inward_comp_no,"
             shsql &= "e.comp_name,"
             shsql &= "b.tran_code, "
@@ -251,7 +251,7 @@ Public Class frmLetterOfConfirmation
                     fileReader = fileReader.Replace("<<company_addr1>>", .Rows(0).Item("address1").ToString)
                     fileReader = fileReader.Replace("<<company_city>>", .Rows(0).Item("city").ToString)
                     fileReader = fileReader.Replace("<<company_pincode>>", .Rows(0).Item("pincode").ToString)
-                    fileReader = fileReader.Replace("<<folio_shares>>", .Rows(0).Item("cert_shares").ToString)
+                    fileReader = fileReader.Replace("<<folio_shares>>", .Rows(0).Item("folio_shares").ToString)
                     fileReader = fileReader.Replace("<<folio_no>>", .Rows(0).Item("folio_no").ToString)
                     fileReader = fileReader.Replace("<<certificate_no>>", .Rows(0).Item("cert_no").ToString)
                     fileReader = fileReader.Replace("<<dist_from>>  TO <<dist_to>>", .Rows(0).Item("dist_fromto").ToString)

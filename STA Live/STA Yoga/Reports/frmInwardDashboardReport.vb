@@ -37,8 +37,8 @@
 
         lsSql = ""
         lsSql &= " select "
-        'lsSql &= "  b.trantype_code as DocType,"
-        'lsSql &= "  '' as DocSubType,"
+        lsSql &= "  b.trantype_code as DocType,"
+        lsSql &= "  '' as DocSubType,"
         lsSql &= "  concat(b.trantype_code,' / ',b.trantype_desc) as Type,"
         lsSql &= " fn_get_inwardopeningbal(a.tran_code,'','" & Format(dtpFrom.Value, "yyyy-MM-dd") & "') as `Opening Bal` ,"
         lsSql &= " count(a.tran_code) as Received,"
@@ -143,7 +143,6 @@
     Private Sub dgvList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvList.CellClick
         ' Ensure the clicked cell is valid and not a header row
         If e.RowIndex < 0 OrElse e.ColumnIndex < 0 Then Exit Sub
-
         Dim lsQry As String = ""
 
         ' Check if the clicked cell corresponds to the "Closing Bal" column

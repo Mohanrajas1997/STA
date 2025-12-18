@@ -142,6 +142,7 @@ Partial Class frmMain
         Me.EVotingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AnnualReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuFolioReport = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FolioSignatureToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CompanyMasterReport = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuCompanyMstVsFolioMstTallyRpt = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem22 = New System.Windows.Forms.ToolStripMenuItem()
@@ -239,7 +240,6 @@ Partial Class frmMain
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.lblStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
-        Me.FolioSignatureToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -963,6 +963,12 @@ Partial Class frmMain
         Me.mnuFolioReport.Size = New System.Drawing.Size(311, 30)
         Me.mnuFolioReport.Text = "Folio"
         '
+        'FolioSignatureToolStripMenuItem
+        '
+        Me.FolioSignatureToolStripMenuItem.Name = "FolioSignatureToolStripMenuItem"
+        Me.FolioSignatureToolStripMenuItem.Size = New System.Drawing.Size(215, 30)
+        Me.FolioSignatureToolStripMenuItem.Text = "Folio Signature"
+        '
         'CompanyMasterReport
         '
         Me.CompanyMasterReport.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCompanyMstVsFolioMstTallyRpt})
@@ -1544,12 +1550,6 @@ Partial Class frmMain
         Me.lblStatus.Name = "lblStatus"
         Me.lblStatus.Size = New System.Drawing.Size(60, 25)
         Me.lblStatus.Text = "Status"
-        '
-        'FolioSignatureToolStripMenuItem
-        '
-        Me.FolioSignatureToolStripMenuItem.Name = "FolioSignatureToolStripMenuItem"
-        Me.FolioSignatureToolStripMenuItem.Size = New System.Drawing.Size(215, 30)
-        Me.FolioSignatureToolStripMenuItem.Text = "Folio Signature"
         '
         'frmMain
         '
