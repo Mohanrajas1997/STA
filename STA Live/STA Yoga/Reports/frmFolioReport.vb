@@ -144,6 +144,8 @@
         lsSql &= " a.witness_addr as 'Witness Addr',"
         lsSql &= " a.repatrition_flag as 'Repatrition Flag',"
         lsSql &= " c.category_name as 'Category',"
+        lsSql &= " e.foliofreeze_flag as 'Folio Freeze Flag',"
+        lsSql &= " e.foliofreeze_remark as 'Folio Freeze Remark',"
         lsSql &= " a.insert_date as 'Insert Date',"
         lsSql &= " a.insert_by as 'Insert By',"
         lsSql &= " a.signature_gid as 'Signature Id',"
@@ -153,6 +155,7 @@
         lsSql &= " inner join sta_mst_tcompany as b on a.comp_gid = b.comp_gid and b.delete_flag = 'N' "
         lsSql &= " left join sta_mst_tcategory as c on a.category_gid = c.category_gid and a.delete_flag = 'N' "
         lsSql &= " left join sta_trn_tfoliobeneficiary as d on a.folio_gid=d.folio_gid and b.comp_gid=d.comp_gid and d.delete_flag='N'"
+        lsSql &= " left join sta_trn_tfoliofreeze as e on a.folio_gid = e.folio_gid and e.delete_flag = 'N' "
         lsSql &= " where true "
         lsSql &= lsCond
         lsSql &= " and a.delete_flag = 'N' "

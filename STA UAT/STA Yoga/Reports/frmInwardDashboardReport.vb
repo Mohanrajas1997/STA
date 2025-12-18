@@ -37,8 +37,8 @@
 
         lsSql = ""
         lsSql &= " select "
-        'lsSql &= "  b.trantype_code as DocType,"
-        'lsSql &= "  '' as DocSubType,"
+        lsSql &= "  b.trantype_code as DocType,"
+        lsSql &= "  '' as DocSubType,"
         lsSql &= "  concat(b.trantype_code,' / ',b.trantype_desc) as Type,"
         lsSql &= " fn_get_inwardopeningbal(a.tran_code,'','" & Format(dtpFrom.Value, "yyyy-MM-dd") & "') as `Opening Bal` ,"
         lsSql &= " count(a.tran_code) as Received,"
