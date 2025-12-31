@@ -110,7 +110,7 @@ Public Class frmCompanyMasterNew
                     EnableSave(False)
                 End If
             Else
-                txtShareQty.Enabled = False
+                'txtShareQty.Enabled = False
                 EnableSave(True)
                 lnkAddAttachment.Enabled = True
             End If
@@ -126,7 +126,7 @@ Public Class frmCompanyMasterNew
             SearchDialog = New frmSearch(gOdbcConn, "select comp_gid as 'Comp Id',entity_gid as 'Entity Id',compgrp_gid as 'Comp Group Id',compsubgrp_gid as 'Comp Subgrp Id'," &
             "comp_code as 'Company Code',comp_short_code as 'Company Short Code',comp_name as 'Company Name'," &
             "isin_id as 'Isin Id',folio_no_format as 'Folio No Format',folio_prefix_flag as 'Folio Prefix Flag',folio_prefix_sno_flag as 'Folio Prefix Slno Flag',electronics_flag as 'Electronics Flag', " &
-            "folio_prefix as 'Folio Prefix',folio_prefix_field as 'Folio Prefix Field',start_date as 'Start Date',maturity_date as 'Maturity Date',depository_code as 'Depository Code', " &
+            "folio_prefix as 'Folio Prefix',folio_prefix_field as 'Folio Prefix Field',ifnull(start_date,'00-00-0000') as 'Start Date',ifnull(maturity_date,'00-00-0000') as 'Maturity Date',depository_code as 'Depository Code', " &
             "comp_listed as 'Comp Listed',active_flag as 'Active Flag',(share_qty * paid_up_value) as 'Share Capital',share_type as 'Security Type',cin_no as 'Cin No', " &
             "pan_no as 'Pan No',share_qty as 'Share Quantity',paid_up_value as 'Paid Up Value',address1 as Address1,address2 as Address2,address3 as Address3,city as City,state as State,country as Country, pincode as Pincode FROM sta_mst_tcompany ",
             "comp_gid,entity_gid,compgrp_gid,compsubgrp_gid,comp_code,comp_short_code,comp_name,isin_id,folio_no_format,folio_prefix_flag,folio_prefix_sno_flag,folio_prefix,folio_prefix_field,folio_prefix_length,upload_sno,folio_sno,transfer_sno,cert_sno,objx_sno,inward_sno,comp_listed,active_flag,share_captial," &
@@ -156,10 +156,9 @@ Public Class frmCompanyMasterNew
 
         Try
             lobjDataReader = gfExecuteQry(SqlStr, gOdbcConn)
-
             If lobjDataReader.HasRows Then
                 If lobjDataReader.Read Then
-                    txtShareQty.Enabled = False
+                    'txtShareQty.Enabled = False
                     txtid.Text = lobjDataReader.Item("comp_gid").ToString
 
                     lsCboCompGrp = lobjDataReader.Item("compgrp_gid").ToString
@@ -246,11 +245,23 @@ Public Class frmCompanyMasterNew
                     ElseIf lsElectronicsFlag.ToString = "N" Then
                         rb_electronics_no.Checked = True
                     End If
+
+                    'Enable disable share qty
+                    If Val(lobjDataReader.Item("share_qty")) = 0 Then
+                        txtShareQty.Enabled = True
+                    Else
+                        txtShareQty.Enabled = False
+                    End If
+                    'Enable disable paid up value
+                    If Val(lobjDataReader.Item("paid_up_value")) = 0 Then
+                        txtPaidupValue.Enabled = True
+                    Else
+                        txtPaidupValue.Enabled = False
+                    End If
                 End If
             End If
 
             lobjDataReader.Close()
-
             If Val(cboCompGrp.SelectedValue) > 0 Then
                 Dim lsSql As String
                 ' Company Sub Grp Name
@@ -332,6 +343,7 @@ Public Class frmCompanyMasterNew
             'lsCertSno = QuoteFilter(txtContactNo.Text)
             'lsObjxSno = QuoteFilter(txtContactPerson.Text)
             'lsInwardSno = QuoteFilter(txtEmailID.Text)
+
             lsFolioPrefix = 0
             lsFolioPrefixField = 0
             lsUploadSno = 1
@@ -487,12 +499,12 @@ Public Class frmCompanyMasterNew
             End Using
 
             Call ClearControl()
-
-            If MsgBox("Do you want to add another record ?", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton1 + MsgBoxStyle.Question, gsProjectName) = MsgBoxResult.Yes Then
-                btnNew.PerformClick()
-            Else
-                Call EnableSave(False)
-            End If
+            Call EnableSave(False)
+            'If MsgBox("Do you want to add another record ?", MsgBoxStyle.YesNo + MsgBoxStyle.DefaultButton1 + MsgBoxStyle.Question, gsProjectName) = MsgBoxResult.Yes Then
+            '    btnNew.PerformClick()
+            'Else
+            '    Call EnableSave(False)
+            'End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Information, gsProjectName)
         End Try
@@ -743,6 +755,7 @@ Public Class frmCompanyMasterNew
         lsSql &= " order by compSubgrp_name asc "
 
         Call gpBindCombo(lsSql, "compsubgrp_name", "compsubgrp_gid", cboCompSubgrp, gOdbcConn)
+
     End Sub
 
     Private Sub btnAddGrp_Click(sender As Object, e As EventArgs) Handles btnAddGrp.Click
