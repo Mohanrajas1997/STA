@@ -191,8 +191,8 @@ Partial Class frmCompanyMasterNew
         Me.pnlMain.Location = New System.Drawing.Point(9, 11)
         Me.pnlMain.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.pnlMain.Name = "pnlMain"
-        Me.pnlMain.Size = New System.Drawing.Size(802, 834)
-        Me.pnlMain.TabIndex = 0
+        Me.pnlMain.Size = New System.Drawing.Size(802, 830)
+        Me.pnlMain.TabIndex = 1
         '
         'btnAddSubgrp
         '
@@ -202,7 +202,7 @@ Partial Class frmCompanyMasterNew
         Me.btnAddSubgrp.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnAddSubgrp.Name = "btnAddSubgrp"
         Me.btnAddSubgrp.Size = New System.Drawing.Size(108, 37)
-        Me.btnAddSubgrp.TabIndex = 177
+        Me.btnAddSubgrp.TabIndex = 178
         Me.btnAddSubgrp.Text = "&Add"
         Me.btnAddSubgrp.UseVisualStyleBackColor = True
         '
@@ -214,14 +214,14 @@ Partial Class frmCompanyMasterNew
         Me.btnAddGrp.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnAddGrp.Name = "btnAddGrp"
         Me.btnAddGrp.Size = New System.Drawing.Size(108, 37)
-        Me.btnAddGrp.TabIndex = 176
+        Me.btnAddGrp.TabIndex = 177
         Me.btnAddGrp.Text = "&Add"
         Me.btnAddGrp.UseVisualStyleBackColor = True
         '
         'cboCompSubgrp
         '
         Me.cboCompSubgrp.FormattingEnabled = True
-        Me.cboCompSubgrp.Location = New System.Drawing.Point(207, 139)
+        Me.cboCompSubgrp.Location = New System.Drawing.Point(205, 139)
         Me.cboCompSubgrp.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.cboCompSubgrp.Name = "cboCompSubgrp"
         Me.cboCompSubgrp.Size = New System.Drawing.Size(463, 29)
@@ -234,14 +234,14 @@ Partial Class frmCompanyMasterNew
         Me.lblCompSubgrpName.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblCompSubgrpName.Name = "lblCompSubgrpName"
         Me.lblCompSubgrpName.Size = New System.Drawing.Size(187, 23)
-        Me.lblCompSubgrpName.TabIndex = 175
+        Me.lblCompSubgrpName.TabIndex = 171
         Me.lblCompSubgrpName.Text = "Comp SubGrp Name"
         Me.lblCompSubgrpName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'cboCompGrp
         '
         Me.cboCompGrp.FormattingEnabled = True
-        Me.cboCompGrp.Location = New System.Drawing.Point(206, 96)
+        Me.cboCompGrp.Location = New System.Drawing.Point(204, 96)
         Me.cboCompGrp.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.cboCompGrp.Name = "cboCompGrp"
         Me.cboCompGrp.Size = New System.Drawing.Size(463, 29)
@@ -254,43 +254,44 @@ Partial Class frmCompanyMasterNew
         Me.lblCompGrpName.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblCompGrpName.Name = "lblCompGrpName"
         Me.lblCompGrpName.Size = New System.Drawing.Size(182, 23)
-        Me.lblCompGrpName.TabIndex = 174
+        Me.lblCompGrpName.TabIndex = 169
         Me.lblCompGrpName.Text = "Comp Group Name"
         Me.lblCompGrpName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'cboDepositoryType
         '
+        Me.cboDepositoryType.Enabled = False
         Me.cboDepositoryType.FormattingEnabled = True
-        Me.cboDepositoryType.Location = New System.Drawing.Point(202, 775)
+        Me.cboDepositoryType.Location = New System.Drawing.Point(205, 772)
         Me.cboDepositoryType.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.cboDepositoryType.Name = "cboDepositoryType"
         Me.cboDepositoryType.Size = New System.Drawing.Size(181, 29)
-        Me.cboDepositoryType.TabIndex = 26
+        Me.cboDepositoryType.TabIndex = 30
         '
         'lblDepositoryCode
         '
         Me.lblDepositoryCode.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblDepositoryCode.Location = New System.Drawing.Point(36, 778)
+        Me.lblDepositoryCode.Location = New System.Drawing.Point(36, 775)
         Me.lblDepositoryCode.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblDepositoryCode.Name = "lblDepositoryCode"
         Me.lblDepositoryCode.Size = New System.Drawing.Size(152, 23)
-        Me.lblDepositoryCode.TabIndex = 169
+        Me.lblDepositoryCode.TabIndex = 167
         Me.lblDepositoryCode.Text = "Depository Type"
         Me.lblDepositoryCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtPanNo
         '
-        Me.txtPanNo.Location = New System.Drawing.Point(600, 269)
+        Me.txtPanNo.Location = New System.Drawing.Point(600, 266)
         Me.txtPanNo.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtPanNo.MaxLength = 10
         Me.txtPanNo.Name = "txtPanNo"
         Me.txtPanNo.Size = New System.Drawing.Size(181, 27)
-        Me.txtPanNo.TabIndex = 8
+        Me.txtPanNo.TabIndex = 10
         '
         'lblPanNo
         '
         Me.lblPanNo.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblPanNo.Location = New System.Drawing.Point(428, 272)
+        Me.lblPanNo.Location = New System.Drawing.Point(427, 269)
         Me.lblPanNo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblPanNo.Name = "lblPanNo"
         Me.lblPanNo.Size = New System.Drawing.Size(152, 23)
@@ -300,17 +301,18 @@ Partial Class frmCompanyMasterNew
         '
         'txtCinNo
         '
-        Me.txtCinNo.Location = New System.Drawing.Point(206, 269)
+        Me.txtCinNo.Enabled = False
+        Me.txtCinNo.Location = New System.Drawing.Point(206, 266)
         Me.txtCinNo.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtCinNo.MaxLength = 21
         Me.txtCinNo.Name = "txtCinNo"
         Me.txtCinNo.Size = New System.Drawing.Size(181, 27)
-        Me.txtCinNo.TabIndex = 7
+        Me.txtCinNo.TabIndex = 9
         '
         'lblcin_no
         '
         Me.lblcin_no.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblcin_no.Location = New System.Drawing.Point(36, 272)
+        Me.lblcin_no.Location = New System.Drawing.Point(36, 269)
         Me.lblcin_no.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblcin_no.Name = "lblcin_no"
         Me.lblcin_no.Size = New System.Drawing.Size(152, 23)
@@ -322,18 +324,18 @@ Partial Class frmCompanyMasterNew
         '
         Me.dtpMaturityDate.CustomFormat = "dd-MM-yyyy"
         Me.dtpMaturityDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpMaturityDate.Location = New System.Drawing.Point(598, 524)
+        Me.dtpMaturityDate.Location = New System.Drawing.Point(598, 521)
         Me.dtpMaturityDate.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.dtpMaturityDate.Name = "dtpMaturityDate"
         Me.dtpMaturityDate.ShowCheckBox = True
         Me.dtpMaturityDate.Size = New System.Drawing.Size(181, 27)
-        Me.dtpMaturityDate.TabIndex = 20
+        Me.dtpMaturityDate.TabIndex = 22
         Me.dtpMaturityDate.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
         'lblTodate
         '
         Me.lblTodate.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblTodate.Location = New System.Drawing.Point(444, 529)
+        Me.lblTodate.Location = New System.Drawing.Point(443, 526)
         Me.lblTodate.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblTodate.Name = "lblTodate"
         Me.lblTodate.Size = New System.Drawing.Size(136, 20)
@@ -344,17 +346,18 @@ Partial Class frmCompanyMasterNew
         'dtpStartDate
         '
         Me.dtpStartDate.CustomFormat = "dd-MM-yyyy"
+        Me.dtpStartDate.Enabled = False
         Me.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpStartDate.Location = New System.Drawing.Point(202, 524)
+        Me.dtpStartDate.Location = New System.Drawing.Point(202, 521)
         Me.dtpStartDate.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.dtpStartDate.Name = "dtpStartDate"
         Me.dtpStartDate.Size = New System.Drawing.Size(181, 27)
-        Me.dtpStartDate.TabIndex = 19
+        Me.dtpStartDate.TabIndex = 21
         '
         'lblStartdate
         '
         Me.lblStartdate.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblStartdate.Location = New System.Drawing.Point(52, 529)
+        Me.lblStartdate.Location = New System.Drawing.Point(52, 526)
         Me.lblStartdate.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblStartdate.Name = "lblStartdate"
         Me.lblStartdate.Size = New System.Drawing.Size(136, 20)
@@ -364,22 +367,23 @@ Partial Class frmCompanyMasterNew
         '
         'cboSecurityType
         '
+        Me.cboSecurityType.Enabled = False
         Me.cboSecurityType.FormattingEnabled = True
-        Me.cboSecurityType.Location = New System.Drawing.Point(600, 483)
+        Me.cboSecurityType.Location = New System.Drawing.Point(600, 480)
         Me.cboSecurityType.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.cboSecurityType.Name = "cboSecurityType"
         Me.cboSecurityType.Size = New System.Drawing.Size(181, 29)
-        Me.cboSecurityType.TabIndex = 18
+        Me.cboSecurityType.TabIndex = 20
         '
         'lnkAddAttachment
         '
         Me.lnkAddAttachment.AutoSize = True
         Me.lnkAddAttachment.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lnkAddAttachment.Location = New System.Drawing.Point(630, 780)
+        Me.lnkAddAttachment.Location = New System.Drawing.Point(630, 777)
         Me.lnkAddAttachment.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lnkAddAttachment.Name = "lnkAddAttachment"
         Me.lnkAddAttachment.Size = New System.Drawing.Size(149, 21)
-        Me.lnkAddAttachment.TabIndex = 29
+        Me.lnkAddAttachment.TabIndex = 31
         Me.lnkAddAttachment.TabStop = True
         Me.lnkAddAttachment.Text = "Add Attachment"
         '
@@ -389,11 +393,11 @@ Partial Class frmCompanyMasterNew
         Me.pnlElectronics.Controls.Add(Me.rb_electronics_no)
         Me.pnlElectronics.Controls.Add(Me.rb_electronics_yes)
         Me.pnlElectronics.Enabled = False
-        Me.pnlElectronics.Location = New System.Drawing.Point(598, 354)
+        Me.pnlElectronics.Location = New System.Drawing.Point(598, 351)
         Me.pnlElectronics.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.pnlElectronics.Name = "pnlElectronics"
         Me.pnlElectronics.Size = New System.Drawing.Size(182, 34)
-        Me.pnlElectronics.TabIndex = 12
+        Me.pnlElectronics.TabIndex = 14
         '
         'rb_electronics_no
         '
@@ -403,7 +407,7 @@ Partial Class frmCompanyMasterNew
         Me.rb_electronics_no.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rb_electronics_no.Name = "rb_electronics_no"
         Me.rb_electronics_no.Size = New System.Drawing.Size(59, 25)
-        Me.rb_electronics_no.TabIndex = 120
+        Me.rb_electronics_no.TabIndex = 1
         Me.rb_electronics_no.TabStop = True
         Me.rb_electronics_no.Text = "No"
         Me.rb_electronics_no.UseVisualStyleBackColor = True
@@ -415,14 +419,14 @@ Partial Class frmCompanyMasterNew
         Me.rb_electronics_yes.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.rb_electronics_yes.Name = "rb_electronics_yes"
         Me.rb_electronics_yes.Size = New System.Drawing.Size(65, 25)
-        Me.rb_electronics_yes.TabIndex = 119
+        Me.rb_electronics_yes.TabIndex = 0
         Me.rb_electronics_yes.Text = "Yes"
         Me.rb_electronics_yes.UseVisualStyleBackColor = True
         '
         'Label1
         '
         Me.Label1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label1.Location = New System.Drawing.Point(433, 355)
+        Me.Label1.Location = New System.Drawing.Point(432, 352)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(147, 23)
@@ -432,17 +436,18 @@ Partial Class frmCompanyMasterNew
         '
         'txtPincode
         '
-        Me.txtPincode.Location = New System.Drawing.Point(598, 737)
+        Me.txtPincode.Enabled = False
+        Me.txtPincode.Location = New System.Drawing.Point(598, 734)
         Me.txtPincode.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtPincode.MaxLength = 6
         Me.txtPincode.Name = "txtPincode"
         Me.txtPincode.Size = New System.Drawing.Size(181, 27)
-        Me.txtPincode.TabIndex = 28
+        Me.txtPincode.TabIndex = 29
         '
         'lblPincode
         '
         Me.lblPincode.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblPincode.Location = New System.Drawing.Point(428, 740)
+        Me.lblPincode.Location = New System.Drawing.Point(427, 737)
         Me.lblPincode.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblPincode.Name = "lblPincode"
         Me.lblPincode.Size = New System.Drawing.Size(152, 23)
@@ -452,17 +457,18 @@ Partial Class frmCompanyMasterNew
         '
         'txtCountry
         '
-        Me.txtCountry.Location = New System.Drawing.Point(204, 737)
+        Me.txtCountry.Enabled = False
+        Me.txtCountry.Location = New System.Drawing.Point(204, 734)
         Me.txtCountry.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtCountry.MaxLength = 64
         Me.txtCountry.Name = "txtCountry"
         Me.txtCountry.Size = New System.Drawing.Size(181, 27)
-        Me.txtCountry.TabIndex = 25
+        Me.txtCountry.TabIndex = 28
         '
         'lblCountry
         '
         Me.lblCountry.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblCountry.Location = New System.Drawing.Point(36, 740)
+        Me.lblCountry.Location = New System.Drawing.Point(36, 737)
         Me.lblCountry.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblCountry.Name = "lblCountry"
         Me.lblCountry.Size = New System.Drawing.Size(152, 23)
@@ -472,7 +478,8 @@ Partial Class frmCompanyMasterNew
         '
         'txtState
         '
-        Me.txtState.Location = New System.Drawing.Point(598, 695)
+        Me.txtState.Enabled = False
+        Me.txtState.Location = New System.Drawing.Point(598, 692)
         Me.txtState.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtState.MaxLength = 64
         Me.txtState.Name = "txtState"
@@ -482,7 +489,7 @@ Partial Class frmCompanyMasterNew
         'lblState
         '
         Me.lblState.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblState.Location = New System.Drawing.Point(427, 698)
+        Me.lblState.Location = New System.Drawing.Point(426, 695)
         Me.lblState.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblState.Name = "lblState"
         Me.lblState.Size = New System.Drawing.Size(152, 23)
@@ -492,17 +499,18 @@ Partial Class frmCompanyMasterNew
         '
         'txtCity
         '
-        Me.txtCity.Location = New System.Drawing.Point(204, 695)
+        Me.txtCity.Enabled = False
+        Me.txtCity.Location = New System.Drawing.Point(204, 692)
         Me.txtCity.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtCity.MaxLength = 64
         Me.txtCity.Name = "txtCity"
         Me.txtCity.Size = New System.Drawing.Size(181, 27)
-        Me.txtCity.TabIndex = 24
+        Me.txtCity.TabIndex = 26
         '
         'lblCity
         '
         Me.lblCity.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblCity.Location = New System.Drawing.Point(36, 698)
+        Me.lblCity.Location = New System.Drawing.Point(36, 695)
         Me.lblCity.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblCity.Name = "lblCity"
         Me.lblCity.Size = New System.Drawing.Size(152, 23)
@@ -512,18 +520,19 @@ Partial Class frmCompanyMasterNew
         '
         'txtAddress3
         '
-        Me.txtAddress3.Location = New System.Drawing.Point(204, 654)
+        Me.txtAddress3.Enabled = False
+        Me.txtAddress3.Location = New System.Drawing.Point(204, 651)
         Me.txtAddress3.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtAddress3.MaxLength = 256
         Me.txtAddress3.Multiline = True
         Me.txtAddress3.Name = "txtAddress3"
         Me.txtAddress3.Size = New System.Drawing.Size(576, 30)
-        Me.txtAddress3.TabIndex = 23
+        Me.txtAddress3.TabIndex = 25
         '
         'lblAddress3
         '
         Me.lblAddress3.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblAddress3.Location = New System.Drawing.Point(36, 657)
+        Me.lblAddress3.Location = New System.Drawing.Point(36, 654)
         Me.lblAddress3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblAddress3.Name = "lblAddress3"
         Me.lblAddress3.Size = New System.Drawing.Size(152, 23)
@@ -533,18 +542,19 @@ Partial Class frmCompanyMasterNew
         '
         'txtAddress2
         '
-        Me.txtAddress2.Location = New System.Drawing.Point(204, 609)
+        Me.txtAddress2.Enabled = False
+        Me.txtAddress2.Location = New System.Drawing.Point(204, 606)
         Me.txtAddress2.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtAddress2.MaxLength = 256
         Me.txtAddress2.Multiline = True
         Me.txtAddress2.Name = "txtAddress2"
         Me.txtAddress2.Size = New System.Drawing.Size(576, 30)
-        Me.txtAddress2.TabIndex = 22
+        Me.txtAddress2.TabIndex = 24
         '
         'lblAddress2
         '
         Me.lblAddress2.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblAddress2.Location = New System.Drawing.Point(36, 612)
+        Me.lblAddress2.Location = New System.Drawing.Point(36, 609)
         Me.lblAddress2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblAddress2.Name = "lblAddress2"
         Me.lblAddress2.Size = New System.Drawing.Size(152, 23)
@@ -554,18 +564,19 @@ Partial Class frmCompanyMasterNew
         '
         'txtAddress1
         '
-        Me.txtAddress1.Location = New System.Drawing.Point(204, 568)
+        Me.txtAddress1.Enabled = False
+        Me.txtAddress1.Location = New System.Drawing.Point(204, 565)
         Me.txtAddress1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtAddress1.MaxLength = 256
         Me.txtAddress1.Multiline = True
         Me.txtAddress1.Name = "txtAddress1"
         Me.txtAddress1.Size = New System.Drawing.Size(576, 30)
-        Me.txtAddress1.TabIndex = 21
+        Me.txtAddress1.TabIndex = 23
         '
         'lblAddress1
         '
         Me.lblAddress1.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblAddress1.Location = New System.Drawing.Point(36, 571)
+        Me.lblAddress1.Location = New System.Drawing.Point(36, 568)
         Me.lblAddress1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblAddress1.Name = "lblAddress1"
         Me.lblAddress1.Size = New System.Drawing.Size(152, 23)
@@ -575,17 +586,17 @@ Partial Class frmCompanyMasterNew
         '
         'txtPaidupValue
         '
-        Me.txtPaidupValue.Location = New System.Drawing.Point(600, 441)
+        Me.txtPaidupValue.Location = New System.Drawing.Point(600, 438)
         Me.txtPaidupValue.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtPaidupValue.MaxLength = 64
         Me.txtPaidupValue.Name = "txtPaidupValue"
         Me.txtPaidupValue.Size = New System.Drawing.Size(181, 27)
-        Me.txtPaidupValue.TabIndex = 16
+        Me.txtPaidupValue.TabIndex = 18
         '
         'lblPaidupValue
         '
         Me.lblPaidupValue.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblPaidupValue.Location = New System.Drawing.Point(428, 444)
+        Me.lblPaidupValue.Location = New System.Drawing.Point(427, 441)
         Me.lblPaidupValue.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblPaidupValue.Name = "lblPaidupValue"
         Me.lblPaidupValue.Size = New System.Drawing.Size(152, 23)
@@ -595,17 +606,17 @@ Partial Class frmCompanyMasterNew
         '
         'txtShareQty
         '
-        Me.txtShareQty.Location = New System.Drawing.Point(206, 441)
+        Me.txtShareQty.Location = New System.Drawing.Point(206, 438)
         Me.txtShareQty.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtShareQty.MaxLength = 64
         Me.txtShareQty.Name = "txtShareQty"
         Me.txtShareQty.Size = New System.Drawing.Size(181, 27)
-        Me.txtShareQty.TabIndex = 15
+        Me.txtShareQty.TabIndex = 17
         '
         'lblShareQty
         '
         Me.lblShareQty.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblShareQty.Location = New System.Drawing.Point(36, 444)
+        Me.lblShareQty.Location = New System.Drawing.Point(36, 441)
         Me.lblShareQty.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblShareQty.Name = "lblShareQty"
         Me.lblShareQty.Size = New System.Drawing.Size(152, 23)
@@ -616,7 +627,7 @@ Partial Class frmCompanyMasterNew
         'lblSecurityType
         '
         Me.lblSecurityType.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblSecurityType.Location = New System.Drawing.Point(428, 486)
+        Me.lblSecurityType.Location = New System.Drawing.Point(427, 483)
         Me.lblSecurityType.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblSecurityType.Name = "lblSecurityType"
         Me.lblSecurityType.Size = New System.Drawing.Size(152, 23)
@@ -629,12 +640,11 @@ Partial Class frmCompanyMasterNew
         Me.pnlPrefixsno.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.pnlPrefixsno.Controls.Add(Me.RbdprefixSnoNo)
         Me.pnlPrefixsno.Controls.Add(Me.RbdprefixSnoYes)
-        Me.pnlPrefixsno.Enabled = False
-        Me.pnlPrefixsno.Location = New System.Drawing.Point(600, 223)
+        Me.pnlPrefixsno.Location = New System.Drawing.Point(600, 220)
         Me.pnlPrefixsno.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.pnlPrefixsno.Name = "pnlPrefixsno"
         Me.pnlPrefixsno.Size = New System.Drawing.Size(182, 34)
-        Me.pnlPrefixsno.TabIndex = 129
+        Me.pnlPrefixsno.TabIndex = 8
         '
         'RbdprefixSnoNo
         '
@@ -643,7 +653,7 @@ Partial Class frmCompanyMasterNew
         Me.RbdprefixSnoNo.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.RbdprefixSnoNo.Name = "RbdprefixSnoNo"
         Me.RbdprefixSnoNo.Size = New System.Drawing.Size(59, 25)
-        Me.RbdprefixSnoNo.TabIndex = 122
+        Me.RbdprefixSnoNo.TabIndex = 1
         Me.RbdprefixSnoNo.Text = "No"
         Me.RbdprefixSnoNo.UseVisualStyleBackColor = True
         '
@@ -665,11 +675,11 @@ Partial Class frmCompanyMasterNew
         Me.pnlPrefix.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.pnlPrefix.Controls.Add(Me.RbdprefixNo)
         Me.pnlPrefix.Controls.Add(Me.RbdprefixYes)
-        Me.pnlPrefix.Location = New System.Drawing.Point(206, 224)
+        Me.pnlPrefix.Location = New System.Drawing.Point(206, 221)
         Me.pnlPrefix.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.pnlPrefix.Name = "pnlPrefix"
         Me.pnlPrefix.Size = New System.Drawing.Size(182, 34)
-        Me.pnlPrefix.TabIndex = 127
+        Me.pnlPrefix.TabIndex = 7
         '
         'RbdprefixNo
         '
@@ -678,7 +688,7 @@ Partial Class frmCompanyMasterNew
         Me.RbdprefixNo.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.RbdprefixNo.Name = "RbdprefixNo"
         Me.RbdprefixNo.Size = New System.Drawing.Size(59, 25)
-        Me.RbdprefixNo.TabIndex = 120
+        Me.RbdprefixNo.TabIndex = 1
         Me.RbdprefixNo.TabStop = True
         Me.RbdprefixNo.Text = "No"
         Me.RbdprefixNo.UseVisualStyleBackColor = True
@@ -701,11 +711,12 @@ Partial Class frmCompanyMasterNew
         Me.pnlComp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.pnlComp.Controls.Add(Me.RbdCompYes)
         Me.pnlComp.Controls.Add(Me.RbdCompNo)
-        Me.pnlComp.Location = New System.Drawing.Point(206, 397)
+        Me.pnlComp.Enabled = False
+        Me.pnlComp.Location = New System.Drawing.Point(206, 394)
         Me.pnlComp.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.pnlComp.Name = "pnlComp"
         Me.pnlComp.Size = New System.Drawing.Size(182, 34)
-        Me.pnlComp.TabIndex = 13
+        Me.pnlComp.TabIndex = 15
         '
         'RbdCompYes
         '
@@ -714,7 +725,7 @@ Partial Class frmCompanyMasterNew
         Me.RbdCompYes.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.RbdCompYes.Name = "RbdCompYes"
         Me.RbdCompYes.Size = New System.Drawing.Size(65, 25)
-        Me.RbdCompYes.TabIndex = 123
+        Me.RbdCompYes.TabIndex = 0
         Me.RbdCompYes.Text = "Yes"
         Me.RbdCompYes.UseVisualStyleBackColor = True
         '
@@ -726,7 +737,7 @@ Partial Class frmCompanyMasterNew
         Me.RbdCompNo.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.RbdCompNo.Name = "RbdCompNo"
         Me.RbdCompNo.Size = New System.Drawing.Size(59, 25)
-        Me.RbdCompNo.TabIndex = 124
+        Me.RbdCompNo.TabIndex = 1
         Me.RbdCompNo.TabStop = True
         Me.RbdCompNo.Text = "No"
         Me.RbdCompNo.UseVisualStyleBackColor = True
@@ -736,11 +747,11 @@ Partial Class frmCompanyMasterNew
         Me.pnlAct1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.pnlAct1.Controls.Add(Me.Rbdactiveyes)
         Me.pnlAct1.Controls.Add(Me.RbdActiveNo)
-        Me.pnlAct1.Location = New System.Drawing.Point(600, 397)
+        Me.pnlAct1.Location = New System.Drawing.Point(600, 394)
         Me.pnlAct1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.pnlAct1.Name = "pnlAct1"
         Me.pnlAct1.Size = New System.Drawing.Size(182, 34)
-        Me.pnlAct1.TabIndex = 14
+        Me.pnlAct1.TabIndex = 16
         '
         'Rbdactiveyes
         '
@@ -750,7 +761,7 @@ Partial Class frmCompanyMasterNew
         Me.Rbdactiveyes.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.Rbdactiveyes.Name = "Rbdactiveyes"
         Me.Rbdactiveyes.Size = New System.Drawing.Size(65, 25)
-        Me.Rbdactiveyes.TabIndex = 11
+        Me.Rbdactiveyes.TabIndex = 0
         Me.Rbdactiveyes.TabStop = True
         Me.Rbdactiveyes.Text = "Yes"
         Me.Rbdactiveyes.UseVisualStyleBackColor = True
@@ -762,14 +773,14 @@ Partial Class frmCompanyMasterNew
         Me.RbdActiveNo.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.RbdActiveNo.Name = "RbdActiveNo"
         Me.RbdActiveNo.Size = New System.Drawing.Size(59, 25)
-        Me.RbdActiveNo.TabIndex = 12
+        Me.RbdActiveNo.TabIndex = 1
         Me.RbdActiveNo.Text = "No"
         Me.RbdActiveNo.UseVisualStyleBackColor = True
         '
         'lblActiveFlag
         '
         Me.lblActiveFlag.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblActiveFlag.Location = New System.Drawing.Point(464, 404)
+        Me.lblActiveFlag.Location = New System.Drawing.Point(463, 401)
         Me.lblActiveFlag.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblActiveFlag.Name = "lblActiveFlag"
         Me.lblActiveFlag.Size = New System.Drawing.Size(116, 20)
@@ -789,17 +800,17 @@ Partial Class frmCompanyMasterNew
         'txtShareCapital
         '
         Me.txtShareCapital.Enabled = False
-        Me.txtShareCapital.Location = New System.Drawing.Point(204, 483)
+        Me.txtShareCapital.Location = New System.Drawing.Point(204, 480)
         Me.txtShareCapital.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtShareCapital.MaxLength = 64
         Me.txtShareCapital.Name = "txtShareCapital"
         Me.txtShareCapital.Size = New System.Drawing.Size(181, 27)
-        Me.txtShareCapital.TabIndex = 17
+        Me.txtShareCapital.TabIndex = 19
         '
         'lblShareCapital
         '
         Me.lblShareCapital.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblShareCapital.Location = New System.Drawing.Point(36, 486)
+        Me.lblShareCapital.Location = New System.Drawing.Point(36, 483)
         Me.lblShareCapital.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblShareCapital.Name = "lblShareCapital"
         Me.lblShareCapital.Size = New System.Drawing.Size(152, 23)
@@ -810,7 +821,7 @@ Partial Class frmCompanyMasterNew
         'lblCompList
         '
         Me.lblCompList.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblCompList.Location = New System.Drawing.Point(41, 401)
+        Me.lblCompList.Location = New System.Drawing.Point(41, 398)
         Me.lblCompList.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblCompList.Name = "lblCompList"
         Me.lblCompList.Size = New System.Drawing.Size(147, 23)
@@ -820,17 +831,18 @@ Partial Class frmCompanyMasterNew
         '
         'txtEmailID
         '
-        Me.txtEmailID.Location = New System.Drawing.Point(600, 311)
+        Me.txtEmailID.Enabled = False
+        Me.txtEmailID.Location = New System.Drawing.Point(600, 308)
         Me.txtEmailID.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtEmailID.MaxLength = 64
         Me.txtEmailID.Name = "txtEmailID"
         Me.txtEmailID.Size = New System.Drawing.Size(181, 27)
-        Me.txtEmailID.TabIndex = 10
+        Me.txtEmailID.TabIndex = 12
         '
         'lblEmailId
         '
         Me.lblEmailId.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblEmailId.Location = New System.Drawing.Point(411, 315)
+        Me.lblEmailId.Location = New System.Drawing.Point(411, 312)
         Me.lblEmailId.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblEmailId.Name = "lblEmailId"
         Me.lblEmailId.Size = New System.Drawing.Size(168, 20)
@@ -841,17 +853,18 @@ Partial Class frmCompanyMasterNew
         '
         'txtContactPerson
         '
-        Me.txtContactPerson.Location = New System.Drawing.Point(206, 312)
+        Me.txtContactPerson.Enabled = False
+        Me.txtContactPerson.Location = New System.Drawing.Point(206, 309)
         Me.txtContactPerson.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtContactPerson.MaxLength = 64
         Me.txtContactPerson.Name = "txtContactPerson"
         Me.txtContactPerson.Size = New System.Drawing.Size(181, 27)
-        Me.txtContactPerson.TabIndex = 9
+        Me.txtContactPerson.TabIndex = 11
         '
         'lblContactPerson
         '
         Me.lblContactPerson.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblContactPerson.Location = New System.Drawing.Point(41, 312)
+        Me.lblContactPerson.Location = New System.Drawing.Point(41, 309)
         Me.lblContactPerson.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblContactPerson.Name = "lblContactPerson"
         Me.lblContactPerson.Size = New System.Drawing.Size(147, 23)
@@ -861,17 +874,18 @@ Partial Class frmCompanyMasterNew
         '
         'txtContactNo
         '
-        Me.txtContactNo.Location = New System.Drawing.Point(206, 354)
+        Me.txtContactNo.Enabled = False
+        Me.txtContactNo.Location = New System.Drawing.Point(206, 351)
         Me.txtContactNo.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtContactNo.MaxLength = 64
         Me.txtContactNo.Name = "txtContactNo"
         Me.txtContactNo.Size = New System.Drawing.Size(181, 27)
-        Me.txtContactNo.TabIndex = 11
+        Me.txtContactNo.TabIndex = 13
         '
         'lblContactNo
         '
         Me.lblContactNo.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblContactNo.Location = New System.Drawing.Point(20, 358)
+        Me.lblContactNo.Location = New System.Drawing.Point(20, 355)
         Me.lblContactNo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblContactNo.Name = "lblContactNo"
         Me.lblContactNo.Size = New System.Drawing.Size(168, 20)
@@ -883,7 +897,7 @@ Partial Class frmCompanyMasterNew
         'lblFolioPrefixSnoFlag
         '
         Me.lblFolioPrefixSnoFlag.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblFolioPrefixSnoFlag.Location = New System.Drawing.Point(385, 231)
+        Me.lblFolioPrefixSnoFlag.Location = New System.Drawing.Point(384, 228)
         Me.lblFolioPrefixSnoFlag.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblFolioPrefixSnoFlag.Name = "lblFolioPrefixSnoFlag"
         Me.lblFolioPrefixSnoFlag.Size = New System.Drawing.Size(194, 20)
@@ -895,7 +909,7 @@ Partial Class frmCompanyMasterNew
         'lblFolioPrefixFlag
         '
         Me.lblFolioPrefixFlag.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblFolioPrefixFlag.Location = New System.Drawing.Point(41, 226)
+        Me.lblFolioPrefixFlag.Location = New System.Drawing.Point(41, 223)
         Me.lblFolioPrefixFlag.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblFolioPrefixFlag.Name = "lblFolioPrefixFlag"
         Me.lblFolioPrefixFlag.Size = New System.Drawing.Size(147, 23)
@@ -905,7 +919,7 @@ Partial Class frmCompanyMasterNew
         '
         'txtFolioNoFormat
         '
-        Me.txtFolioNoFormat.Location = New System.Drawing.Point(600, 183)
+        Me.txtFolioNoFormat.Location = New System.Drawing.Point(600, 180)
         Me.txtFolioNoFormat.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtFolioNoFormat.MaxLength = 64
         Me.txtFolioNoFormat.Name = "txtFolioNoFormat"
@@ -915,7 +929,7 @@ Partial Class frmCompanyMasterNew
         'lblfolionoformat
         '
         Me.lblfolionoformat.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblfolionoformat.Location = New System.Drawing.Point(412, 188)
+        Me.lblfolionoformat.Location = New System.Drawing.Point(411, 185)
         Me.lblfolionoformat.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblfolionoformat.Name = "lblfolionoformat"
         Me.lblfolionoformat.Size = New System.Drawing.Size(168, 20)
@@ -926,7 +940,8 @@ Partial Class frmCompanyMasterNew
         '
         'txtIsinId
         '
-        Me.txtIsinId.Location = New System.Drawing.Point(206, 183)
+        Me.txtIsinId.Enabled = False
+        Me.txtIsinId.Location = New System.Drawing.Point(206, 180)
         Me.txtIsinId.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtIsinId.MaxLength = 64
         Me.txtIsinId.Name = "txtIsinId"
@@ -935,9 +950,10 @@ Partial Class frmCompanyMasterNew
         '
         'txtCompanyName
         '
+        Me.txtCompanyName.Enabled = False
         Me.txtCompanyName.Location = New System.Drawing.Point(206, 55)
         Me.txtCompanyName.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.txtCompanyName.MaxLength = 128
+        Me.txtCompanyName.MaxLength = 64
         Me.txtCompanyName.Name = "txtCompanyName"
         Me.txtCompanyName.Size = New System.Drawing.Size(576, 27)
         Me.txtCompanyName.TabIndex = 2
@@ -945,7 +961,7 @@ Partial Class frmCompanyMasterNew
         'lblisinid
         '
         Me.lblisinid.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.lblisinid.Location = New System.Drawing.Point(41, 183)
+        Me.lblisinid.Location = New System.Drawing.Point(41, 180)
         Me.lblisinid.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lblisinid.Name = "lblisinid"
         Me.lblisinid.Size = New System.Drawing.Size(147, 23)
@@ -966,6 +982,7 @@ Partial Class frmCompanyMasterNew
         '
         'txtCompShortCode
         '
+        Me.txtCompShortCode.Enabled = False
         Me.txtCompShortCode.Location = New System.Drawing.Point(600, 14)
         Me.txtCompShortCode.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtCompShortCode.MaxLength = 64
@@ -986,6 +1003,7 @@ Partial Class frmCompanyMasterNew
         '
         'txtCompanyCode
         '
+        Me.txtCompanyCode.Enabled = False
         Me.txtCompanyCode.Location = New System.Drawing.Point(206, 14)
         Me.txtCompanyCode.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtCompanyCode.MaxLength = 8
@@ -1035,7 +1053,7 @@ Partial Class frmCompanyMasterNew
         Me.pnlSave.Controls.Add(Me.btnCancel)
         Me.pnlSave.Controls.Add(Me.btnSave)
         Me.pnlSave.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.pnlSave.Location = New System.Drawing.Point(309, 864)
+        Me.pnlSave.Location = New System.Drawing.Point(302, 851)
         Me.pnlSave.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.pnlSave.Name = "pnlSave"
         Me.pnlSave.Size = New System.Drawing.Size(228, 43)
@@ -1044,6 +1062,7 @@ Partial Class frmCompanyMasterNew
         'btnNew
         '
         Me.btnNew.BackColor = System.Drawing.SystemColors.Control
+        Me.btnNew.Enabled = False
         Me.btnNew.ForeColor = System.Drawing.SystemColors.ControlText
         Me.btnNew.Location = New System.Drawing.Point(2, 2)
         Me.btnNew.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
@@ -1109,7 +1128,7 @@ Partial Class frmCompanyMasterNew
         Me.pnlButtons.Controls.Add(Me.btnEdit)
         Me.pnlButtons.Controls.Add(Me.btnNew)
         Me.pnlButtons.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.pnlButtons.Location = New System.Drawing.Point(124, 864)
+        Me.pnlButtons.Location = New System.Drawing.Point(117, 851)
         Me.pnlButtons.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.pnlButtons.Name = "pnlButtons"
         Me.pnlButtons.Size = New System.Drawing.Size(579, 43)

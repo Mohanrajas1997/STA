@@ -346,6 +346,7 @@ Partial Class frmCompanyMasterNew
         'dtpStartDate
         '
         Me.dtpStartDate.CustomFormat = "dd-MM-yyyy"
+        Me.dtpStartDate.Enabled = False
         Me.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
         Me.dtpStartDate.Location = New System.Drawing.Point(202, 521)
         Me.dtpStartDate.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
@@ -435,6 +436,7 @@ Partial Class frmCompanyMasterNew
         '
         'txtPincode
         '
+        Me.txtPincode.Enabled = False
         Me.txtPincode.Location = New System.Drawing.Point(598, 734)
         Me.txtPincode.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtPincode.MaxLength = 6
@@ -455,6 +457,7 @@ Partial Class frmCompanyMasterNew
         '
         'txtCountry
         '
+        Me.txtCountry.Enabled = False
         Me.txtCountry.Location = New System.Drawing.Point(204, 734)
         Me.txtCountry.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtCountry.MaxLength = 64
@@ -475,6 +478,7 @@ Partial Class frmCompanyMasterNew
         '
         'txtState
         '
+        Me.txtState.Enabled = False
         Me.txtState.Location = New System.Drawing.Point(598, 692)
         Me.txtState.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtState.MaxLength = 64
@@ -495,6 +499,7 @@ Partial Class frmCompanyMasterNew
         '
         'txtCity
         '
+        Me.txtCity.Enabled = False
         Me.txtCity.Location = New System.Drawing.Point(204, 692)
         Me.txtCity.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtCity.MaxLength = 64
@@ -515,6 +520,7 @@ Partial Class frmCompanyMasterNew
         '
         'txtAddress3
         '
+        Me.txtAddress3.Enabled = False
         Me.txtAddress3.Location = New System.Drawing.Point(204, 651)
         Me.txtAddress3.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtAddress3.MaxLength = 256
@@ -536,6 +542,7 @@ Partial Class frmCompanyMasterNew
         '
         'txtAddress2
         '
+        Me.txtAddress2.Enabled = False
         Me.txtAddress2.Location = New System.Drawing.Point(204, 606)
         Me.txtAddress2.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtAddress2.MaxLength = 256
@@ -557,6 +564,7 @@ Partial Class frmCompanyMasterNew
         '
         'txtAddress1
         '
+        Me.txtAddress1.Enabled = False
         Me.txtAddress1.Location = New System.Drawing.Point(204, 565)
         Me.txtAddress1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtAddress1.MaxLength = 256
@@ -703,6 +711,7 @@ Partial Class frmCompanyMasterNew
         Me.pnlComp.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.pnlComp.Controls.Add(Me.RbdCompYes)
         Me.pnlComp.Controls.Add(Me.RbdCompNo)
+        Me.pnlComp.Enabled = False
         Me.pnlComp.Location = New System.Drawing.Point(206, 394)
         Me.pnlComp.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.pnlComp.Name = "pnlComp"
@@ -822,6 +831,7 @@ Partial Class frmCompanyMasterNew
         '
         'txtEmailID
         '
+        Me.txtEmailID.Enabled = False
         Me.txtEmailID.Location = New System.Drawing.Point(600, 308)
         Me.txtEmailID.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtEmailID.MaxLength = 64
@@ -843,6 +853,7 @@ Partial Class frmCompanyMasterNew
         '
         'txtContactPerson
         '
+        Me.txtContactPerson.Enabled = False
         Me.txtContactPerson.Location = New System.Drawing.Point(206, 309)
         Me.txtContactPerson.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtContactPerson.MaxLength = 64
@@ -863,6 +874,7 @@ Partial Class frmCompanyMasterNew
         '
         'txtContactNo
         '
+        Me.txtContactNo.Enabled = False
         Me.txtContactNo.Location = New System.Drawing.Point(206, 351)
         Me.txtContactNo.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.txtContactNo.MaxLength = 64
