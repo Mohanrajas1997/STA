@@ -97,7 +97,7 @@
                 'lsSql &= " comp_short_code as 'Company Short Code',"
                 lsSql &= " comp_name as 'Company Name',"
                 lsSql &= " depository_code as 'Depository Type',"
-                lsSql &= " start_date as 'Start Date',"
+                lsSql &= " ifnull(start_date,'') as 'Start Date',"
                 lsSql &= " case when active_flag = 'Y' then 'Active' else 'Inactive' end as 'Active Status',"
                 lsSql &= " case when sum(cdsl)>0 then 'Received' when depository_code = 'NSDL' then ' - '  else fn_chk_cdslnsdlfolio_avilable(comp_gid,'CDSL') end as 'CDSL Status',"
                 lsSql &= " case when sum(nsdl)>0 then 'Received' when depository_code = 'CDSL' then ' - ' else fn_chk_cdslnsdlfolio_avilable(comp_gid,'NSDL') end as 'NSDL Status'"

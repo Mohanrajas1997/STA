@@ -84,7 +84,7 @@
         lsSql &= " select "
         lsSql &= " a.isin_id as 'ISIN id',"
         lsSql &= " a.comp_name as 'Company Name',"
-        lsSql &= " a.start_date as 'Start Date',"
+        lsSql &= " ifnull(a.start_date,'') as 'Start Date',"
         lsSql &= " a.share_qty as 'As Per Company Master',"
         lsSql &= " sum(ifnull(b.folio_shares,0)) as 'As Per Folio Master',"
         lsSql &= " (a.share_qty - sum(ifnull(b.folio_shares,0))) as 'Difference',"
