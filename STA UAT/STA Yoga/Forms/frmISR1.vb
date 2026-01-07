@@ -1,5 +1,7 @@
 ﻿Imports MySql.Data.MySqlClient
 Imports System.IO
+Imports System.Net.Mail
+Imports System.Net
 
 Public Class frmISR1
 #Region "Local Variables"
@@ -344,6 +346,10 @@ Public Class frmISR1
 
     Private Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
         Dim lnResult As Long
+        Dim lsmailto As String = txtNewEmailId.Text
+        Dim lscompname As String = txtCompName.Text
+        Dim lsfoliono As String = txtFolioNo.Text
+        Dim lsisrstatus As String = lblDocStatus.Text
 
         If MessageBox.Show("Are you sure to confirm action ?", gsProjectName, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = Windows.Forms.DialogResult.Yes Then
             If msGroupCode = "M" Then
@@ -351,7 +357,13 @@ Public Class frmISR1
             Else
                 lnResult = UpdateQueue(mnInwardId, msGroupCode, txtRemark.Text, gnQueueSuccess)
 
-                If lnResult = 1 Then Me.Close()
+                'If lnResult = 1 Then Me.Close()
+                If lnResult = 1 Then
+                    If lsisrstatus = "Valid" Then
+                        SendEmailToShareholder(lsmailto, lscompname, lsfoliono)
+                    End If
+                    Me.Close()
+                End If
             End If
         End If
     End Sub
@@ -722,5 +734,137 @@ Public Class frmISR1
         txtNewNomState.Text = txtNewState.Text.ToString()
         txtNewNomPin.Text = txtNewPincode.Text.ToString()
         txtNewNomCoun.Text = txtNewCountry.Text.ToString()
+    End Sub
+
+    Private Function IsValidEmail(email As String) As Boolean
+        Try
+            Dim mail As New System.Net.Mail.MailAddress(email)
+            Return True
+        Catch
+            Return False
+        End Try
+    End Function
+
+    Private Sub InsertMailHistory(inwardGID As Integer, email As String, mailContent As String, remarks As String, status As String)
+        Try
+            Using cmd As New MySqlCommand("pr_sta_trn_tmailhistory", gOdbcConn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("?in_inward_gid", inwardGID)
+                cmd.Parameters.AddWithValue("?in_mail_id", email)
+                cmd.Parameters.AddWithValue("?in_mail_content", mailContent)
+                cmd.Parameters.AddWithValue("?in_remarks", remarks)
+                cmd.Parameters.AddWithValue("?in_mail_status", status)
+                cmd.Parameters.AddWithValue("?in_action", "INSERT")
+                cmd.Parameters.AddWithValue("?in_action_by", gsLoginUserCode)
+
+                ' Output Parameters
+                cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+
+                cmd.CommandTimeout = 0
+                cmd.ExecuteNonQuery()
+            End Using
+        Catch ex As Exception
+            MessageBox.Show("Error inserting mail history: " & ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub SendEmailToShareholder(ByVal emailTo As String, ByVal companyname As String, ByVal foliono As String)
+        Dim errorMessage As String = ""
+        Dim deliveryStatus As String = "Not Delivered"
+        Dim lsMailmessageBody As String = ""
+
+        Try
+            ' Validate email format before proceeding
+            If Not IsValidEmail(emailTo) Then
+                Throw New Exception("Invalid email format.")
+            End If
+
+            ' SMTP Configuration
+            Dim smtpClient As New SmtpClient(gssmtpClient)
+            smtpClient.Port = 587
+            smtpClient.Credentials = New NetworkCredential(gssmtpClientUsername, gssmtpClientpswd)
+            smtpClient.EnableSsl = True
+
+            Dim mailMessage As New MailMessage()
+            mailMessage.From = New MailAddress(gssmtpClientUsername)
+            mailMessage.To.Add(emailTo)
+            mailMessage.Subject = "KYC Updated Successfully Folio No - " & foliono & " - " & companyname
+            mailMessage.IsBodyHtml = True
+
+            ' Request delivery notification & read receipt
+            mailMessage.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure Or DeliveryNotificationOptions.Delay
+            mailMessage.Headers.Add("Disposition-Notification-To", gssmtpClientUsername)
+
+            ' Compose Email Body
+            lsMailmessageBody = "<p>Dear Sir/Madam,</p>" & _
+                                "<p>We wish to inform you that we have updated your KYC Successfully in respect to the Folio No. <b>" & foliono & "</b>.</p>" & _
+                                "<p><i><span style='color:red;'>This is a system-generated email. Please do not reply to this message.</span></i></p>" & _
+                                "<p>In case you need any further assistance, please feel free to contact us via the below web portal:</p>" & _
+                                "<p style= 'margin-left:20px'>Shareholder Login URL: " & _
+                                "<a href='https://stainvestorportal.gnsaindia.com' target='_blank' style='color:#15c; text-decoration:none;'>https://stainvestorportal.gnsaindia.com</a><p> " & _
+                                "<p>Thank you for your cooperation</p>" & _
+                                "<p style='color:#1f497d;'>Best regards,</p>" & _
+                                "<p style='color:#1f497d;'>Investor Services Team</p>" & _
+                                "<br><img src='cid:gnsalogo' style='width:120px;' /><br>" & _
+                                "<b style='color:#00b0f0;'>GNSA Infotech Pvt Limited</b><br>" & _
+                                "<p style='color:#1f497d; font-weight:bold;'>" & _
+                                "4th and 5th Floors,<br>" & _
+                                "F-Block, Nelson Chambers,<br>" & _
+                                "No.115, Nelson Manickam Road,<br>" & _
+                                "Aminjikarai, Chennai 600030." & _
+                                "</p>"
+
+            ' Create HTML view
+            Dim htmlView As AlternateView = AlternateView.CreateAlternateViewFromString(lsMailmessageBody, Nothing, "text/html")
+
+            ' **Embed your local image as Linked Resource**
+            Dim logoPath As String = gsgnsalogoimage
+            Dim inlineLogo As New LinkedResource(logoPath)
+            inlineLogo.ContentId = "gnsalogo"
+            inlineLogo.TransferEncoding = System.Net.Mime.TransferEncoding.Base64
+
+            htmlView.LinkedResources.Add(inlineLogo)
+
+            mailMessage.AlternateViews.Add(htmlView)
+
+            'mailMessage.Body = lsMailmessageBody
+
+            ' Send the email
+            smtpClient.Send(mailMessage)
+
+            ' If successful, mark as delivered
+            deliveryStatus = "Delivered"
+            errorMessage = "Mail Sent Successfully"
+
+        Catch ex As SmtpFailedRecipientException
+            ' Specific failure related to recipient (invalid email, mailbox full, etc.)
+            errorMessage = "Recipient failed: " & ex.FailedRecipient & " - " & ex.StatusCode.ToString() & " - " & ex.Message
+            deliveryStatus = "Not Delivered"
+
+        Catch ex As SmtpException
+            ' General SMTP error (e.g., server issue, network error)
+            errorMessage = "SMTP Error: " & ex.StatusCode.ToString() & " - " & ex.Message
+            deliveryStatus = "Not Delivered"
+
+        Catch ex As Exception
+            ' Other unexpected errors
+            errorMessage = "Error: " & ex.Message
+            deliveryStatus = "Not Delivered"
+
+        Finally
+            ' Get Inward GID for tracking
+            'mnInwardId = Val(gfExecuteScalar("SELECT inward_gid FROM sta_trn_tinward WHERE inward_no = " & inwardNo & " AND delete_flag = 'N'", gOdbcConn))
+
+            ' Log the result in Mail History Table
+            InsertMailHistory(mnInwardId, emailTo, lsMailmessageBody, errorMessage, deliveryStatus)
+
+            ' Show error message if failed
+            If deliveryStatus = "Not Delivered" Then
+                MessageBox.Show("Failed to send email: " & errorMessage, "Email Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End Try
     End Sub
 End Class

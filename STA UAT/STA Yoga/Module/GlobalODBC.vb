@@ -28,6 +28,9 @@ Module GlobalODBC
     Public gsiepfApproveLStemplatepath As String = "c:\temp\Entitlement letter_LS.rtf"
     Public gsiepfApproveTMtemplatepath As String = "c:\temp\Entitlement letter_TM.rtf"
     Public gsiepfRejectiontemplatepath As String = "c:temp\IEPF Rejection Letter Format.rtf"
+
+    Public gsgnsalogoimage As String = "c:\temp\gnsa-logo.gif"
+
     Public gsDocType As String = ""
 
     Public gsSystemIp As String = ""
