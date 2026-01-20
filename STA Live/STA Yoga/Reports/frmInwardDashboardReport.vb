@@ -3,9 +3,6 @@
     Private Sub frmInwardDashboardReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         dtpFrom.Value = DateAdd(DateInterval.Day, -1, Now)
         dtpTo.Value = Now
-
-        dtpFrom.Checked = False
-        'dtpTo.Checked = False
     End Sub
 
     Private Sub frmInwardDashboardReport_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
@@ -29,9 +26,20 @@
         Dim lsSql As String
         Dim lsCond As String = ""
 
+        If dtpFrom.Checked = False Then
+            MessageBox.Show("Please select the Inward From date !", gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            dtpFrom.Focus()
+            Exit Sub
+        End If
+
+        If dtpTo.Checked = False Then
+            MessageBox.Show("Please select the Inward To date !", gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            dtpTo.Focus()
+            Exit Sub
+        End If
+
         If dtpFrom.Checked = True Then lsCond &= " and a.received_date >= '" & Format(dtpFrom.Value, "yyyy-MM-dd") & "' "
         If dtpTo.Checked = True Then lsCond &= " and a.received_date <= '" & Format(dtpTo.Value, "yyyy-MM-dd") & "' "
-
 
         If lsCond = "" Then lsCond &= " and 1 = 2 "
 

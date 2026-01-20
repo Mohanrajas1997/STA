@@ -109,7 +109,7 @@ Partial Class frmInwardDashboardReport
         Me.dtpTo.ShowCheckBox = True
         Me.dtpTo.Size = New System.Drawing.Size(165, 27)
         Me.dtpTo.TabIndex = 1
-        Me.dtpTo.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
+        Me.dtpTo.Value = New Date(2026, 1, 9, 0, 0, 0, 0)
         '
         'Label11
         '
@@ -131,7 +131,7 @@ Partial Class frmInwardDashboardReport
         Me.dtpFrom.ShowCheckBox = True
         Me.dtpFrom.Size = New System.Drawing.Size(165, 27)
         Me.dtpFrom.TabIndex = 0
-        Me.dtpFrom.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
+        Me.dtpFrom.Value = New Date(2026, 1, 9, 0, 0, 0, 0)
         '
         'Label10
         '

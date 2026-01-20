@@ -3,9 +3,6 @@
     Private Sub frmInwardDashboardReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         dtpFrom.Value = DateAdd(DateInterval.Day, -1, Now)
         dtpTo.Value = Now
-
-        dtpFrom.Checked = False
-        'dtpTo.Checked = False
     End Sub
 
     Private Sub frmInwardDashboardReport_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
@@ -29,9 +26,20 @@
         Dim lsSql As String
         Dim lsCond As String = ""
 
+        If dtpFrom.Checked = False Then
+            MessageBox.Show("Please select the Inward From date !", gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            dtpFrom.Focus()
+            Exit Sub
+        End If
+
+        If dtpTo.Checked = False Then
+            MessageBox.Show("Please select the Inward To date !", gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            dtpTo.Focus()
+            Exit Sub
+        End If
+
         If dtpFrom.Checked = True Then lsCond &= " and a.received_date >= '" & Format(dtpFrom.Value, "yyyy-MM-dd") & "' "
         If dtpTo.Checked = True Then lsCond &= " and a.received_date <= '" & Format(dtpTo.Value, "yyyy-MM-dd") & "' "
-
 
         If lsCond = "" Then lsCond &= " and 1 = 2 "
 
@@ -143,7 +151,6 @@
     Private Sub dgvList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvList.CellClick
         ' Ensure the clicked cell is valid and not a header row
         If e.RowIndex < 0 OrElse e.ColumnIndex < 0 Then Exit Sub
-
         Dim lsQry As String = ""
 
         ' Check if the clicked cell corresponds to the "Closing Bal" column

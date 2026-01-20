@@ -1006,8 +1006,8 @@ Public Class frmiepfmaker
                                 Dim childNOTOk As Boolean = If(r.Cells("NOTOK").Value IsNot Nothing, Convert.ToBoolean(r.Cells("NOTOK").Value), False)
                                 Dim expectedvalue As String = If(r.Cells("ExpectedValue").Value IsNot Nothing, r.Cells("ExpectedValue").Value.ToString().ToUpper(), "NOTOK")
 
-                                Dim expectedOk As Boolean
-                                Dim expectedNOTOk As Boolean
+                                Dim expectedOk As Boolean = False
+                                Dim expectedNOTOk As Boolean = False
 
                                 r.Cells("ArrivedOkCount").Value = 0
                                 r.Cells("ArrivedNotOkCount").Value = 0
