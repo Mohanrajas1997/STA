@@ -138,6 +138,11 @@ Public Class frmDocHistory
             Case "PI"
                 objFrm = New frmCAPhysicalToIEPF("V", mnInwardId, 0, msTranCode)
                 objFrm.ShowDialog()
+            Case "LS"
+                ' LS Cum Transmission
+                objFrm = New frmCertificateTran("V", mnInwardId, 0, msTranCode)
+                objFrm.Text = "LS Cum Transmission"
+                objFrm.ShowDialog()
         End Select
     End Sub
 
