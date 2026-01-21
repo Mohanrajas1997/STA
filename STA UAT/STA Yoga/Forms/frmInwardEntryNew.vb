@@ -174,7 +174,7 @@ Public Class frmInwardEntryNew
         ' doc type
         lsSql = ""
         lsSql &= " select trantype_code,concat(trantype_code,'-',trantype_desc) as trantype_desc from sta_mst_ttrantype "
-        lsSql &= " where delete_flag = 'N' "
+        lsSql &= " where delete_flag = 'N' and trantype_code <> 'RT' "
         lsSql &= " order by trantype_code asc "
 
         Call gpBindCombo(lsSql, "trantype_desc", "trantype_code", cboDocType, gOdbcConn)
