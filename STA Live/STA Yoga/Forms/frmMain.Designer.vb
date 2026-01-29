@@ -240,6 +240,7 @@ Partial Class frmMain
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.lblStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
+        Me.ISRGenerateCovertingLetterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -412,6 +413,7 @@ Partial Class frmMain
         Me.DividendToolStripMenuItem.Name = "DividendToolStripMenuItem"
         Me.DividendToolStripMenuItem.Size = New System.Drawing.Size(323, 30)
         Me.DividendToolStripMenuItem.Text = "Dividend"
+        Me.DividendToolStripMenuItem.Visible = False
         '
         'PaymentInfoToolStripMenuItem
         '
@@ -431,6 +433,7 @@ Partial Class frmMain
         Me.ShareholdingPatternToolStripMenuItem1.Name = "ShareholdingPatternToolStripMenuItem1"
         Me.ShareholdingPatternToolStripMenuItem1.Size = New System.Drawing.Size(323, 30)
         Me.ShareholdingPatternToolStripMenuItem1.Text = "Shareholding Pattern"
+        Me.ShareholdingPatternToolStripMenuItem1.Visible = False
         '
         'PromoterMaintanenceToolStripMenuItem
         '
@@ -449,12 +452,14 @@ Partial Class frmMain
         Me.AMLRuleToolStripMenuItem.Name = "AMLRuleToolStripMenuItem"
         Me.AMLRuleToolStripMenuItem.Size = New System.Drawing.Size(323, 30)
         Me.AMLRuleToolStripMenuItem.Text = "AML Rule"
+        Me.AMLRuleToolStripMenuItem.Visible = False
         '
         'AMLApplyRuleToolStripMenuItem
         '
         Me.AMLApplyRuleToolStripMenuItem.Name = "AMLApplyRuleToolStripMenuItem"
         Me.AMLApplyRuleToolStripMenuItem.Size = New System.Drawing.Size(323, 30)
         Me.AMLApplyRuleToolStripMenuItem.Text = "AML Apply Rule"
+        Me.AMLApplyRuleToolStripMenuItem.Visible = False
         '
         'NSDLCategory
         '
@@ -542,6 +547,7 @@ Partial Class frmMain
         Me.RUDCorrespondenceToolStripMenuItem.Name = "RUDCorrespondenceToolStripMenuItem"
         Me.RUDCorrespondenceToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.RUDCorrespondenceToolStripMenuItem.Text = "RUD\Correspondence"
+        Me.RUDCorrespondenceToolStripMenuItem.Visible = False
         '
         'InwardToolStripMenuItem
         '
@@ -639,6 +645,7 @@ Partial Class frmMain
         '
         'mnuGenCoveringLetter
         '
+        Me.mnuGenCoveringLetter.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ISRGenerateCovertingLetterToolStripMenuItem})
         Me.mnuGenCoveringLetter.Name = "mnuGenCoveringLetter"
         Me.mnuGenCoveringLetter.Size = New System.Drawing.Size(353, 30)
         Me.mnuGenCoveringLetter.Text = "Generate Covering Letter"
@@ -764,18 +771,21 @@ Partial Class frmMain
         Me.ECSValidationFileGenerateToolStripMenuItem.Name = "ECSValidationFileGenerateToolStripMenuItem"
         Me.ECSValidationFileGenerateToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.ECSValidationFileGenerateToolStripMenuItem.Text = "ECS Validation File Generate"
+        Me.ECSValidationFileGenerateToolStripMenuItem.Visible = False
         '
         'PaymentProcessFileGenerationToolStripMenuItem
         '
         Me.PaymentProcessFileGenerationToolStripMenuItem.Name = "PaymentProcessFileGenerationToolStripMenuItem"
         Me.PaymentProcessFileGenerationToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.PaymentProcessFileGenerationToolStripMenuItem.Text = "Payment Process File Generation"
+        Me.PaymentProcessFileGenerationToolStripMenuItem.Visible = False
         '
         'PaymenyUploadFileGenerationToolStripMenuItem
         '
         Me.PaymenyUploadFileGenerationToolStripMenuItem.Name = "PaymenyUploadFileGenerationToolStripMenuItem"
         Me.PaymenyUploadFileGenerationToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.PaymenyUploadFileGenerationToolStripMenuItem.Text = "Payment Upload File Generation"
+        Me.PaymenyUploadFileGenerationToolStripMenuItem.Visible = False
         '
         'ImportECSValidationFileToolStripMenuItem
         '
@@ -783,6 +793,7 @@ Partial Class frmMain
         Me.ImportECSValidationFileToolStripMenuItem.Name = "ImportECSValidationFileToolStripMenuItem"
         Me.ImportECSValidationFileToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.ImportECSValidationFileToolStripMenuItem.Text = "Import ECS Validation File"
+        Me.ImportECSValidationFileToolStripMenuItem.Visible = False
         '
         'ECSValidFileImportToolStripMenuItem
         '
@@ -807,6 +818,7 @@ Partial Class frmMain
         Me.DDWarrantDollarNoUpdationToolStripMenuItem.Name = "DDWarrantDollarNoUpdationToolStripMenuItem"
         Me.DDWarrantDollarNoUpdationToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.DDWarrantDollarNoUpdationToolStripMenuItem.Text = "DD/Warrant/Dollar No Updation"
+        Me.DDWarrantDollarNoUpdationToolStripMenuItem.Visible = False
         '
         'ToolStripMenuItem17
         '
@@ -814,6 +826,7 @@ Partial Class frmMain
         Me.ToolStripMenuItem17.Name = "ToolStripMenuItem17"
         Me.ToolStripMenuItem17.Size = New System.Drawing.Size(353, 30)
         Me.ToolStripMenuItem17.Text = "Dividend"
+        Me.ToolStripMenuItem17.Visible = False
         '
         'ResetToolStripMenuItem
         '
@@ -826,36 +839,42 @@ Partial Class frmMain
         Me.RevokePaymentUploadFileToolStripMenuItem.Name = "RevokePaymentUploadFileToolStripMenuItem"
         Me.RevokePaymentUploadFileToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.RevokePaymentUploadFileToolStripMenuItem.Text = "Revoke Payment Upload File"
+        Me.RevokePaymentUploadFileToolStripMenuItem.Visible = False
         '
         'RevokePaymentProcessFileToolStripMenuItem
         '
         Me.RevokePaymentProcessFileToolStripMenuItem.Name = "RevokePaymentProcessFileToolStripMenuItem"
         Me.RevokePaymentProcessFileToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.RevokePaymentProcessFileToolStripMenuItem.Text = "Revoke Payment Process File"
+        Me.RevokePaymentProcessFileToolStripMenuItem.Visible = False
         '
         'PostPaymentProcessToolStripMenuItem
         '
         Me.PostPaymentProcessToolStripMenuItem.Name = "PostPaymentProcessToolStripMenuItem"
         Me.PostPaymentProcessToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.PostPaymentProcessToolStripMenuItem.Text = "Post Payment Process "
+        Me.PostPaymentProcessToolStripMenuItem.Visible = False
         '
         'RevokePostPaymentProcessToolStripMenuItem
         '
         Me.RevokePostPaymentProcessToolStripMenuItem.Name = "RevokePostPaymentProcessToolStripMenuItem"
         Me.RevokePostPaymentProcessToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.RevokePostPaymentProcessToolStripMenuItem.Text = "Revoke Post Payment Process"
+        Me.RevokePostPaymentProcessToolStripMenuItem.Visible = False
         '
         'PostRepaymentGenerateToolStripMenuItem
         '
         Me.PostRepaymentGenerateToolStripMenuItem.Name = "PostRepaymentGenerateToolStripMenuItem"
         Me.PostRepaymentGenerateToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.PostRepaymentGenerateToolStripMenuItem.Text = "Post Repayment Generate"
+        Me.PostRepaymentGenerateToolStripMenuItem.Visible = False
         '
         'RevokeRepaymentGenerateToolStripMenuItem
         '
         Me.RevokeRepaymentGenerateToolStripMenuItem.Name = "RevokeRepaymentGenerateToolStripMenuItem"
         Me.RevokeRepaymentGenerateToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.RevokeRepaymentGenerateToolStripMenuItem.Text = "Revoke Repayment Generate"
+        Me.RevokeRepaymentGenerateToolStripMenuItem.Visible = False
         '
         'DividendPaymentPaid
         '
@@ -863,6 +882,7 @@ Partial Class frmMain
         Me.DividendPaymentPaid.Name = "DividendPaymentPaid"
         Me.DividendPaymentPaid.Size = New System.Drawing.Size(353, 30)
         Me.DividendPaymentPaid.Text = "Payment Paid Process"
+        Me.DividendPaymentPaid.Visible = False
         '
         'PaymentPaidFileImportToolStripMenuItem
         '
@@ -911,6 +931,7 @@ Partial Class frmMain
         Me.AMLProcessToolStripMenuItem.Name = "AMLProcessToolStripMenuItem"
         Me.AMLProcessToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.AMLProcessToolStripMenuItem.Text = "AML Process"
+        Me.AMLProcessToolStripMenuItem.Visible = False
         '
         'EVotingProcessToolStripMenuItem
         '
@@ -918,6 +939,7 @@ Partial Class frmMain
         Me.EVotingProcessToolStripMenuItem.Name = "EVotingProcessToolStripMenuItem"
         Me.EVotingProcessToolStripMenuItem.Size = New System.Drawing.Size(353, 30)
         Me.EVotingProcessToolStripMenuItem.Text = "E-Voting Process"
+        Me.EVotingProcessToolStripMenuItem.Visible = False
         '
         'NSDL
         '
@@ -943,12 +965,14 @@ Partial Class frmMain
         Me.ShareholdingPatternToolStripMenuItem.Name = "ShareholdingPatternToolStripMenuItem"
         Me.ShareholdingPatternToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
         Me.ShareholdingPatternToolStripMenuItem.Text = "Shareholding Pattern"
+        Me.ShareholdingPatternToolStripMenuItem.Visible = False
         '
         'EVotingToolStripMenuItem
         '
         Me.EVotingToolStripMenuItem.Name = "EVotingToolStripMenuItem"
         Me.EVotingToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
         Me.EVotingToolStripMenuItem.Text = "E voting"
+        Me.EVotingToolStripMenuItem.Visible = False
         '
         'AnnualReportToolStripMenuItem
         '
@@ -1025,90 +1049,105 @@ Partial Class frmMain
         Me.DividendRegisterReportToolStripMenuItem.Name = "DividendRegisterReportToolStripMenuItem"
         Me.DividendRegisterReportToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.DividendRegisterReportToolStripMenuItem.Text = "Dividend Register Report"
+        Me.DividendRegisterReportToolStripMenuItem.Visible = False
         '
         'DemandDraftFileToolStripMenuItem
         '
         Me.DemandDraftFileToolStripMenuItem.Name = "DemandDraftFileToolStripMenuItem"
         Me.DemandDraftFileToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.DemandDraftFileToolStripMenuItem.Text = "Demand Draft File"
+        Me.DemandDraftFileToolStripMenuItem.Visible = False
         '
         'WarrantFileToolStripMenuItem
         '
         Me.WarrantFileToolStripMenuItem.Name = "WarrantFileToolStripMenuItem"
         Me.WarrantFileToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.WarrantFileToolStripMenuItem.Text = "Warrant File"
+        Me.WarrantFileToolStripMenuItem.Visible = False
         '
         'DollarDraftFileToolStripMenuItem
         '
         Me.DollarDraftFileToolStripMenuItem.Name = "DollarDraftFileToolStripMenuItem"
         Me.DollarDraftFileToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.DollarDraftFileToolStripMenuItem.Text = "Dollar Draft File"
+        Me.DollarDraftFileToolStripMenuItem.Visible = False
         '
         'ECSFileGenerateToolStripMenuItem
         '
         Me.ECSFileGenerateToolStripMenuItem.Name = "ECSFileGenerateToolStripMenuItem"
         Me.ECSFileGenerateToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.ECSFileGenerateToolStripMenuItem.Text = "ECS  File Generate"
+        Me.ECSFileGenerateToolStripMenuItem.Visible = False
         '
         'ECSValidationReportToolStripMenuItem
         '
         Me.ECSValidationReportToolStripMenuItem.Name = "ECSValidationReportToolStripMenuItem"
         Me.ECSValidationReportToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.ECSValidationReportToolStripMenuItem.Text = "ECS Validation Report"
+        Me.ECSValidationReportToolStripMenuItem.Visible = False
         '
         'ECSInitialRejectReportToolStripMenuItem
         '
         Me.ECSInitialRejectReportToolStripMenuItem.Name = "ECSInitialRejectReportToolStripMenuItem"
         Me.ECSInitialRejectReportToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.ECSInitialRejectReportToolStripMenuItem.Text = "ECS Initial Reject Report"
+        Me.ECSInitialRejectReportToolStripMenuItem.Visible = False
         '
         'ECSBounceReportToolStripMenuItem
         '
         Me.ECSBounceReportToolStripMenuItem.Name = "ECSBounceReportToolStripMenuItem"
         Me.ECSBounceReportToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.ECSBounceReportToolStripMenuItem.Text = "ECS Bounce Report"
+        Me.ECSBounceReportToolStripMenuItem.Visible = False
         '
         'ECSPaymentReportToolStripMenuItem
         '
         Me.ECSPaymentReportToolStripMenuItem.Name = "ECSPaymentReportToolStripMenuItem"
         Me.ECSPaymentReportToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.ECSPaymentReportToolStripMenuItem.Text = "Payment Report"
+        Me.ECSPaymentReportToolStripMenuItem.Visible = False
         '
         'DividendFileGenerateToolStripMenuItem
         '
         Me.DividendFileGenerateToolStripMenuItem.Name = "DividendFileGenerateToolStripMenuItem"
         Me.DividendFileGenerateToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.DividendFileGenerateToolStripMenuItem.Text = "Dividend File Generate"
+        Me.DividendFileGenerateToolStripMenuItem.Visible = False
         '
         'DividendPaidUnpaidReportToolStripMenuItem
         '
         Me.DividendPaidUnpaidReportToolStripMenuItem.Name = "DividendPaidUnpaidReportToolStripMenuItem"
         Me.DividendPaidUnpaidReportToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.DividendPaidUnpaidReportToolStripMenuItem.Text = "Dividend Paid/Unpaid Report"
+        Me.DividendPaidUnpaidReportToolStripMenuItem.Visible = False
         '
         'UnpaidRemainderLetterToolStripMenuItem
         '
         Me.UnpaidRemainderLetterToolStripMenuItem.Name = "UnpaidRemainderLetterToolStripMenuItem"
         Me.UnpaidRemainderLetterToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.UnpaidRemainderLetterToolStripMenuItem.Text = "Dividend Unpaid Remainder Letter"
+        Me.UnpaidRemainderLetterToolStripMenuItem.Visible = False
         '
         'InterDepositoryReportToolStripMenuItem
         '
         Me.InterDepositoryReportToolStripMenuItem.Name = "InterDepositoryReportToolStripMenuItem"
         Me.InterDepositoryReportToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.InterDepositoryReportToolStripMenuItem.Text = "Inter Depository Report"
+        Me.InterDepositoryReportToolStripMenuItem.Visible = False
         '
         'DividendMasterToolStripMenuItem
         '
         Me.DividendMasterToolStripMenuItem.Name = "DividendMasterToolStripMenuItem"
         Me.DividendMasterToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.DividendMasterToolStripMenuItem.Text = "Dividend Master"
+        Me.DividendMasterToolStripMenuItem.Visible = False
         '
         'DividendStatusToolStripMenuItem
         '
         Me.DividendStatusToolStripMenuItem.Name = "DividendStatusToolStripMenuItem"
         Me.DividendStatusToolStripMenuItem.Size = New System.Drawing.Size(367, 30)
         Me.DividendStatusToolStripMenuItem.Text = "Dividend Status"
+        Me.DividendStatusToolStripMenuItem.Visible = False
         '
         'DividendAccountMasterToolStripMenuItem
         '
@@ -1139,6 +1178,7 @@ Partial Class frmMain
         Me.IEPFReportToolStripMenuItem1.Name = "IEPFReportToolStripMenuItem1"
         Me.IEPFReportToolStripMenuItem1.Size = New System.Drawing.Size(367, 30)
         Me.IEPFReportToolStripMenuItem1.Text = "IEPF Report"
+        Me.IEPFReportToolStripMenuItem1.Visible = False
         '
         'RUDCorrespondenceToolStripMenuItem1
         '
@@ -1414,6 +1454,7 @@ Partial Class frmMain
         Me.AMLResultToolStripMenuItem.Name = "AMLResultToolStripMenuItem"
         Me.AMLResultToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
         Me.AMLResultToolStripMenuItem.Text = "AML Result"
+        Me.AMLResultToolStripMenuItem.Visible = False
         '
         'mnuSummaryReport
         '
@@ -1550,6 +1591,12 @@ Partial Class frmMain
         Me.lblStatus.Name = "lblStatus"
         Me.lblStatus.Size = New System.Drawing.Size(60, 25)
         Me.lblStatus.Text = "Status"
+        '
+        'ISRGenerateCovertingLetterToolStripMenuItem
+        '
+        Me.ISRGenerateCovertingLetterToolStripMenuItem.Name = "ISRGenerateCovertingLetterToolStripMenuItem"
+        Me.ISRGenerateCovertingLetterToolStripMenuItem.Size = New System.Drawing.Size(328, 30)
+        Me.ISRGenerateCovertingLetterToolStripMenuItem.Text = "ISR Generate Coverting Letter"
         '
         'frmMain
         '
@@ -1788,4 +1835,5 @@ Partial Class frmMain
     Friend WithEvents mnuElectronicCreditReport As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuIEPFCoveringLetter As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FolioSignatureToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ISRGenerateCovertingLetterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class
