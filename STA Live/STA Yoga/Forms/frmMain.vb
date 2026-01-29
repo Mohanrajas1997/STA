@@ -1053,4 +1053,10 @@ Public Class frmMain
         frm.MdiParent = Me
         frm.Show()
     End Sub
+
+    Private Sub ISRGenerateCovertingLetterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ISRGenerateCovertingLetterToolStripMenuItem.Click
+        Dim frm As New frmISRGenerateCoveringLetter
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
 End Class

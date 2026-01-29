@@ -290,6 +290,11 @@
                                 objFrm = New frmiepfmaker(lnInwardId, msGroupCode)
                                 objFrm.Text = "IEPF Claim"
                                 objFrm.ShowDialog()
+                            Case "LT"
+                                ' LS Come Transmission
+                                objFrm = New frmCertificateTran(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
+                                objFrm.Text = "LS Cum Transmission"
+                                objFrm.ShowDialog()
                         End Select
                     End If
                 End If
