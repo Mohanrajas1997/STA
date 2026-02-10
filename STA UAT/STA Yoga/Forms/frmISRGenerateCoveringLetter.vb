@@ -8,8 +8,8 @@ Public Class frmISRGenerateCoveringLetter
 
     ' Dim tlb As Table
     'Dim con As Odbc.OdbcConnection = New Odbc.OdbcConnection("Driver={Mysql odbc 3.51 Driver};Server=192.168.0.182;DataBase=sta;uid=production;pwd=gnsalive;port=3306")
-    'Dim con As Odbc.OdbcConnection = New Odbc.OdbcConnection("Driver={Mysql odbc 3.51 Driver};Server=" & DbIP & ";DataBase=" & Db & ";uid=" & DbUId & ";pwd=" & DbPwd & ";port=" & DbPort)
-    Dim con As Odbc.OdbcConnection = New Odbc.OdbcConnection("Driver={Mysql odbc 3.51 Driver};Server=146.56.55.230;DataBase=sta;uid=root;pwd=Flexi@123;port=3306")
+    'Dim con As Odbc.OdbcConnection = New Odbc.OdbcConnection("Driver={Mysql odbc 3.51 Driver};Server=146.56.55.230;DataBase=sta;uid=root;pwd=Flexi@123;port=3306")
+    Dim con As Odbc.OdbcConnection = New Odbc.OdbcConnection("Driver={Mysql odbc 3.51 Driver};Server=" & DbIP & ";DataBase=" & Db & ";uid=" & DbUId & ";pwd=" & DbPwd & ";port=" & DbPort)
     Dim ds, dt, dt_t, dt_tt, dt_re, dt_st, dmtt, dmtt1 As DataSet
     Dim da As Odbc.OdbcDataAdapter
     Dim cmd As New Odbc.OdbcCommand
@@ -67,7 +67,7 @@ Public Class frmISRGenerateCoveringLetter
         If dtp_to.Checked = True Then lsCond &= " and b.received_date <= '" & Format(dtp_to.Value, "yyyy-MM-dd") & "' "
         If dtp_owd.Checked = True Then lsCond &= " and g.outward_date <= '" & Format(dtp_to.Value, "yyyy-MM-dd") & "' "
         If txt_inward.Text <> "" Then lsCond &= " and b.inward_comp_no = '" & QuoteFilter(txt_inward.Text) & "' "
-        If txt_folio.Text <> "" Then lsCond &= " and b.folio_no like '" & QuoteFilter(txt_folio.Text) & "%'"
+        If txt_folio.Text <> "" Then lsCond &= " and b.folio_no = '" & QuoteFilter(txt_folio.Text) & "'"
         If cb_cmpy.Text <> "" And cb_cmpy.SelectedIndex <> -1 Then
             lsCond &= " and b.comp_gid = " & Val(cb_cmpy.SelectedValue.ToString) & " "
         End If
@@ -165,23 +165,24 @@ Public Class frmISRGenerateCoveringLetter
             shsql = ""
             shsql &= "select distinct "
             shsql &= "a.folio_dpid as 'Folio No',"
-            shsql &= "a.shar_holder as 'Share Holder',"
+            shsql &= "e.holder1_name as 'Share Holder',"
             shsql &= "ifnull(a.div_amount,0) as 'Dividend Amount',"
             shsql &= "a.warrant_no as 'Warrant No',"
             shsql &= "ifnull(a.div_date,'')  as 'Dividend Date',"
             shsql &= "c.finyear_code as 'FinYear Code',"
             shsql &= "da.acc_no as 'Divident Account No',"
             shsql &= "ifnull(a.div_remark,'Unclaimed Dividend') as 'Remarks',"
-            shsql &= "a.holder1_acc_no ,"
-            shsql &= "a.holder1_bank_name ,"
-            shsql &= "a.holder1_bank_branch ,"
-            shsql &= "a.holder1_ifsc_code ,"
-            shsql &= "a.holder1_micr_code "
+            shsql &= "e.bank_acc_no  as holder1_acc_no,"
+            shsql &= "e.bank_name as holder1_bank_name ,"
+            shsql &= "e.bank_branch as holder1_bank_branch ,"
+            shsql &= "e.bank_ifsc_code as holder1_ifsc_code ,"
+            shsql &= "e.bank_micr_code as holder1_micr_code "
             shsql &= "from div_trn_tdividend as a "
             shsql &= "inner join div_mst_tacc as da on a.acc_gid = da.acc_gid and da.delete_flag = 'N' "
             shsql &= "inner join sta_mst_tcompany as b on a.comp_gid = b.comp_gid and b.delete_flag = 'N'  "
             shsql &= "inner join sta_mst_tfinyear as c on a.finyear_gid = c.finyear_gid and c.delete_flag = 'N'  "
             shsql &= "inner join sta_mst_tpaymode as d on a.div_pay_mode = d.paymode_code  and d.delete_flag='N' "
+            shsql &= "inner join sta_trn_tfolio as e on e.folio_no = a.folio_dpid  and e.comp_gid = b.comp_gid and e.delete_flag='N' "
             shsql &= "where a.comp_gid = " & lsCompgid & "  and a.folio_dpid = '" & lsFolioNo & "' and a.div_status = 'U' and b.delete_flag = 'N' "
             shsql &= "order by c.finyear_code asc;"
 
@@ -238,6 +239,7 @@ Public Class frmISRGenerateCoveringLetter
 
         con.Close()
     End Sub
+
     Private Function BuildDividendRTF(ds As DataSet) As String
         Dim sb As New System.Text.StringBuilder()
 
@@ -297,7 +299,6 @@ Public Class frmISRGenerateCoveringLetter
 
         Return sb.ToString()
     End Function
-
 
     Private Sub frmUploadSummary_Resize(sender As Object, e As EventArgs) Handles Me.Resize
         pnlSearch.Top = 6
