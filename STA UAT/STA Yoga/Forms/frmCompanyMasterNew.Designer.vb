@@ -1087,6 +1087,7 @@ Partial Class frmCompanyMasterNew
         'btnDelete
         '
         Me.btnDelete.BackColor = System.Drawing.SystemColors.Control
+        Me.btnDelete.Enabled = False
         Me.btnDelete.ForeColor = System.Drawing.SystemColors.ControlText
         Me.btnDelete.Location = New System.Drawing.Point(352, 2)
         Me.btnDelete.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
