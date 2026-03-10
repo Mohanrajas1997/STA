@@ -166,7 +166,7 @@ Public Class frmISRGenerateCoveringLetter
             shsql &= "select distinct "
             shsql &= "a.folio_dpid as 'Folio No',"
             shsql &= "e.holder1_name as 'Share Holder',"
-            shsql &= "ifnull(a.div_amount,0) as 'Dividend Amount',"
+            shsql &= "ifnull(a.net_amount,0) as 'Dividend Amount',"
             shsql &= "a.warrant_no as 'Warrant No',"
             shsql &= "ifnull(a.div_date,'')  as 'Dividend Date',"
             shsql &= "c.finyear_code as 'FinYear Code',"

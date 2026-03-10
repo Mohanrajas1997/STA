@@ -90,6 +90,7 @@ Partial Class frmMain
         Me.mnuQueueInex = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuQueueInward = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuGenCoveringLetter = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ISRGenerateCoveringLetterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuIEPFCoveringLetter = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuLetterOfConfirmation = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuTranSignature = New System.Windows.Forms.ToolStripMenuItem()
@@ -242,7 +243,6 @@ Partial Class frmMain
         Me.lblStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.ISRGenerateCoveringLetterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -651,6 +651,12 @@ Partial Class frmMain
         Me.mnuGenCoveringLetter.Name = "mnuGenCoveringLetter"
         Me.mnuGenCoveringLetter.Size = New System.Drawing.Size(353, 30)
         Me.mnuGenCoveringLetter.Text = "Generate Covering Letter"
+        '
+        'ISRGenerateCoveringLetterToolStripMenuItem
+        '
+        Me.ISRGenerateCoveringLetterToolStripMenuItem.Name = "ISRGenerateCoveringLetterToolStripMenuItem"
+        Me.ISRGenerateCoveringLetterToolStripMenuItem.Size = New System.Drawing.Size(322, 30)
+        Me.ISRGenerateCoveringLetterToolStripMenuItem.Text = "ISR Generate Covering Letter"
         '
         'mnuIEPFCoveringLetter
         '
@@ -1180,7 +1186,6 @@ Partial Class frmMain
         Me.IEPFReportToolStripMenuItem1.Name = "IEPFReportToolStripMenuItem1"
         Me.IEPFReportToolStripMenuItem1.Size = New System.Drawing.Size(367, 30)
         Me.IEPFReportToolStripMenuItem1.Text = "IEPF Report"
-        Me.IEPFReportToolStripMenuItem1.Visible = False
         '
         'RUDCorrespondenceToolStripMenuItem1
         '
@@ -1599,12 +1604,6 @@ Partial Class frmMain
         Me.lblStatus.Name = "lblStatus"
         Me.lblStatus.Size = New System.Drawing.Size(60, 25)
         Me.lblStatus.Text = "Status"
-        '
-        'ISRGenerateCoveringLetterToolStripMenuItem
-        '
-        Me.ISRGenerateCoveringLetterToolStripMenuItem.Name = "ISRGenerateCoveringLetterToolStripMenuItem"
-        Me.ISRGenerateCoveringLetterToolStripMenuItem.Size = New System.Drawing.Size(322, 30)
-        Me.ISRGenerateCoveringLetterToolStripMenuItem.Text = "ISR Generate Covering Letter"
         '
         'frmMain
         '

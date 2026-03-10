@@ -378,10 +378,10 @@ Public Class frmCompanyMasterNew
                 Return
             End If
 
-            If txtPanNo.TextLength <> 10 Then
-                MessageBox.Show("Pan No length should be 10!..", gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Return
-            End If
+            'If txtPanNo.TextLength <> 10 Then
+            '    MessageBox.Show("Pan No length should be 10!..", gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            '    Return
+            'End If
 
             If txtCinNo.TextLength <> 21 Then
                 MessageBox.Show("CIN No length should be 21!..", gsProjectName, MessageBoxButtons.OK, MessageBoxIcon.Information)
