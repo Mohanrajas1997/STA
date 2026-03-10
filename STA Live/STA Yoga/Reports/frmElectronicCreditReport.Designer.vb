@@ -121,7 +121,7 @@ Partial Class frmElectronicCreditReport
         Me.dtpConfDate.ShowCheckBox = True
         Me.dtpConfDate.Size = New System.Drawing.Size(105, 27)
         Me.dtpConfDate.TabIndex = 0
-        Me.dtpConfDate.Value = New Date(2025, 9, 11, 0, 0, 0, 0)
+        Me.dtpConfDate.Value = New Date(2026, 2, 12, 0, 0, 0, 0)
         '
         'lblConfimationdt
         '
