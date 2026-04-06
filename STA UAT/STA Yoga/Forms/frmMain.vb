@@ -1059,4 +1059,16 @@ Public Class frmMain
         frm.MdiParent = Me
         frm.Show()
     End Sub
+
+    Private Sub mnuComparisonReport_new_Click(sender As Object, e As EventArgs) Handles mnuComparisonReport_new.Click
+        Dim frm As New frmBenpostComparisonReport_new
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
+
+    Private Sub mnuCompInsiderReport_new_Click(sender As Object, e As EventArgs) Handles mnuCompInsiderReport_new.Click
+        Dim frm As New frmCompanyInsidersReport
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
 End Class

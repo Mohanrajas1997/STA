@@ -344,6 +344,8 @@ Public Class frmImportAll
                                 objFileReturn = objImp.InwardOthers(lsFile, lsSheetName, False, lobjItem)
                             Case "OUTWARD"
                                 objFileReturn = objImp.Outward(lsFile, lsSheetName, False, lobjItem)
+                            Case "COMPANY INSIDERS"
+                                objFileReturn = objImp.CompInsiderName(lsFile, lsSheetName, False, lobjItem)
                         End Select
 
                         lsTxt = objFileReturn.Msg

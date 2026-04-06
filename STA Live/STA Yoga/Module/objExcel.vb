@@ -797,6 +797,73 @@ Module objExcel
         End Try
     End Sub
 
+    Public Sub ExportMultipleGridsToExcel(ByVal grids As Dictionary(Of String, DataGridView), ByVal FileName As String)
+
+        Dim objDataTable As DataTable
+        Dim TotCol As Integer, Col As Integer, Row As Integer
+        Dim sheetName As String
+
+        Try
+            ' Always create fresh file
+            If File.Exists(FileName) Then File.Delete(FileName)
+
+            FileOpen(1, FileName, OpenMode.Output)
+
+            ' Workbook start
+            PrintLine(1, "<?xml version=""1.0"" encoding=""utf-8""?>")
+            PrintLine(1, "<Workbook xmlns=""urn:schemas-microsoft-com:office:spreadsheet"" xmlns:x=""urn:schemas-microsoft-com:office:excel"" xmlns:ss=""urn:schemas-microsoft-com:office:spreadsheet"">")
+
+            ' Styles
+            PrintLine(1, "<Styles>")
+            PrintLine(1, "<Style ss:ID=""s1""><Font ss:Bold=""1""/></Style>")
+            PrintLine(1, "</Styles>")
+
+            ' Loop all grids (each = one sheet)
+            For Each kvp In grids
+                sheetName = kvp.Key
+                objDataTable = CType(kvp.Value.DataSource, DataTable)
+
+                TotCol = objDataTable.Columns.Count
+
+                PrintLine(1, "<Worksheet ss:Name=""" & sheetName & """>")
+                PrintLine(1, "<Table>")
+
+                ' Header row
+                PrintLine(1, "<Row>")
+                For Col = 1 To TotCol
+                    PrintLine(1, "<Cell ss:StyleID=""s1""><Data ss:Type=""String"">" &
+                              XmlEncode(objDataTable.Columns(Col - 1).Caption) &
+                              "</Data></Cell>")
+                Next
+                PrintLine(1, "</Row>")
+
+                ' Data rows
+                For Row = 0 To objDataTable.Rows.Count - 1
+                    PrintLine(1, "<Row>")
+                    For Col = 1 To TotCol
+                        PrintLine(1, "<Cell><Data ss:Type=""String"">" &
+                                  XmlEncode(objDataTable.Rows(Row)(Col - 1).ToString()) &
+                                  "</Data></Cell>")
+                    Next
+                    PrintLine(1, "</Row>")
+                Next
+
+                PrintLine(1, "</Table>")
+                PrintLine(1, "</Worksheet>")
+            Next
+
+            ' Close workbook
+            PrintLine(1, "</Workbook>")
+            FileClose(1)
+
+            Call ShellExecute(frmMain.Handle.ToInt32, "open", FileName, "", "0", SW_SHOWNORMAL)
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+
+    End Sub
+
     Private Function XmlEncode(ByVal text As String) As String
         Return text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("""", "&quot;").Replace("'", "&apos;")
     End Function
