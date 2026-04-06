@@ -686,10 +686,6 @@ Public Class frmMain
         frm.Show()
     End Sub
 
-    Private Sub mnuTran_Click(sender As Object, e As EventArgs) Handles mnuTran.Click
-
-    End Sub
-
     Private Sub mnuInwardUpdateApprovedDate_Click(sender As Object, e As EventArgs) Handles mnuInwardUpdateApprovedDate.Click
         Dim objFrm As New frmInwardList(0, False, True)
         objFrm.MdiParent = Me
@@ -1056,6 +1052,18 @@ Public Class frmMain
 
     Private Sub ISRGenerateCovertingLetterToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ISRGenerateCovertingLetterToolStripMenuItem.Click
         Dim frm As New frmISRGenerateCoveringLetter
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
+
+    Private Sub mnuComparisonReport_new_Click(sender As Object, e As EventArgs) Handles mnuComparisonReport_new.Click
+        Dim frm As New frmBenpostComparisonReport_new
+        frm.MdiParent = Me
+        frm.Show()
+    End Sub
+
+    Private Sub mnuCompInsiderReport_new_Click(sender As Object, e As EventArgs) Handles mnuCompInsiderReport_new.Click
+        Dim frm As New frmCompanyInsidersReport
         frm.MdiParent = Me
         frm.Show()
     End Sub

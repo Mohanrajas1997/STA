@@ -208,6 +208,7 @@ Partial Class frmMain
         Me.ToolStripMenuItem21 = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuGroupPanReport = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuComparisonReport = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuComparisonReport_new = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem18 = New System.Windows.Forms.ToolStripSeparator()
         Me.mnuDisbScheReport = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuCatReport = New System.Windows.Forms.ToolStripMenuItem()
@@ -241,6 +242,7 @@ Partial Class frmMain
         Me.StatusStrip = New System.Windows.Forms.StatusStrip()
         Me.lblStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
+        Me.mnuCompInsiderReport_new = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -1319,7 +1321,7 @@ Partial Class frmMain
         '
         'mnuMis
         '
-        Me.mnuMis.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuBenpostRecon, Me.mnuAlphaIndex, Me.mnuTopShareHolderList, Me.mnuBenpostShareSummary, Me.mnuInwardDocsubtypeRptToolStripMenuItem, Me.mnuInwardSummary, Me.ToolStripMenuItem16, Me.mnuInterDepositoryReport, Me.mnuInterDepositoryNewReport, Me.PendingBenpost, Me.ToolStripMenuItem21, Me.mnuGroupPanReport, Me.mnuComparisonReport, Me.ToolStripMenuItem18, Me.mnuDisbScheReport, Me.mnuCatReport, Me.AnnualReturnToolStripMenuItem, Me.DmatRematConformationReportToolStripMenuItem, Me.SH2ReportToolStripMenuItem, Me.AuditLogToolStripMenuItem, Me.AMLReportToolStripMenuItem, Me.IEPFReportToolStripMenuItem})
+        Me.mnuMis.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuBenpostRecon, Me.mnuAlphaIndex, Me.mnuTopShareHolderList, Me.mnuBenpostShareSummary, Me.mnuInwardDocsubtypeRptToolStripMenuItem, Me.mnuInwardSummary, Me.ToolStripMenuItem16, Me.mnuInterDepositoryReport, Me.mnuInterDepositoryNewReport, Me.PendingBenpost, Me.ToolStripMenuItem21, Me.mnuGroupPanReport, Me.mnuComparisonReport, Me.mnuComparisonReport_new, Me.mnuCompInsiderReport_new, Me.ToolStripMenuItem18, Me.mnuDisbScheReport, Me.mnuCatReport, Me.AnnualReturnToolStripMenuItem, Me.DmatRematConformationReportToolStripMenuItem, Me.SH2ReportToolStripMenuItem, Me.AuditLogToolStripMenuItem, Me.AMLReportToolStripMenuItem, Me.IEPFReportToolStripMenuItem})
         Me.mnuMis.Name = "mnuMis"
         Me.mnuMis.Size = New System.Drawing.Size(311, 30)
         Me.mnuMis.Text = "Mis"
@@ -1400,6 +1402,12 @@ Partial Class frmMain
         Me.mnuComparisonReport.Name = "mnuComparisonReport"
         Me.mnuComparisonReport.Size = New System.Drawing.Size(436, 30)
         Me.mnuComparisonReport.Text = "Comparison"
+        '
+        'mnuComparisonReport_new
+        '
+        Me.mnuComparisonReport_new.Name = "mnuComparisonReport_new"
+        Me.mnuComparisonReport_new.Size = New System.Drawing.Size(436, 30)
+        Me.mnuComparisonReport_new.Text = "Comparison Rpt New"
         '
         'ToolStripMenuItem18
         '
@@ -1596,6 +1604,12 @@ Partial Class frmMain
         Me.lblStatus.Name = "lblStatus"
         Me.lblStatus.Size = New System.Drawing.Size(60, 25)
         Me.lblStatus.Text = "Status"
+        '
+        'mnuCompInsiderReport_new
+        '
+        Me.mnuCompInsiderReport_new.Name = "mnuCompInsiderReport_new"
+        Me.mnuCompInsiderReport_new.Size = New System.Drawing.Size(436, 30)
+        Me.mnuCompInsiderReport_new.Text = "Company Insiders"
         '
         'frmMain
         '
@@ -1835,4 +1849,6 @@ Partial Class frmMain
     Friend WithEvents mnuIEPFCoveringLetter As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents FolioSignatureToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ISRGenerateCovertingLetterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuComparisonReport_new As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuCompInsiderReport_new As System.Windows.Forms.ToolStripMenuItem
 End Class

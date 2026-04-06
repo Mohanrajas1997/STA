@@ -6050,8 +6050,8 @@ Public Class clsImport
                 lsUIDofHolder1 = ""
                 lsUIDofHolder2 = ""
                 lsUIDofHolder3 = ""
-                lssafekeepbal = 0
-                lsearmarkbal = 0
+                lsSafeKeepBal = 0
+                lsEarmarkBal = 0
 
                 If (lsFldValues.Length = 20 Or lsFldValues.Length = 24) And lbHeaderFlag = False And lsFldValues(0) = "01" Then
                     lsIsinID = lsFldValues(1)
@@ -6268,8 +6268,8 @@ Public Class clsImport
                         cmd.Parameters.AddWithValue("?in_uid_of_holder1", lsUIDofHolder1)
                         cmd.Parameters.AddWithValue("?in_uid_of_holder2", lsUIDofHolder2)
                         cmd.Parameters.AddWithValue("?in_uid_of_holder3", lsUIDofHolder3)
-                        cmd.Parameters.AddWithValue("?in_safe_keep_bal", lssafekeepbal)
-                        cmd.Parameters.AddWithValue("?in_earmark_bal", lsearmarkbal)
+                        cmd.Parameters.AddWithValue("?in_safe_keep_bal", lsSafeKeepBal)
+                        cmd.Parameters.AddWithValue("?in_earmark_bal", lsEarmarkBal)
 
                         'cmd.Parameters.AddWithValue("?in_lei_no", lsLeiNo)
                         'cmd.Parameters.AddWithValue("?in_mode_of_operation", lsModeOfOper)
@@ -6665,8 +6665,8 @@ Public Class clsImport
                 lsUIDofHolder1 = ""
                 lsUIDofHolder2 = ""
                 lsUIDofHolder3 = ""
-                lssafekeepbal = 0
-                lsearmarkbal = 0
+                lsSafeKeepBal = 0
+                lsEarmarkBal = 0
 
                 lsBenpostDate = lsFldValues(73)
                 If lsBenpostDate.Length = 8 And IsNumeric(lsBenpostDate) = True Then lsBenpostDate = Mid(lsBenpostDate, 5, 4) & "-" & Mid(lsBenpostDate, 3, 2) & "-" & Mid(lsBenpostDate, 1, 2)
@@ -10167,6 +10167,168 @@ Public Class clsImport
 
             Return lobjFileReturn
 
+        Catch ex As Exception
+            If ShowFlag Then MsgBox(ex.Message.ToString, MsgBoxStyle.Critical, gsProjectName)
+
+            lobjFileReturn.Result = 0
+            lobjFileReturn.Msg = ex.Message.ToString
+
+            Return lobjFileReturn
+        End Try
+    End Function
+
+    Public Function CompInsiderName(FileName As String, SheetName As String, Optional ShowFlag As Boolean = True, Optional LsvItem As ListViewItem = Nothing) As clsFileReturn
+        Dim i As Integer
+        Dim lsFldName(5) As String
+        Dim lsFldFormat As String = ""
+        Dim ds As New DataSet
+        Dim c As Integer = 0
+        Dim d As Integer = 0
+
+        Dim lobjExcelDatatable As New DataTable
+
+        Dim lsCompCode As String
+        Dim lsInsiderName As String
+        Dim lsPanNo As String
+        Dim lsStatusFlag As String
+
+        Dim lsMsg As String
+
+        Dim lsFileName As String = ""
+        Dim lnFileId As Long
+        Dim lsTxt As String
+
+        Dim lnResult As Long
+        Dim lobjFileReturn As New clsFileReturn
+
+        lsFldName(1) = "SNO"
+        lsFldName(2) = "COMPANY"
+        lsFldName(3) = "INSIDER NAME"
+        lsFldName(4) = "PAN NO"
+        lsFldName(5) = "STATUS FLAG"
+
+        Try
+            lsFileName = QuoteFilter(FileName.Substring(FileName.LastIndexOf("\") + 1))
+
+            '---------------------------------
+            lobjExcelDatatable = gpExcelDataset("select * from [" & SheetName & "$]", FileName)
+
+            For i = 1 To 5
+                lsFldFormat &= lsFldName(i) & "|"
+            Next
+
+            For i = 1 To 5
+                If lsFldName(i).Trim <> lobjExcelDatatable.Columns(i - 1).ColumnName.ToUpper.Trim Then
+                    lsMsg = "Excel Column Setting is wrong (" & i & ")" & vbCrLf & vbCrLf _
+                    & lsFldName(i).ToUpper.Trim & " : " & lobjExcelDatatable.Columns(i - 1).ColumnName.ToUpper.Trim & ":" & vbCrLf & vbCrLf _
+                    & "Correct format is " & vbCrLf & vbCrLf & lsFldFormat
+
+                    If ShowFlag Then MsgBox(lsMsg, vbOKOnly + vbExclamation, gsProjectName)
+
+                    lobjFileReturn.Result = 0
+                    lobjFileReturn.Msg = lsMsg
+
+                    Return lobjFileReturn
+                End If
+            Next
+
+            Using cmd As New MySqlCommand("pr_sta_ins_file", gOdbcConn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("?in_file_name", lsFileName)
+                cmd.Parameters("?in_file_name").Direction = ParameterDirection.Input
+                cmd.Parameters.AddWithValue("?in_sheet_name", QuoteFilter(SheetName))
+                cmd.Parameters("?in_sheet_name").Direction = ParameterDirection.Input
+                cmd.Parameters.AddWithValue("?in_file_type", gnFileFolio)
+                cmd.Parameters("?in_file_type").Direction = ParameterDirection.Input
+                cmd.Parameters.AddWithValue("?in_action_by", gsLoginUserCode)
+                cmd.Parameters("?in_action_by").Direction = ParameterDirection.Input
+                'Out put Para
+                cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+                cmd.Parameters.Add("?out_file_gid", MySqlDbType.Int64)
+                cmd.Parameters("?out_file_gid").Direction = ParameterDirection.Output
+
+                cmd.CommandTimeout = 0
+
+                cmd.ExecuteNonQuery()
+
+                lnResult = Val(cmd.Parameters("?out_result").Value.ToString())
+
+                If (lnResult = 0) Then
+                    lobjFileReturn.Msg = cmd.Parameters("?out_msg").Value.ToString()
+                    If ShowFlag Then MsgBox(lobjFileReturn.Msg)
+
+                    Return lobjFileReturn
+                End If
+
+                lnFileId = Val(cmd.Parameters("?out_file_gid").Value.ToString())
+            End Using
+
+            With lobjExcelDatatable
+                i = 0
+
+                While i <= .Rows.Count - 1
+                    With .Rows(i)
+                        If LsvItem Is Nothing Then
+                            frmMain.lblStatus.Text = "Reading " & i.ToString & " line..."
+                        Else
+                            LsvItem.Text = "Reading " & i.ToString & " line..."
+                        End If
+
+                        Application.DoEvents()
+
+                        lsCompCode = Mid(QuoteFilter(.Item("COMPANY").ToString), 1, 16)
+                        lsInsiderName = Mid(QuoteFilter(.Item("INSIDER NAME").ToString), 1, 64)
+                        lsPanNo = Mid(QuoteFilter(.Item("PAN NO").ToString), 1, 10)
+                        lsStatusFlag = Mid(QuoteFilter(.Item("STATUS FLAG").ToString), 1, 1)
+
+                        Using cmd As New MySqlCommand("pr_sta_ins_compinsiders", gOdbcConn)
+                            cmd.CommandType = CommandType.StoredProcedure
+                            cmd.Parameters.AddWithValue("?in_file_gid", lnFileId)
+                            cmd.Parameters.AddWithValue("?in_comp_code", lsCompCode)
+                            cmd.Parameters.AddWithValue("?in_insider_name", lsInsiderName)
+                            cmd.Parameters.AddWithValue("in_pan_no", lsPanNo)
+                            cmd.Parameters.AddWithValue("in_status_flag", lsStatusFlag)
+                            cmd.Parameters.AddWithValue("in_action_by", gsLoginUserCode)
+
+                            cmd.Parameters.AddWithValue("?in_line_no", i + 1)
+                            cmd.Parameters.AddWithValue("?in_errline_flag", True)
+
+                            'output Para
+                            cmd.Parameters.Add("?out_result", MySqlDbType.Int32)
+                            cmd.Parameters("?out_result").Direction = ParameterDirection.Output
+                            cmd.Parameters.Add("?out_msg", MySqlDbType.VarChar)
+                            cmd.Parameters("?out_msg").Direction = ParameterDirection.Output
+
+                            cmd.CommandTimeout = 0
+
+                            cmd.ExecuteNonQuery()
+
+                            lnResult = Val(cmd.Parameters("?out_result").Value.ToString())
+                            lsMsg = cmd.Parameters("?out_msg").Value.ToString()
+
+                            If lnResult = 1 Then c += 1
+                        End Using
+                    End With
+
+                    i += 1
+                End While
+            End With
+
+            Call FileClose(1)
+            frmMain.lblStatus.Text = ""
+
+            lsTxt = "Out of " & i & " record(s) " & c & " record(s) imported successfully !"
+            Call gpUpdateFileRemark(lnFileId, lsTxt)
+
+            If ShowFlag Then MsgBox(lsTxt, MsgBoxStyle.Information, gsProjectName)
+
+            lobjFileReturn.Result = 1
+            lobjFileReturn.Msg = lsTxt
+
+            Return lobjFileReturn
         Catch ex As Exception
             If ShowFlag Then MsgBox(ex.Message.ToString, MsgBoxStyle.Critical, gsProjectName)
 
