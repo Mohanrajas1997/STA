@@ -61,7 +61,7 @@ Partial Class frmDividendAccountMasterRpt
         Me.txtTotRec.MaxLength = 100
         Me.txtTotRec.Name = "txtTotRec"
         Me.txtTotRec.ReadOnly = True
-        Me.txtTotRec.Size = New System.Drawing.Size(433, 14)
+        Me.txtTotRec.Size = New System.Drawing.Size(433, 20)
         Me.txtTotRec.TabIndex = 0
         Me.txtTotRec.TabStop = False
         Me.txtTotRec.Text = "Total Records : "
@@ -71,7 +71,7 @@ Partial Class frmDividendAccountMasterRpt
         Me.btnExport.Location = New System.Drawing.Point(706, 5)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(72, 24)
-        Me.btnExport.TabIndex = 1
+        Me.btnExport.TabIndex = 0
         Me.btnExport.Text = "&Export"
         '
         'dgvList
@@ -109,8 +109,8 @@ Partial Class frmDividendAccountMasterRpt
         Me.CboBankCode.FormattingEnabled = True
         Me.CboBankCode.Location = New System.Drawing.Point(359, 49)
         Me.CboBankCode.Name = "CboBankCode"
-        Me.CboBankCode.Size = New System.Drawing.Size(146, 21)
-        Me.CboBankCode.TabIndex = 131
+        Me.CboBankCode.Size = New System.Drawing.Size(146, 29)
+        Me.CboBankCode.TabIndex = 3
         '
         'lblBankcode
         '
@@ -126,16 +126,16 @@ Partial Class frmDividendAccountMasterRpt
         '
         Me.txtAccno.Location = New System.Drawing.Point(111, 49)
         Me.txtAccno.Name = "txtAccno"
-        Me.txtAccno.Size = New System.Drawing.Size(139, 21)
-        Me.txtAccno.TabIndex = 130
+        Me.txtAccno.Size = New System.Drawing.Size(139, 27)
+        Me.txtAccno.TabIndex = 2
         '
         'CboFinyear
         '
         Me.CboFinyear.FormattingEnabled = True
         Me.CboFinyear.Location = New System.Drawing.Point(618, 15)
         Me.CboFinyear.Name = "CboFinyear"
-        Me.CboFinyear.Size = New System.Drawing.Size(146, 21)
-        Me.CboFinyear.TabIndex = 128
+        Me.CboFinyear.Size = New System.Drawing.Size(146, 29)
+        Me.CboFinyear.TabIndex = 1
         '
         'Label1
         '
@@ -162,7 +162,7 @@ Partial Class frmDividendAccountMasterRpt
         Me.btnClear.Location = New System.Drawing.Point(614, 49)
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(72, 24)
-        Me.btnClear.TabIndex = 12
+        Me.btnClear.TabIndex = 5
         Me.btnClear.Text = "Clear"
         Me.btnClear.UseVisualStyleBackColor = True
         '
@@ -171,7 +171,7 @@ Partial Class frmDividendAccountMasterRpt
         Me.cboCompany.FormattingEnabled = True
         Me.cboCompany.Location = New System.Drawing.Point(111, 14)
         Me.cboCompany.Name = "cboCompany"
-        Me.cboCompany.Size = New System.Drawing.Size(394, 21)
+        Me.cboCompany.Size = New System.Drawing.Size(394, 29)
         Me.cboCompany.TabIndex = 0
         '
         'Label3
@@ -189,7 +189,7 @@ Partial Class frmDividendAccountMasterRpt
         Me.btnClose.Location = New System.Drawing.Point(692, 49)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(72, 24)
-        Me.btnClose.TabIndex = 13
+        Me.btnClose.TabIndex = 6
         Me.btnClose.Text = "Close"
         Me.btnClose.UseVisualStyleBackColor = True
         '
@@ -198,13 +198,13 @@ Partial Class frmDividendAccountMasterRpt
         Me.btnRefresh.Location = New System.Drawing.Point(536, 49)
         Me.btnRefresh.Name = "btnRefresh"
         Me.btnRefresh.Size = New System.Drawing.Size(72, 24)
-        Me.btnRefresh.TabIndex = 11
+        Me.btnRefresh.TabIndex = 4
         Me.btnRefresh.Text = "Refresh"
         Me.btnRefresh.UseVisualStyleBackColor = True
         '
         'frmDividendAccountMasterRpt
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(11.0!, 21.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(801, 469)
         Me.Controls.Add(Me.pnlExport)

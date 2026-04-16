@@ -78,6 +78,7 @@ Partial Class frmCertificateDemat
         Me.btnReject = New System.Windows.Forms.Button()
         Me.btnView = New System.Windows.Forms.Button()
         Me.btnClose = New System.Windows.Forms.Button()
+        Me.lblISIN = New System.Windows.Forms.Label()
         CType(Me.dgvChklst, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpHeader.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -149,6 +150,7 @@ Partial Class frmCertificateDemat
         '
         'grpHeader
         '
+        Me.grpHeader.Controls.Add(Me.lblISIN)
         Me.grpHeader.Controls.Add(Me.lblDepository)
         Me.grpHeader.Controls.Add(Me.txtInputClientid)
         Me.grpHeader.Controls.Add(Me.lblClientid)
@@ -458,14 +460,13 @@ Partial Class frmCertificateDemat
         'txtIsinId
         '
         Me.txtIsinId.BackColor = System.Drawing.SystemColors.Window
-        Me.txtIsinId.Location = New System.Drawing.Point(674, 74)
+        Me.txtIsinId.Location = New System.Drawing.Point(101, 74)
         Me.txtIsinId.MaxLength = 0
         Me.txtIsinId.Name = "txtIsinId"
         Me.txtIsinId.ReadOnly = True
-        Me.txtIsinId.Size = New System.Drawing.Size(39, 27)
+        Me.txtIsinId.Size = New System.Drawing.Size(114, 27)
         Me.txtIsinId.TabIndex = 79
         Me.txtIsinId.TabStop = False
-        Me.txtIsinId.Visible = False
         '
         'txtCertNo
         '
@@ -542,18 +543,18 @@ Partial Class frmCertificateDemat
         'txtFolioNo
         '
         Me.txtFolioNo.BackColor = System.Drawing.SystemColors.Window
-        Me.txtFolioNo.Location = New System.Drawing.Point(101, 74)
+        Me.txtFolioNo.Location = New System.Drawing.Point(268, 74)
         Me.txtFolioNo.MaxLength = 0
         Me.txtFolioNo.Name = "txtFolioNo"
         Me.txtFolioNo.ReadOnly = True
-        Me.txtFolioNo.Size = New System.Drawing.Size(284, 27)
+        Me.txtFolioNo.Size = New System.Drawing.Size(114, 27)
         Me.txtFolioNo.TabIndex = 2
         Me.txtFolioNo.TabStop = False
         '
         'Label22
         '
         Me.Label22.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label22.Location = New System.Drawing.Point(21, 77)
+        Me.Label22.Location = New System.Drawing.Point(188, 77)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(74, 13)
         Me.Label22.TabIndex = 74
@@ -704,6 +705,16 @@ Partial Class frmCertificateDemat
         Me.btnClose.Text = "Close"
         Me.btnClose.UseVisualStyleBackColor = True
         '
+        'lblISIN
+        '
+        Me.lblISIN.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.lblISIN.Location = New System.Drawing.Point(21, 77)
+        Me.lblISIN.Name = "lblISIN"
+        Me.lblISIN.Size = New System.Drawing.Size(74, 13)
+        Me.lblISIN.TabIndex = 120
+        Me.lblISIN.Text = "ISIN"
+        Me.lblISIN.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
         'frmCertificateDemat
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(11.0!, 21.0!)
@@ -796,4 +807,5 @@ Partial Class frmCertificateDemat
     Friend WithEvents lblClientid As System.Windows.Forms.Label
     Friend WithEvents txtClientid As System.Windows.Forms.TextBox
     Friend WithEvents lblDepository As System.Windows.Forms.Label
+    Friend WithEvents lblISIN As System.Windows.Forms.Label
 End Class

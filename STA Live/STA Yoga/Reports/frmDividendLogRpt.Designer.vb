@@ -71,7 +71,7 @@ Partial Class frmDividendLogRpt
         Me.txtTotRec.MaxLength = 100
         Me.txtTotRec.Name = "txtTotRec"
         Me.txtTotRec.ReadOnly = True
-        Me.txtTotRec.Size = New System.Drawing.Size(433, 14)
+        Me.txtTotRec.Size = New System.Drawing.Size(433, 20)
         Me.txtTotRec.TabIndex = 0
         Me.txtTotRec.TabStop = False
         Me.txtTotRec.Text = "Total Records : "
@@ -128,7 +128,7 @@ Partial Class frmDividendLogRpt
         Me.cboCompany.FormattingEnabled = True
         Me.cboCompany.Location = New System.Drawing.Point(111, 14)
         Me.cboCompany.Name = "cboCompany"
-        Me.cboCompany.Size = New System.Drawing.Size(394, 21)
+        Me.cboCompany.Size = New System.Drawing.Size(394, 29)
         Me.cboCompany.TabIndex = 0
         '
         'btnClear
@@ -155,7 +155,7 @@ Partial Class frmDividendLogRpt
         Me.CboFinyear.FormattingEnabled = True
         Me.CboFinyear.Location = New System.Drawing.Point(618, 15)
         Me.CboFinyear.Name = "CboFinyear"
-        Me.CboFinyear.Size = New System.Drawing.Size(150, 21)
+        Me.CboFinyear.Size = New System.Drawing.Size(150, 29)
         Me.CboFinyear.TabIndex = 128
         '
         'lblIssPaymode
@@ -173,7 +173,7 @@ Partial Class frmDividendLogRpt
         Me.CboIssPaymode.FormattingEnabled = True
         Me.CboIssPaymode.Location = New System.Drawing.Point(618, 52)
         Me.CboIssPaymode.Name = "CboIssPaymode"
-        Me.CboIssPaymode.Size = New System.Drawing.Size(150, 21)
+        Me.CboIssPaymode.Size = New System.Drawing.Size(150, 29)
         Me.CboIssPaymode.TabIndex = 146
         '
         'lblPaidpaymode
@@ -192,7 +192,7 @@ Partial Class frmDividendLogRpt
         Me.CboPaidPaymode.Items.AddRange(New Object() {"Unpaid", "Paid", "Later"})
         Me.CboPaidPaymode.Location = New System.Drawing.Point(618, 84)
         Me.CboPaidPaymode.Name = "CboPaidPaymode"
-        Me.CboPaidPaymode.Size = New System.Drawing.Size(150, 21)
+        Me.CboPaidPaymode.Size = New System.Drawing.Size(150, 29)
         Me.CboPaidPaymode.TabIndex = 150
         '
         'lblDivstatus
@@ -211,7 +211,7 @@ Partial Class frmDividendLogRpt
         Me.CboDivstatus.Items.AddRange(New Object() {"Unpaid", "Paid", "Later"})
         Me.CboDivstatus.Location = New System.Drawing.Point(111, 119)
         Me.CboDivstatus.Name = "CboDivstatus"
-        Me.CboDivstatus.Size = New System.Drawing.Size(141, 21)
+        Me.CboDivstatus.Size = New System.Drawing.Size(141, 29)
         Me.CboDivstatus.TabIndex = 152
         '
         'lblIssueDateFrm
@@ -231,7 +231,7 @@ Partial Class frmDividendLogRpt
         Me.dtpIssuedatefrm.Location = New System.Drawing.Point(113, 48)
         Me.dtpIssuedatefrm.Name = "dtpIssuedatefrm"
         Me.dtpIssuedatefrm.ShowCheckBox = True
-        Me.dtpIssuedatefrm.Size = New System.Drawing.Size(139, 21)
+        Me.dtpIssuedatefrm.Size = New System.Drawing.Size(139, 27)
         Me.dtpIssuedatefrm.TabIndex = 156
         Me.dtpIssuedatefrm.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
@@ -252,7 +252,7 @@ Partial Class frmDividendLogRpt
         Me.dtpPaidDatefrm.Location = New System.Drawing.Point(113, 84)
         Me.dtpPaidDatefrm.Name = "dtpPaidDatefrm"
         Me.dtpPaidDatefrm.ShowCheckBox = True
-        Me.dtpPaidDatefrm.Size = New System.Drawing.Size(139, 21)
+        Me.dtpPaidDatefrm.Size = New System.Drawing.Size(139, 27)
         Me.dtpPaidDatefrm.TabIndex = 158
         Me.dtpPaidDatefrm.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
@@ -273,7 +273,7 @@ Partial Class frmDividendLogRpt
         Me.dtpissueDateTo.Location = New System.Drawing.Point(368, 48)
         Me.dtpissueDateTo.Name = "dtpissueDateTo"
         Me.dtpissueDateTo.ShowCheckBox = True
-        Me.dtpissueDateTo.Size = New System.Drawing.Size(139, 21)
+        Me.dtpissueDateTo.Size = New System.Drawing.Size(139, 27)
         Me.dtpissueDateTo.TabIndex = 160
         Me.dtpissueDateTo.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
@@ -294,7 +294,7 @@ Partial Class frmDividendLogRpt
         Me.dtpPaidDateto.Location = New System.Drawing.Point(368, 84)
         Me.dtpPaidDateto.Name = "dtpPaidDateto"
         Me.dtpPaidDateto.ShowCheckBox = True
-        Me.dtpPaidDateto.Size = New System.Drawing.Size(139, 21)
+        Me.dtpPaidDateto.Size = New System.Drawing.Size(139, 27)
         Me.dtpPaidDateto.TabIndex = 162
         Me.dtpPaidDateto.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
@@ -329,7 +329,7 @@ Partial Class frmDividendLogRpt
         '
         'frmDividendLogRpt
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(11.0!, 21.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(967, 499)
         Me.Controls.Add(Me.pnlExport)

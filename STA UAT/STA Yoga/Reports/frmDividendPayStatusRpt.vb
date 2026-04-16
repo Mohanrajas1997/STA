@@ -9,12 +9,12 @@
 
         Call gpBindCombo(Sql, "comp_name", "comp_gid", cboCompany, gOdbcConn)
 
-        Sql = ""
-        Sql &= " select finyear_gid,finyear_code from sta_mst_tfinyear "
-        Sql &= " where delete_flag = 'N' "
-        Sql &= " order by finyear_code asc "
+        'Sql = ""
+        'Sql &= " select finyear_gid,finyear_code from sta_mst_tfinyear "
+        'Sql &= " where delete_flag = 'N' "
+        'Sql &= " order by finyear_code asc "
 
-        Call gpBindCombo(Sql, "finyear_code", "finyear_gid", CboFinyear, gOdbcConn)
+        'Call gpBindCombo(Sql, "finyear_code", "finyear_gid", CboFinyear, gOdbcConn)
 
         Sql = ""
         Sql &= " select paymode_gid,paymode_desc FROM sta_mst_tpaymode "
@@ -179,5 +179,18 @@
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
+    End Sub
+
+    Private Sub cboCompany_Leave(sender As Object, e As EventArgs) Handles cboCompany.Leave
+        Dim sql As String
+        If cboCompany.SelectedIndex >= 0 Then
+            sql = ""
+            sql &= " select b.finyear_gid,b.finyear_code from div_mst_tacc as a"
+            sql &= " inner join sta_mst_tfinyear as b on a.finyear_gid = b.finyear_gid and b.delete_flag = 'N'"
+            sql &= " where a.delete_flag = 'N' and a.comp_gid = " & Val(cboCompany.SelectedValue.ToString) & ""
+            sql &= " order by b.finyear_code asc "
+
+            Call gpBindCombo(sql, "finyear_code", "finyear_gid", CboFinyear, gOdbcConn)
+        End If
     End Sub
 End Class
