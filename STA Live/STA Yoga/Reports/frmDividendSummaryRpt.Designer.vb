@@ -74,7 +74,7 @@ Partial Class frmDividendSummaryRpt
         Me.cboCompany.FormattingEnabled = True
         Me.cboCompany.Location = New System.Drawing.Point(111, 14)
         Me.cboCompany.Name = "cboCompany"
-        Me.cboCompany.Size = New System.Drawing.Size(394, 21)
+        Me.cboCompany.Size = New System.Drawing.Size(394, 29)
         Me.cboCompany.TabIndex = 0
         '
         'btnClear
@@ -101,7 +101,7 @@ Partial Class frmDividendSummaryRpt
         Me.CboFinyear.FormattingEnabled = True
         Me.CboFinyear.Location = New System.Drawing.Point(618, 15)
         Me.CboFinyear.Name = "CboFinyear"
-        Me.CboFinyear.Size = New System.Drawing.Size(150, 21)
+        Me.CboFinyear.Size = New System.Drawing.Size(150, 29)
         Me.CboFinyear.TabIndex = 128
         '
         'lblpaiddate
@@ -121,7 +121,7 @@ Partial Class frmDividendSummaryRpt
         Me.dtpPaidDate.Location = New System.Drawing.Point(111, 41)
         Me.dtpPaidDate.Name = "dtpPaidDate"
         Me.dtpPaidDate.ShowCheckBox = True
-        Me.dtpPaidDate.Size = New System.Drawing.Size(139, 21)
+        Me.dtpPaidDate.Size = New System.Drawing.Size(139, 27)
         Me.dtpPaidDate.TabIndex = 162
         Me.dtpPaidDate.Value = New Date(2008, 1, 12, 0, 0, 0, 0)
         '
@@ -170,7 +170,7 @@ Partial Class frmDividendSummaryRpt
         Me.txtTotRec.MaxLength = 100
         Me.txtTotRec.Name = "txtTotRec"
         Me.txtTotRec.ReadOnly = True
-        Me.txtTotRec.Size = New System.Drawing.Size(433, 14)
+        Me.txtTotRec.Size = New System.Drawing.Size(433, 20)
         Me.txtTotRec.TabIndex = 0
         Me.txtTotRec.TabStop = False
         Me.txtTotRec.Text = "Total Records : "
@@ -186,7 +186,7 @@ Partial Class frmDividendSummaryRpt
         '
         'frmDividendSummaryRpt
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(11.0!, 21.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(805, 425)
         Me.Controls.Add(Me.pnlExport)

@@ -80,6 +80,7 @@ Partial Class frmCertificateDemat
         Me.btnClose = New System.Windows.Forms.Button()
         Me.Picbox_sign = New System.Windows.Forms.PictureBox()
         Me.lblnosignature = New System.Windows.Forms.Label()
+        Me.lblISIN = New System.Windows.Forms.Label()
         CType(Me.dgvChklst, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpHeader.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -152,6 +153,7 @@ Partial Class frmCertificateDemat
         '
         'grpHeader
         '
+        Me.grpHeader.Controls.Add(Me.lblISIN)
         Me.grpHeader.Controls.Add(Me.lblDepository)
         Me.grpHeader.Controls.Add(Me.txtInputClientid)
         Me.grpHeader.Controls.Add(Me.lblClientid)
@@ -461,14 +463,14 @@ Partial Class frmCertificateDemat
         'txtIsinId
         '
         Me.txtIsinId.BackColor = System.Drawing.SystemColors.Window
-        Me.txtIsinId.Location = New System.Drawing.Point(674, 74)
+        Me.txtIsinId.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.txtIsinId.Location = New System.Drawing.Point(101, 74)
         Me.txtIsinId.MaxLength = 0
         Me.txtIsinId.Name = "txtIsinId"
         Me.txtIsinId.ReadOnly = True
-        Me.txtIsinId.Size = New System.Drawing.Size(39, 27)
+        Me.txtIsinId.Size = New System.Drawing.Size(114, 27)
         Me.txtIsinId.TabIndex = 79
         Me.txtIsinId.TabStop = False
-        Me.txtIsinId.Visible = False
         '
         'txtCertNo
         '
@@ -545,18 +547,18 @@ Partial Class frmCertificateDemat
         'txtFolioNo
         '
         Me.txtFolioNo.BackColor = System.Drawing.SystemColors.Window
-        Me.txtFolioNo.Location = New System.Drawing.Point(101, 74)
+        Me.txtFolioNo.Location = New System.Drawing.Point(271, 74)
         Me.txtFolioNo.MaxLength = 0
         Me.txtFolioNo.Name = "txtFolioNo"
         Me.txtFolioNo.ReadOnly = True
-        Me.txtFolioNo.Size = New System.Drawing.Size(284, 27)
+        Me.txtFolioNo.Size = New System.Drawing.Size(114, 27)
         Me.txtFolioNo.TabIndex = 2
         Me.txtFolioNo.TabStop = False
         '
         'Label22
         '
         Me.Label22.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Label22.Location = New System.Drawing.Point(21, 77)
+        Me.Label22.Location = New System.Drawing.Point(191, 77)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(74, 13)
         Me.Label22.TabIndex = 74
@@ -725,6 +727,16 @@ Partial Class frmCertificateDemat
         Me.lblnosignature.TabIndex = 77
         Me.lblnosignature.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
+        'lblISIN
+        '
+        Me.lblISIN.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.lblISIN.Location = New System.Drawing.Point(21, 77)
+        Me.lblISIN.Name = "lblISIN"
+        Me.lblISIN.Size = New System.Drawing.Size(74, 13)
+        Me.lblISIN.TabIndex = 119
+        Me.lblISIN.Text = "ISIN"
+        Me.lblISIN.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
         'frmCertificateDemat
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(11.0!, 21.0!)
@@ -822,4 +834,5 @@ Partial Class frmCertificateDemat
     Friend WithEvents lblClientid As System.Windows.Forms.Label
     Friend WithEvents txtInputClientid As System.Windows.Forms.TextBox
     Friend WithEvents lblDepository As System.Windows.Forms.Label
+    Friend WithEvents lblISIN As System.Windows.Forms.Label
 End Class
