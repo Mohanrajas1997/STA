@@ -24,6 +24,8 @@ Partial Class frmQueue
     Private Sub InitializeComponent()
         Me.dgvList = New System.Windows.Forms.DataGridView()
         Me.pnlSearch = New System.Windows.Forms.Panel()
+        Me.txtCompInwadNo = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.cboDocType = New System.Windows.Forms.ComboBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.cboCompany = New System.Windows.Forms.ComboBox()
@@ -35,8 +37,6 @@ Partial Class frmQueue
         Me.pnlExport = New System.Windows.Forms.Panel()
         Me.txtTotRec = New System.Windows.Forms.TextBox()
         Me.btnExport = New System.Windows.Forms.Button()
-        Me.txtCompInwadNo = New System.Windows.Forms.TextBox()
-        Me.Label2 = New System.Windows.Forms.Label()
         CType(Me.dgvList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlSearch.SuspendLayout()
         Me.pnlExport.SuspendLayout()
@@ -70,6 +70,22 @@ Partial Class frmQueue
         Me.pnlSearch.Name = "pnlSearch"
         Me.pnlSearch.Size = New System.Drawing.Size(765, 71)
         Me.pnlSearch.TabIndex = 0
+        '
+        'txtCompInwadNo
+        '
+        Me.txtCompInwadNo.Location = New System.Drawing.Point(319, 10)
+        Me.txtCompInwadNo.Name = "txtCompInwadNo"
+        Me.txtCompInwadNo.Size = New System.Drawing.Size(125, 21)
+        Me.txtCompInwadNo.TabIndex = 1
+        '
+        'Label2
+        '
+        Me.Label2.Location = New System.Drawing.Point(212, 10)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(99, 20)
+        Me.Label2.TabIndex = 89
+        Me.Label2.Text = "Comp Inward No"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'cboDocType
         '
@@ -171,22 +187,6 @@ Partial Class frmQueue
         Me.btnExport.Size = New System.Drawing.Size(72, 24)
         Me.btnExport.TabIndex = 1
         Me.btnExport.Text = "&Export"
-        '
-        'txtCompInwadNo
-        '
-        Me.txtCompInwadNo.Location = New System.Drawing.Point(319, 10)
-        Me.txtCompInwadNo.Name = "txtCompInwadNo"
-        Me.txtCompInwadNo.Size = New System.Drawing.Size(125, 21)
-        Me.txtCompInwadNo.TabIndex = 1
-        '
-        'Label2
-        '
-        Me.Label2.Location = New System.Drawing.Point(212, 10)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(99, 20)
-        Me.Label2.TabIndex = 89
-        Me.Label2.Text = "Comp Inward No"
-        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'frmQueue
         '

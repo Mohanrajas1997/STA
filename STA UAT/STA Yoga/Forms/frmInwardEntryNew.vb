@@ -878,7 +878,7 @@ Public Class frmInwardEntryNew
     Private Sub cboDocType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboDocType.SelectedIndexChanged
         Dim lsSql As String
         'Modified by Mohan 05-06-2024
-        If cboDocType.Text = "OT-Others" Or cboDocType.Text = "TM-Transmission" Or cboDocType.Text = "AM-CA Allotment" Then
+        If cboDocType.Text = "OT-Others" Or cboDocType.Text = "TM-Transmission" Or cboDocType.Text = "AM-CA Allotment" Or cboDocType.Text = "DF-Demat Request Form" Then
             cboDocSubType.Visible = True
             cboDocSubType.Enabled = True
 

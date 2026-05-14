@@ -76,7 +76,7 @@ Public Class frmiepfmaker
         End If
 
         ' Maker To Checker / Inex / View Case
-        If (GetGroupCode = "C" Or GetGroupCode = "I" Or GetGroupCode = "V") And (GetQueueFrom = "Maker" Or GetQueueFrom = "Checker") Then
+        If (GetGroupCode = "C" Or GetGroupCode = "I" Or GetGroupCode = "V") And (GetQueueFrom = "Maker" Or GetQueueFrom = "Checker" Or GetQueueFrom = "Despatch") Then
             Dim isReadOnly As Boolean = True
             submit.Visible = False
             inex.Visible = False
