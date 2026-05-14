@@ -208,6 +208,8 @@ Partial Class frmMain
         Me.ToolStripMenuItem21 = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuGroupPanReport = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuComparisonReport = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuComparisonReport_new = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuCompInsiderReport_new = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem18 = New System.Windows.Forms.ToolStripSeparator()
         Me.mnuDisbScheReport = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuCatReport = New System.Windows.Forms.ToolStripMenuItem()
@@ -243,8 +245,7 @@ Partial Class frmMain
         Me.lblStatus = New System.Windows.Forms.ToolStripStatusLabel()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.mnuCompInsiderReport_new = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuComparisonReport_new = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuLetterOfDrn = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -516,7 +517,7 @@ Partial Class frmMain
         '
         'mnuTran
         '
-        Me.mnuTran.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuInwardEntry, Me.mnuAutoInwardEntry, Me.mnuDTInwardEntry, Me.mnuInwardList, Me.RUDCorrespondenceToolStripMenuItem, Me.mnuAttachment, Me.ToolStripMenuItem2, Me.mnuQueue, Me.mnuGenCoveringLetter, Me.mnuIEPFCoveringLetter, Me.mnuLetterOfConfirmation, Me.mnuTranSignature, Me.ToolStripMenuItem5, Me.mnuImport, Me.mnuDelFile, Me.ToolStripMenuItem15, Me.mnuTranUpdate, Me.ToolStripMenuItem19, Me.ECSValidationFileGenerateToolStripMenuItem, Me.PaymentProcessFileGenerationToolStripMenuItem, Me.PaymenyUploadFileGenerationToolStripMenuItem, Me.ImportECSValidationFileToolStripMenuItem, Me.DDWarrantDollarNoUpdationToolStripMenuItem, Me.ToolStripMenuItem17, Me.RevokePaymentUploadFileToolStripMenuItem, Me.RevokePaymentProcessFileToolStripMenuItem, Me.PostPaymentProcessToolStripMenuItem, Me.RevokePostPaymentProcessToolStripMenuItem, Me.PostRepaymentGenerateToolStripMenuItem, Me.RevokeRepaymentGenerateToolStripMenuItem, Me.DividendPaymentPaid, Me.AddressLabelPrintingToolStripMenuItem, Me.InterDepositoryEntryToolStripMenuItem, Me.IEPFUploadToolStripMenuItem, Me.RevokeIEPFUploadToolStripMenuItem, Me.AMLProcessToolStripMenuItem, Me.EVotingProcessToolStripMenuItem})
+        Me.mnuTran.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuInwardEntry, Me.mnuAutoInwardEntry, Me.mnuDTInwardEntry, Me.mnuInwardList, Me.RUDCorrespondenceToolStripMenuItem, Me.mnuAttachment, Me.ToolStripMenuItem2, Me.mnuQueue, Me.mnuGenCoveringLetter, Me.mnuIEPFCoveringLetter, Me.mnuLetterOfConfirmation, Me.mnuLetterOfDrn, Me.mnuTranSignature, Me.ToolStripMenuItem5, Me.mnuImport, Me.mnuDelFile, Me.ToolStripMenuItem15, Me.mnuTranUpdate, Me.ToolStripMenuItem19, Me.ECSValidationFileGenerateToolStripMenuItem, Me.PaymentProcessFileGenerationToolStripMenuItem, Me.PaymenyUploadFileGenerationToolStripMenuItem, Me.ImportECSValidationFileToolStripMenuItem, Me.DDWarrantDollarNoUpdationToolStripMenuItem, Me.ToolStripMenuItem17, Me.RevokePaymentUploadFileToolStripMenuItem, Me.RevokePaymentProcessFileToolStripMenuItem, Me.PostPaymentProcessToolStripMenuItem, Me.RevokePostPaymentProcessToolStripMenuItem, Me.PostRepaymentGenerateToolStripMenuItem, Me.RevokeRepaymentGenerateToolStripMenuItem, Me.DividendPaymentPaid, Me.AddressLabelPrintingToolStripMenuItem, Me.InterDepositoryEntryToolStripMenuItem, Me.IEPFUploadToolStripMenuItem, Me.RevokeIEPFUploadToolStripMenuItem, Me.AMLProcessToolStripMenuItem, Me.EVotingProcessToolStripMenuItem})
         Me.mnuTran.Name = "mnuTran"
         Me.mnuTran.Size = New System.Drawing.Size(112, 29)
         Me.mnuTran.Text = "Transaction"
@@ -682,13 +683,13 @@ Partial Class frmMain
         'mnuSignatureSingleAdd
         '
         Me.mnuSignatureSingleAdd.Name = "mnuSignatureSingleAdd"
-        Me.mnuSignatureSingleAdd.Size = New System.Drawing.Size(144, 30)
+        Me.mnuSignatureSingleAdd.Size = New System.Drawing.Size(210, 30)
         Me.mnuSignatureSingleAdd.Text = "Single"
         '
         'mnuSignatureBulkAdd
         '
         Me.mnuSignatureBulkAdd.Name = "mnuSignatureBulkAdd"
-        Me.mnuSignatureBulkAdd.Size = New System.Drawing.Size(144, 30)
+        Me.mnuSignatureBulkAdd.Size = New System.Drawing.Size(210, 30)
         Me.mnuSignatureBulkAdd.Text = "Bulk"
         '
         'ToolStripMenuItem5
@@ -1405,6 +1406,18 @@ Partial Class frmMain
         Me.mnuComparisonReport.Size = New System.Drawing.Size(436, 30)
         Me.mnuComparisonReport.Text = "Comparison"
         '
+        'mnuComparisonReport_new
+        '
+        Me.mnuComparisonReport_new.Name = "mnuComparisonReport_new"
+        Me.mnuComparisonReport_new.Size = New System.Drawing.Size(436, 30)
+        Me.mnuComparisonReport_new.Text = "Comparison Rpt New"
+        '
+        'mnuCompInsiderReport_new
+        '
+        Me.mnuCompInsiderReport_new.Name = "mnuCompInsiderReport_new"
+        Me.mnuCompInsiderReport_new.Size = New System.Drawing.Size(436, 30)
+        Me.mnuCompInsiderReport_new.Text = "Company Insiders"
+        '
         'ToolStripMenuItem18
         '
         Me.ToolStripMenuItem18.Name = "ToolStripMenuItem18"
@@ -1607,17 +1620,11 @@ Partial Class frmMain
         Me.lblStatus.Size = New System.Drawing.Size(60, 25)
         Me.lblStatus.Text = "Status"
         '
-        'mnuCompInsiderReport_new
+        'mnuLetterOfDrn
         '
-        Me.mnuCompInsiderReport_new.Name = "mnuCompInsiderReport_new"
-        Me.mnuCompInsiderReport_new.Size = New System.Drawing.Size(436, 30)
-        Me.mnuCompInsiderReport_new.Text = "Company Insiders"
-        '
-        'mnuComparisonReport_new
-        '
-        Me.mnuComparisonReport_new.Name = "mnuComparisonReport_new"
-        Me.mnuComparisonReport_new.Size = New System.Drawing.Size(436, 30)
-        Me.mnuComparisonReport_new.Text = "Comparison Rpt New"
+        Me.mnuLetterOfDrn.Name = "mnuLetterOfDrn"
+        Me.mnuLetterOfDrn.Size = New System.Drawing.Size(353, 30)
+        Me.mnuLetterOfDrn.Text = "Letter Of (DCRF / DRF )"
         '
         'frmMain
         '
@@ -1861,4 +1868,5 @@ Partial Class frmMain
     Friend WithEvents ISRGenerateCoveringLetterToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuComparisonReport_new As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuCompInsiderReport_new As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuLetterOfDrn As System.Windows.Forms.ToolStripMenuItem
 End Class

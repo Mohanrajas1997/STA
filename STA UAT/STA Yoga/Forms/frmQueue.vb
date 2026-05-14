@@ -295,6 +295,11 @@
                                 objFrm = New frmCertificateTran(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
                                 objFrm.Text = "LS Cum Transmission"
                                 objFrm.ShowDialog()
+                            Case "DF"
+                                ' DCRF
+                                objFrm = New frmCertificateDCRF(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
+                                objFrm.ShowDialog()
+
                         End Select
                     End If
                 End If
@@ -400,6 +405,10 @@
                         ' ISR
                         objFrm = New frmISR1(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
                         objFrm.Text = "ISR"
+                    Case "DF"
+                        ' DCRF
+                        objFrm = New frmCertificateDCRF(msGroupCode, lnInwardId, lnQueueId, lsTranCode)
+                        objFrm.ShowDialog()
                 End Select
             Else
                 objFrm = New frmOutwardEntry("ADD", lnInwardId)

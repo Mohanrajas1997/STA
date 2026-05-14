@@ -1067,4 +1067,9 @@ Public Class frmMain
         frm.MdiParent = Me
         frm.Show()
     End Sub
+
+    Private Sub mnuLetterOfDrn_Click(sender As Object, e As EventArgs) Handles mnuLetterOfDrn.Click
+        Dim objfrm As New frmLetterofDCRF()
+        objfrm.ShowDialog()
+    End Sub
 End Class
